@@ -1,4 +1,4 @@
-package com.dotspots.thrift.gwt.server;
+package com.dotspots.rpcplus.test.server;
 
 import junit.framework.Assert;
 

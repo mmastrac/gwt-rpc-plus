@@ -1,4 +1,4 @@
-package com.dotspots.thrift.gwt.server;
+package com.dotspots.rpcplus.test.server;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
