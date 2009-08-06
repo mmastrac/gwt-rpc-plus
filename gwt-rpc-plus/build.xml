@@ -1,0 +1,165 @@
+<?eclipse.ant.import?>
+<project basedir="." name="gwt-rpc-plus" default="build">
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.5" />
+	<property name="source" value="1.5" />
+
+	<property name="output.dir" value="build" />
+	<property name="classes.dir" value="${output.dir}/bin/src" />
+		
+	<!-- Determine platform for GWT (gwt-dev-*.jar) -->
+	<condition property="gwt.platform" value="windows">
+		<os family="windows" />
+	</condition>
+	<condition property="gwt.platform" value="mac">
+		<os family="mac" />
+	</condition>
+	<condition property="gwt.platform" value="linux">
+		<os family="unix" />
+	</condition>
+
+	<!-- .exe suffix for tools -->
+	<condition property="exe.suffix" value=".exe">
+		<os family="windows" />
+	</condition>
+	<condition property="exe.suffix" value=".osx">
+		<os family="mac" />
+	</condition>
+	<condition property="exe.suffix" value=".linux.x86">
+		<os family="unix" />
+	</condition>
+
+	<fail unless="gwt.sdk.dir">Property gwt.sdk.dir must be set</fail>
+
+	<tstamp />
+
+	<target name="clean">
+		<delete dir="output.dir" />
+	</target>
+
+	<target name="build" depends="compile,jar,compile-test,test">
+	</target>
+
+	<target name="compile" description="Generate .class files from .java files">
+		<mkdir dir="${classes.dir}" />
+
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${classes.dir}" source="${source}" target="${target}">
+			<src path="gwt" />
+			<src path="server" />
+			<src path="codegen" />
+			<classpath>
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
+				<pathelement path="${gwt.sdk.dir}/gwt-user.jar" />
+				<pathelement path="${gwt.sdk.dir}/gwt-dev-${gwt.platform}.jar" />
+			</classpath>
+		</javac>
+
+		<!-- Ensure that all non-Java files are available in the classpath -->
+		<copy todir="${classes.dir}">
+			<fileset dir="server">
+				<include name="**/*" />
+				<exclude name="**/*.java" />
+			</fileset>
+			<fileset dir="gwt">
+				<include name="**/*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compile-test" description="Generate .class files from .java files">
+		<mkdir dir="${output.dir}/bin/test" />
+
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${classes.dir}" source="${source}" target="${target}">
+			<src path="gwt" />
+			<src path="server" />
+			<src path="codegen" />
+			<classpath>
+				<path refid="buildtime.classpath" />
+				<fileset refid="gwt.fileset" />
+			</classpath>
+		</javac>
+
+		<!-- Ensure that all non-Java files are available in the classpath -->
+		<copy todir="${classes.dir}">
+			<fileset dir="server">
+				<include name="**/*" />
+				<exclude name="**/*.java" />
+			</fileset>
+			<fileset dir="gwt">
+				<include name="**/*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="jar">
+		<jar destfile="build/gwt-rpc-plus.jar">
+			<fileset dir="${classes.dir}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="gwt">
+				<include name="**/*" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="thrift" depends="compile,jar" description="Generate Java bindings for .thrift files">
+		<delete>
+			<fileset dir="example">
+				<include name="**/gen-*/**/*.java" />
+			</fileset>
+		</delete>
+
+		<exec executable="tools/thrift/thrift${exe.suffix}">
+			<arg value="--gen" />
+			<arg value="java:beans" />
+			<arg value="-o" />
+			<arg value="example" />
+			<arg value="example/torturetest.thrift" />
+		</exec>
+
+		<java classname="com.dotspots.rpcplus.codegen.thrift.CodeGen" fork="true">
+			<arg value="--client" />
+			<arg value="--suffix" />
+			<arg value=".client" />
+			<arg value="--output" />
+			<arg value="example/gen-java-gwt" />
+			<arg value="--idl" />
+			<arg value="example/torturetest.thrift" />
+			<classpath>
+				<fileset dir="build">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
+				<pathelement path="${gwt.sdk.dir}/gwt-user.jar" />
+				<pathelement path="${gwt.sdk.dir}/gwt-dev-${gwt.platform}.jar" />
+			</classpath>
+		</java>
+
+		<java classname="com.dotspots.rpcplus.codegen.thrift.CodeGen" fork="true">
+			<arg value="--server" />
+			<arg value="--output" />
+			<arg value="example/gen-json-server" />
+			<arg value="--idl" />
+			<arg value="example/torturetest.thrift" />
+			<classpath>
+				<fileset dir="build">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
+				<pathelement path="${gwt.sdk.dir}/gwt-user.jar" />
+				<pathelement path="${gwt.sdk.dir}/gwt-dev-${gwt.platform}.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="test">
+	</target>
+</project>

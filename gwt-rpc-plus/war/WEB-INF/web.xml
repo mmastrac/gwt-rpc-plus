@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<servlet-name>exampleService</servlet-name>
+		<servlet-class>
+			com.dotspots.rpcplus.example.jsonrpc.thrift.ExampleService
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>exampleService</servlet-name>
+		<url-pattern>/com.dotspots.rpcplus.example.Thrift/api
+		</url-pattern>
+	</servlet-mapping>
+
+</web-app>

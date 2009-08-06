@@ -1,0 +1,4 @@
+<module>
+	<inherits name="com.dotspots.rpcplus.RpcPlus" />
+	<source path="torturetest/client" />
+</module>

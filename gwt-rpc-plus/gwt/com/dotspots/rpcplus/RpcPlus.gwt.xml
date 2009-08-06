@@ -1,0 +1,11 @@
+<module>
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name='com.google.gwt.json.JSON' />
+	<inherits name='com.google.gwt.http.HTTP' />
+	
+	<source path="client/codec" />
+	<source path="client/transport" />
+	<source path="client/jscollections" />
+	<source path="client/jsonrpc" />
+</module>
+	
