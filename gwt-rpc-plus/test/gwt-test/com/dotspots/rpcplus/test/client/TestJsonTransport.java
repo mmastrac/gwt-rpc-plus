@@ -1,4 +1,4 @@
-package com.dotspots.rpcplus.test;
+package com.dotspots.rpcplus.test.client;
 
 import com.dotspots.rpcplus.client.codec.JsonDecoder;
 import com.dotspots.rpcplus.client.codec.JsonEncoder;
@@ -74,6 +74,6 @@ public class TestJsonTransport extends GWTTestCase {
 
 	@Override
 	public String getModuleName() {
-		return "com.dotspots.rpcplus.Test";
+		return "com.dotspots.rpcplus.test.Test";
 	}
 }

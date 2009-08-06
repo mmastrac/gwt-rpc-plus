@@ -1,4 +1,4 @@
-package com.dotspots.rpcplus.test;
+package com.dotspots.rpcplus.test.client;
 
 import com.dotspots.rpcplus.client.jscollections.JsRpcList;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListLong;
@@ -13,7 +13,7 @@ import com.google.gwt.junit.client.GWTTestCase;
 public class TestThriftCollections extends GWTTestCase {
 	@Override
 	public String getModuleName() {
-		return "com.dotspots.rpcplus.Test";
+		return "com.dotspots.rpcplus.test.Test";
 	}
 
 	@Override
