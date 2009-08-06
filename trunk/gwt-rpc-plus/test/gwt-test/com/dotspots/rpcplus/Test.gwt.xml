@@ -1,0 +1,7 @@
+<module>
+	<inherits name="com.google.gwt.user.User" />
+	<inherits name="com.dotspots.rpcplus.RpcPlus" />
+	<inherits name="com.dotspots.rpcplus.example.ThriftTortureTest" />
+	
+	<source path="test" />
+</module>
