@@ -12,7 +12,7 @@ public class TextTransportRPC<TRANSPORT extends TextTransport> extends AbstractF
 	}
 
 	@Override
-	protected <T> FlexibleRPCRequest doInvoke(String url, String methodName, int requestId, String requestData,
+	protected <T> FlexibleRPCRequest doInvoke(String methodName, int requestId, String requestData,
 			final RequestCallbackAdapter<T> requestCallbackAdapter) {
 		textTransport.call(requestData, new AsyncCallback<String>() {
 			public void onFailure(Throwable caught) {

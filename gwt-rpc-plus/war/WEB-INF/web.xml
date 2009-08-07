@@ -18,4 +18,16 @@
 		</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>exampleService2</servlet-name>
+		<servlet-class>
+			com.dotspots.rpcplus.example.flexiblerpc.ExampleService
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>exampleService2</servlet-name>
+		<url-pattern>/com.dotspots.rpcplus.example.FlexibleRPC/api
+		</url-pattern>
+	</servlet-mapping>
+
 </web-app>
