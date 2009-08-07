@@ -15,6 +15,8 @@ import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.impl.RemoteServiceProxy;
+import com.google.gwt.user.client.rpc.impl.Serializer;
 import com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter.ResponseReader;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
@@ -93,6 +95,10 @@ public class FlexibleRPCGenerator extends Generator {
 		f.addImport(ResponseReader.class.getName().replace('$', '.'));
 		f.addImport(AsyncCallback.class.getName());
 		f.addImport(FlexibleRPC.class.getName());
+		f.addImport(RemoteServiceProxy.class.getName());
+		f.addImport(Serializer.class.getName());
+		f.addImport(FlexibleRPCRequestWrapper.class.getName());
+
 		f.setSuperclass(userType.getQualifiedSourceName() + "_Proxy");
 		f.addImplementedInterface(FlexibleRPCService.class.getName());
 
@@ -113,15 +119,14 @@ public class FlexibleRPCGenerator extends Generator {
 			sw.println("@Override protected <T> Request doInvoke(ResponseReader responseReader, "
 					+ "String methodName, int invocationCount, String requestData, AsyncCallback<T> callback) {");
 			sw.indent();
-			sw.println("return new " + FlexibleRPCRequestWrapper.class.getName()
-					+ "(flexibleRPC.doInvoke(responseReader, methodName, invocationCount, requestData, callback));");
+			sw.println("return new FlexibleRPCRequestWrapper(flexibleRPC.doInvoke(responseReader, methodName, invocationCount, requestData, callback));");
 			sw.outdent();
 			sw.println("}");
 
 			sw.println();
 			sw.println("private native Serializer violateSerializer(RemoteServiceProxy remoteServiceProxy) /*-{");
 			sw.indent();
-			sw.println("return remoteServiceProxy.@com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::serializer;");
+			sw.println("return remoteServiceProxy.@" + RemoteServiceProxy.class.getName() + "::serializer;");
 			sw.outdent();
 			sw.println("}-*/;");
 
