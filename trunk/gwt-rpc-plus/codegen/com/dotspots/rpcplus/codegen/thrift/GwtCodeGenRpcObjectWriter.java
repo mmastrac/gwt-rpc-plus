@@ -84,16 +84,31 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 				nativeCode.append('}');
 			}
 
-			printWriter.println("    /* Factory method, strongly dependent on order of fields */");
-			printWriter.println("    public static native " + type.getClassName(false) + " create("
-					+ StringUtils.join(argDefinitions, ", ") + ") /*-{");
-			if (type.isException()) {
-				printWriter.println("        return @" + type.getFullyQualifiedClassName()
-						+ "::new(Lcom/google/gwt/core/client/JavaScriptObject;)(" + nativeCode + ");");
-			} else {
-				printWriter.println("        return " + nativeCode + ";");
+			boolean hasLongField = false;
+			for (RpcField field : fields) {
+				if (field.getType().getTypeKey() == RpcTypeKey.I64) {
+					hasLongField = true;
+					break;
+				}
 			}
-			printWriter.println("    }-*/;");
+
+			if (hasLongField) {
+				System.err.println("WARNING: Unable to generate constructor for type " + type.getClassName()
+						+ " because it has a long field");
+				printWriter.println("    // TODO: Could not generate constructor because of long field");
+			} else {
+				printWriter.println("    /* Factory method, strongly dependent on order of fields */");
+				printWriter.println("    public static native " + type.getClassName(false) + " create("
+						+ StringUtils.join(argDefinitions, ", ") + ") /*-{");
+				if (type.isException()) {
+					printWriter.println("        return @" + type.getFullyQualifiedClassName()
+							+ "::new(Lcom/google/gwt/core/client/JavaScriptObject;)(" + nativeCode + ");");
+				} else {
+					printWriter.println("        return " + nativeCode + ";");
+				}
+				printWriter.println("    }-*/;");
+			}
+
 			printWriter.println();
 		}
 	}
