@@ -123,7 +123,7 @@ final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcIn
 		printWriter.println("    public void " + method.getName() + "(" + StringUtils.join(args, ", ") + ") {");
 		final String argsClass = iface.getClassName() + "_" + method.getName() + "_args";
 		printWriter.println("        call(" + method.getMethodId() + ", \"" + method.getName() + "\", " + argsClass + ".create("
-				+ StringUtils.join(argsShort, ", ") + "), " + requestContext + ", callback, this);");
+				+ StringUtils.join(argsShort, ", ") + "), " + requestContext + ", callback);");
 		printWriter.println("    };");
 		printWriter.println();
 	}

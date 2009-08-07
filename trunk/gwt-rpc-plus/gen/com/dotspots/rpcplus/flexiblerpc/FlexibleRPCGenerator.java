@@ -3,6 +3,7 @@ package com.dotspots.rpcplus.flexiblerpc;
 import java.io.PrintWriter;
 
 import com.dotspots.rpcplus.client.flexiblerpc.FlexibleRPC;
+import com.dotspots.rpcplus.client.flexiblerpc.FlexibleRPCService;
 import com.dotspots.rpcplus.client.flexiblerpc.impl.FlexibleRPCRequestWrapper;
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;
@@ -93,6 +94,7 @@ public class FlexibleRPCGenerator extends Generator {
 		f.addImport(AsyncCallback.class.getName());
 		f.addImport(FlexibleRPC.class.getName());
 		f.setSuperclass(userType.getQualifiedSourceName() + "_Proxy");
+		f.addImplementedInterface(FlexibleRPCService.class.getName());
 
 		final PrintWriter pw = context.tryCreate(logger, pkgName, subName);
 		if (pw != null) {
@@ -103,7 +105,7 @@ public class FlexibleRPCGenerator extends Generator {
 			sw.println("@Override public void setServiceEntryPoint(String address) {");
 			sw.indent();
 			sw.println("super.setServiceEntryPoint(address);");
-			sw.println("flexibleRPC.initialize(this, null);");
+			sw.println("flexibleRPC.initialize(this, violateSerializer(this));");
 			sw.outdent();
 			sw.println("}");
 
@@ -115,6 +117,13 @@ public class FlexibleRPCGenerator extends Generator {
 					+ "(flexibleRPC.doInvoke(responseReader, methodName, invocationCount, requestData, callback));");
 			sw.outdent();
 			sw.println("}");
+
+			sw.println();
+			sw.println("private native Serializer violateSerializer(RemoteServiceProxy remoteServiceProxy) /*-{");
+			sw.indent();
+			sw.println("return remoteServiceProxy.@com.google.gwt.user.client.rpc.impl.RemoteServiceProxy::serializer;");
+			sw.outdent();
+			sw.println("}-*/;");
 
 			// Finish.
 			sw.commit(logger);
