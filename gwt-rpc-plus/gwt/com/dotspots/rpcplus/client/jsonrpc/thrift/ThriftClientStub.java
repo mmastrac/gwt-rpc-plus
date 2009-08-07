@@ -4,7 +4,6 @@ import com.dotspots.rpcplus.client.jsonrpc.CallDecoder;
 import com.dotspots.rpcplus.client.jsonrpc.CallEncoder;
 import com.dotspots.rpcplus.client.jsonrpc.CallResponseProcessor;
 import com.dotspots.rpcplus.client.transport.JsonTransport;
-import com.dotspots.rpcplus.example.torturetest.client.TortureTestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -26,7 +25,7 @@ public abstract class ThriftClientStub implements CallResponseProcessor {
 	}
 
 	protected <T> void call(final int methodId, String call, JavaScriptObject args, JavaScriptObject requestContext,
-			final AsyncCallback<T> callback, TortureTestApi tortureTestApi) {
+			final AsyncCallback<T> callback) {
 		transport.call(callEncoder.encodeCall(call, args, requestContext), new AsyncCallback<JavaScriptObject>() {
 			public void onFailure(Throwable caught) {
 				callback.onFailure(caught);
