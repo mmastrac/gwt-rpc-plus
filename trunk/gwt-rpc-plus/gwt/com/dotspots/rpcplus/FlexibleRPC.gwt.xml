@@ -1,0 +1,19 @@
+<module>
+	<inherits name='com.dotspots.rpcplus.RpcPlus' />
+	
+	<!-- Allow pluggable RPC transports -->
+	<generate-with class="com.dotspots.rpcplus.flexiblerpc.FlexibleRPCGenerator">
+		<when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService" />
+	</generate-with>
+
+	<!-- 
+	To enable a transport, specify it like so:
+	
+	<replace-with class="...">
+		<when-type-is class="com.dotspots.client.rpc.FlexibleRPC" />
+	</replace-with>
+	 -->
+	 
+	<source path="client/flexiblerpc" />
+</module>
+	

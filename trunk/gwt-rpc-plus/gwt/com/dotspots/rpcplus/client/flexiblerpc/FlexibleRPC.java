@@ -19,6 +19,6 @@ public interface FlexibleRPC {
 	/**
 	 * Mirrors the internal doInvoke function from RemoteServiceProxy.
 	 */
-	public <T> FlexibleRPCRequest doInvoke(String url, ResponseReader responseReader, String methodName, int requestId, String requestData,
+	public <T> FlexibleRPCRequest doInvoke(ResponseReader responseReader, String methodName, int requestId, String requestData,
 			AsyncCallback<T> callback);
 }

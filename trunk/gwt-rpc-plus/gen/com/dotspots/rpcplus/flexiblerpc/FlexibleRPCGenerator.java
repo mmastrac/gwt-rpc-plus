@@ -3,6 +3,7 @@ package com.dotspots.rpcplus.flexiblerpc;
 import java.io.PrintWriter;
 
 import com.dotspots.rpcplus.client.flexiblerpc.FlexibleRPC;
+import com.dotspots.rpcplus.client.flexiblerpc.impl.FlexibleRPCRequestWrapper;
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;
 import com.google.gwt.core.ext.TreeLogger;
@@ -96,12 +97,22 @@ public class FlexibleRPCGenerator extends Generator {
 		final PrintWriter pw = context.tryCreate(logger, pkgName, subName);
 		if (pw != null) {
 			final SourceWriter sw = f.createSourceWriter(context, pw);
+			sw.println("protected FlexibleRPC flexibleRPC = GWT.create(FlexibleRPC.class);");
 
+			sw.println();
+			sw.println("@Override public void setServiceEntryPoint(String address) {");
+			sw.indent();
+			sw.println("super.setServiceEntryPoint(address);");
+			sw.println("flexibleRPC.initialize(this, null);");
+			sw.outdent();
+			sw.println("}");
+
+			sw.println();
 			sw.println("@Override protected <T> Request doInvoke(ResponseReader responseReader, "
 					+ "String methodName, int invocationCount, String requestData, AsyncCallback<T> callback) {");
 			sw.indent();
-			sw.println("return ((FlexibleRPC)GWT.create(FlexibleRPC.class)).doInvoke(this.getServiceEntryPoint(), "
-					+ "this, responseReader, methodName, invocationCount, requestData, callback);");
+			sw.println("return new " + FlexibleRPCRequestWrapper.class.getName()
+					+ "(flexibleRPC.doInvoke(responseReader, methodName, invocationCount, requestData, callback));");
 			sw.outdent();
 			sw.println("}");
 

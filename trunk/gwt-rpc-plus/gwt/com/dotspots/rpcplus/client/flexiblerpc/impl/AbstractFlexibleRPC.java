@@ -21,9 +21,9 @@ public abstract class AbstractFlexibleRPC implements FlexibleRPC {
 		this.serializationStreamFactory = proxy;
 	}
 
-	public <T> FlexibleRPCRequest doInvoke(String url, ResponseReader responseReader, String methodName, int requestId, String requestData,
+	public <T> FlexibleRPCRequest doInvoke(ResponseReader responseReader, String methodName, int requestId, String requestData,
 			AsyncCallback<T> callback) {
-		return doInvoke(url, methodName, requestId, requestData, new RequestCallbackAdapter<T>(serializationStreamFactory, methodName,
+		return doInvoke(methodName, requestId, requestData, new RequestCallbackAdapter<T>(serializationStreamFactory, methodName,
 				requestId, callback, responseReader));
 	}
 
@@ -65,6 +65,6 @@ public abstract class AbstractFlexibleRPC implements FlexibleRPC {
 		return new FlexibleRPCResponseWrapper(statusCode, data);
 	}
 
-	protected abstract <T> FlexibleRPCRequest doInvoke(String url, String methodName, int requestId, String requestData,
+	protected abstract <T> FlexibleRPCRequest doInvoke(String methodName, int requestId, String requestData,
 			RequestCallbackAdapter<T> callback);
 }
