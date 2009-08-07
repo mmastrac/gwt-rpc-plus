@@ -60,7 +60,6 @@ public class TestJsonTransport extends GWTTestCase {
 		list.add(0);
 		list.add(0xffff0000ffff0000L);
 		String text = encoder.encode(list);
-		System.out.println(text);
 		JsRpcListLong result = decoder.decode(text).cast();
 
 		assertEquals(2, result.size());

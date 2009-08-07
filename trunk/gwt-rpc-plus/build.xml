@@ -7,7 +7,8 @@
 	<property name="output.dir" value="build" />
 	<property name="dist.dir" value="${output.dir}/dist" />
 	<property name="classes.dir" value="${output.dir}/bin/src" />
-		
+	<property name="classes.test.dir" value="${output.dir}/bin/test" />
+
 	<!-- Determine platform for GWT (gwt-dev-*.jar) -->
 	<condition property="gwt.platform" value="windows">
 		<os family="windows" />
@@ -19,6 +20,7 @@
 		<os family="unix" />
 	</condition>
 
+
 	<!-- .exe suffix for tools -->
 	<condition property="exe.suffix" value=".exe">
 		<os family="windows" />
@@ -29,6 +31,22 @@
 	<condition property="exe.suffix" value=".linux.x86">
 		<os family="unix" />
 	</condition>
+
+
+	<!-- GWT Java JVM args -->
+	<condition property="gwt.jvm.args" value="-XstartOnFirstThread">
+		<os family="mac" />
+	</condition>
+	<property name="gwt.jvm.args" value="-showversion" /> <!-- Need to use some sort of arg here to avoid Java barf -->
+
+
+	<!-- GWT testing Java JVM -->
+	<!-- OSX needs a 1.5 JVM to run tests in hosted mode -->
+	<condition property="gwt.hosted.java.command" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.5/Home/bin/java">
+		<os family="mac" />
+	</condition>
+	<property name="gwt.hosted.java.command" value="java" />
+
 
 	<fail unless="gwt.sdk.dir">Property gwt.sdk.dir must be set</fail>
 
@@ -71,26 +89,53 @@
 		</copy>
 	</target>
 
-	<target name="compile-test" description="Generate .class files from .java files">
-		<mkdir dir="${output.dir}/bin/test" />
+	<target name="compile-test" depends="compile" description="Generate .class files from .java files">
+		<mkdir dir="${classes.test.dir}" />
 
-		<javac debug="true" debuglevel="${debuglevel}" destdir="${classes.dir}" source="${source}" target="${target}">
-			<src path="gwt" />
-			<src path="server" />
-			<src path="codegen" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${classes.test.dir}" source="${source}" target="${target}">
+			<src path="test/gwt-test" />
+			<src path="test/server-test" />
+			<src path="example/gwt-example" />
+			<src path="example/server-example" />
+			<src path="example/gen-java-gwt" />
+			<src path="example/gen-javabean" />
+			<src path="example/gen-json-server" />
 			<classpath>
-				<path refid="buildtime.classpath" />
-				<fileset refid="gwt.fileset" />
+				<path location="${classes.dir}" />
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
+				<pathelement path="${gwt.sdk.dir}/gwt-user.jar" />
+				<pathelement path="${gwt.sdk.dir}/gwt-dev-${gwt.platform}.jar" />
 			</classpath>
 		</javac>
-
-		<!-- Ensure that all non-Java files are available in the classpath -->
-		<copy todir="${classes.dir}">
-			<fileset dir="server">
+		
+		<copy todir="${classes.test.dir}">
+			<fileset dir="test/gwt-test">
 				<include name="**/*" />
 				<exclude name="**/*.java" />
 			</fileset>
-			<fileset dir="gwt">
+			<fileset dir="test/server-test">
+				<include name="**/*" />
+				<exclude name="**/*.java" />
+			</fileset>
+			<fileset dir="example/gwt-example">
+				<include name="**/*" />
+				<exclude name="**/*.java" />
+			</fileset>
+			<fileset dir="example/server-example">
+				<include name="**/*" />
+				<exclude name="**/*.java" />
+			</fileset>
+			<fileset dir="example/gen-java-gwt">
+				<include name="**/*" />
+				<exclude name="**/*.java" />
+			</fileset>
+			<fileset dir="example/gen-javabean">
+				<include name="**/*" />
+				<exclude name="**/*.java" />
+			</fileset>
+			<fileset dir="example/gen-json-server">
 				<include name="**/*" />
 				<exclude name="**/*.java" />
 			</fileset>
@@ -115,10 +160,10 @@
 				<include name="server/**/*.java" />
 			</fileset>
 		</zip>
-		
+
 		<copy file="build/gwt-rpc-plus.jar" tofile="${dist.dir}/gwt-rpc-plus-snapshot-${DSTAMP}.jar" />
 	</target>
-	
+
 	<target name="jar" depends="compile">
 		<jar destfile="build/gwt-rpc-plus.jar">
 			<fileset dir="${classes.dir}">
@@ -184,6 +229,37 @@
 		</java>
 	</target>
 
-	<target name="test">
+	<target name="test" depends="compile-test">
+		<mkdir dir="${output.dir}/tests" />
+		
+		<junit printsummary="yes" showoutput="true" fork="true" timeout="120000" jvm="${gwt.hosted.java.command}">
+			<jvmarg value="-Xmx1000M" />
+			<jvmarg value="-server" />
+			<jvmarg value="${gwt.jvm.args}" />
+
+			<sysproperty key="gwt.args" value="-ea -gen ${output.dir}/tests/gen -out ${output.dir}/tests/out" />
+
+			<classpath>
+				<path location="gwt" />
+				<path location="test/gwt-test" />
+				<path location="example/gwt-example" />
+				<path location="example/gen-java-gwt" />
+				<path location="example/gen-javabean" />
+				<path location="example/gen-json-server" />
+				
+				<fileset dir="lib">
+					<include name="*.jar" />
+				</fileset>
+				<pathelement path="${gwt.sdk.dir}/gwt-user.jar" />
+				<pathelement path="${gwt.sdk.dir}/gwt-dev-${gwt.platform}.jar" />
+				<path location="${classes.dir}" />
+				<path location="${classes.test.dir}" />
+			</classpath>
+
+			<formatter type="xml" />
+			<formatter type="plain" usefile="false" />
+
+			<test todir="${output.dir}/tests" name="com.dotspots.rpcplus.test.RpcTestSuite" />
+		</junit>
 	</target>
 </project>

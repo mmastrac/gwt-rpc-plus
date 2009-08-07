@@ -14,15 +14,14 @@ import org.apache.thrift.TBase;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TMemoryBuffer;
 import org.junit.Assert;
-import org.junit.Test;
 
 import com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes;
 import com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds;
 import com.dotspots.rpcplus.example.torturetest.TortureTestApiJson;
 import com.dotspots.rpcplus.jsonrpc.thrift.TJSONNativeProtocol;
 
-public class TestJSONNativeProtocol {
-	@Test
+public class TestJSONNativeProtocol extends Assert {
+
 	public void testSimpleObject() throws Exception {
 		final String expected = "{\"1\":\"myString\",\"2\":123}";
 		SimpleObjectWithFieldIds obj = new SimpleObjectWithFieldIds();
@@ -32,13 +31,11 @@ public class TestJSONNativeProtocol {
 		roundTrip(expected, obj);
 	}
 
-	@Test
 	public void testSimpleObjectEmpty() throws Exception {
 		SimpleObjectWithFieldIds obj = new SimpleObjectWithFieldIds();
 		roundTrip("{\"2\":0}", obj);
 	}
 
-	@Test
 	public void testObjectWithComplexTypes() throws Exception {
 		ObjectWithComplexTypes obj = new ObjectWithComplexTypes();
 
@@ -56,7 +53,6 @@ public class TestJSONNativeProtocol {
 		roundTrip("{\"1\":{\"c\":\"d\",\"a\":\"b\"},\"2\":{\"b2\":0,\"a2\":0},\"3\":[\"a1\",\"b1\"]}", obj);
 	}
 
-	@Test
 	public void testObjectWithComplexTypesEmpty() throws Exception {
 		ObjectWithComplexTypes obj = new ObjectWithComplexTypes();
 
