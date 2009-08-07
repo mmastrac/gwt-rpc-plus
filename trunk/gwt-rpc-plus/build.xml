@@ -48,6 +48,7 @@
 			<src path="gwt" />
 			<src path="server" />
 			<src path="codegen" />
+			<src path="gen" />
 			<classpath>
 				<fileset dir="lib">
 					<include name="*.jar" />
