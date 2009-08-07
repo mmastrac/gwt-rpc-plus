@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
+import com.dotspots.rpcplus.client.jsonrpc.thrift.ThriftClientStub;
 
 final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcInterfaceWriter {
 	private final PrintWriter printWriter;
@@ -23,28 +24,14 @@ final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcIn
 
 	public void startClass(RpcInterface iface) {
 		printWriter.println("@SuppressWarnings(\"unused\")");
-		printWriter.println("public final class " + iface.getClassName() + " implements CallResponseProcessor {");
-		printWriter.println("    private JsonTransport transport;");
-		printWriter.println("    private CallEncoder callEncoder;");
-		printWriter.println("    private CallDecoder callDecoder;");
+		printWriter.println("public final class " + iface.getClassName() + " extends " + ThriftClientStub.class.getName()
+				+ " implements CallResponseProcessor {");
 		if (iface.getRequestContext() != null) {
 			printWriter.println("    private " + iface.getRequestContext().getClassName() + " requestContext;");
 		}
 		if (iface.getResponseContext() != null) {
 			printWriter.println("    private " + iface.getResponseContext().getClassName() + " responseContext;");
 		}
-		printWriter.println();
-		printWriter.println("    public void setTransport(JsonTransport transport) {");
-		printWriter.println("        this.transport = transport;");
-		printWriter.println("    }");
-		printWriter.println();
-		printWriter.println("    public void setCallEncoder(CallEncoder callEncoder) {");
-		printWriter.println("        this.callEncoder = callEncoder;");
-		printWriter.println("    }");
-		printWriter.println();
-		printWriter.println("    public void setCallDecoder(CallDecoder callDecoder) {");
-		printWriter.println("        this.callDecoder = callDecoder;");
-		printWriter.println("    }");
 		printWriter.println();
 
 		if (iface.getRequestContext() != null) {
@@ -135,8 +122,8 @@ final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcIn
 
 		printWriter.println("    public void " + method.getName() + "(" + StringUtils.join(args, ", ") + ") {");
 		final String argsClass = iface.getClassName() + "_" + method.getName() + "_args";
-		printWriter.println("        transport.call(" + method.getMethodId() + ", callEncoder.encodeCall(\"" + method.getName() + "\", "
-				+ argsClass + ".create(" + StringUtils.join(argsShort, ", ") + "), " + requestContext + "), callback, this);");
+		printWriter.println("        call(" + method.getMethodId() + ", \"" + method.getName() + "\", " + argsClass + ".create("
+				+ StringUtils.join(argsShort, ", ") + "), " + requestContext + ", callback, this);");
 		printWriter.println("    };");
 		printWriter.println();
 	}

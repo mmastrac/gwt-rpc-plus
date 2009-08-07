@@ -6,6 +6,7 @@ import com.dotspots.rpcplus.client.jscollections.JsRpcSetString;
 import com.dotspots.rpcplus.client.jsonrpc.impl.StandardCallDecoder;
 import com.dotspots.rpcplus.client.jsonrpc.impl.StandardCallEncoder;
 import com.dotspots.rpcplus.client.transport.impl.HttpTransport;
+import com.dotspots.rpcplus.client.transport.impl.JsonOverTextTransport;
 import com.dotspots.rpcplus.example.torturetest.client.TortureTestApi;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -20,12 +21,10 @@ public class ThriftExampleEntryPoint implements EntryPoint {
 		RootPanel.get().add(new Label("Loaded!"));
 
 		final HttpTransport transport = new HttpTransport();
-		transport.setDecoder(new EvalJsonDecoder(getWindow()));
-		transport.setEncoder(new JSONObjectJsonEncoder());
 		transport.setUrl(GWT.getModuleBaseURL() + "api");
 
 		TortureTestApi api = new TortureTestApi();
-		api.setTransport(transport);
+		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
 		api.setCallEncoder(new StandardCallEncoder());
 		api.setCallDecoder(new StandardCallDecoder());
 

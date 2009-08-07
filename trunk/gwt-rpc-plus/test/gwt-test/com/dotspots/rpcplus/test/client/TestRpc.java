@@ -7,6 +7,7 @@ import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.jsonrpc.impl.StandardCallDecoder;
 import com.dotspots.rpcplus.client.jsonrpc.impl.StandardCallEncoder;
 import com.dotspots.rpcplus.client.transport.impl.HttpTransport;
+import com.dotspots.rpcplus.client.transport.impl.JsonOverTextTransport;
 import com.dotspots.rpcplus.client.transport.impl.WindowNameTransport;
 import com.dotspots.rpcplus.example.torturetest.client.ContextIn;
 import com.dotspots.rpcplus.example.torturetest.client.ContextOut;
@@ -25,12 +26,10 @@ public class TestRpc extends GWTTestCase {
 	@Override
 	protected void gwtSetUp() throws Exception {
 		transport = new HttpTransport();
-		transport.setDecoder(new EvalJsonDecoder(getWindow()));
-		transport.setEncoder(new JSONObjectJsonEncoder());
 		transport.setUrl(GWT.getModuleBaseURL() + "/api");
 
 		api = new TortureTestApi();
-		api.setTransport(transport);
+		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
 		api.setCallEncoder(new StandardCallEncoder());
 		api.setCallDecoder(new StandardCallDecoder());
 	}
@@ -59,12 +58,10 @@ public class TestRpc extends GWTTestCase {
 	public void testWindowNameTransport() {
 		delayTestFinish(15000);
 		WindowNameTransport transport = new WindowNameTransport();
-		transport.setDecoder(new EvalJsonDecoder(getWindow()));
-		transport.setEncoder(new JSONObjectJsonEncoder());
 		transport.setUrl(GWT.getModuleBaseURL() + "/api");
 		transport.setDocument(Document.get());
 
-		api.setTransport(transport);
+		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
 		api.setRequestContext(ContextIn.create("token", "\"'*(,.&^<>!@#5$%()^\\\n"));
 
 		api.testSetString(new AsyncCallback<JsRpcSetString>() {
@@ -92,13 +89,11 @@ public class TestRpc extends GWTTestCase {
 	public void testWindowNameTransportError() {
 		delayTestFinish(15000);
 		WindowNameTransport transport = new WindowNameTransport();
-		transport.setDecoder(new EvalJsonDecoder(getWindow()));
-		transport.setEncoder(new JSONObjectJsonEncoder());
 		transport.setUrl(GWT.getModuleBaseURL() + "/apidoesntexist");
 		transport.setDocument(Document.get());
 		transport.setTimeout(2000);
 
-		api.setTransport(transport);
+		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
 		api.setRequestContext(ContextIn.create("token", "\"'*(,.&^<>!@#5$%()^\\\n"));
 
 		api.testSetString(new AsyncCallback<JsRpcSetString>() {

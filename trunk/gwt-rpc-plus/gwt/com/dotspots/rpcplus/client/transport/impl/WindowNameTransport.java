@@ -1,13 +1,7 @@
 package com.dotspots.rpcplus.client.transport.impl;
 
-import com.dotspots.rpcplus.client.codec.JsonDecoder;
-import com.dotspots.rpcplus.client.codec.LooseJsonEncoder;
-import com.dotspots.rpcplus.client.jsonrpc.CallResponseProcessor;
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
-import com.dotspots.rpcplus.client.transport.JsonTransport;
 import com.dotspots.rpcplus.client.transport.TextTransport;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
@@ -24,12 +18,10 @@ import com.google.gwt.user.client.ui.FormPanel;
  * 
  * Supports navigation-click-sound-free operation on IE through ActiveXObject("htmlfile").
  */
-public class WindowNameTransport implements JsonTransport, TextTransport {
+public class WindowNameTransport implements TextTransport {
 	// Globally unique ID
 	private static int nameSerial;
 
-	private JsonDecoder decoder;
-	private LooseJsonEncoder encoder;
 	private String url;
 	private Document document;
 	private int timeout = 30000;
@@ -52,19 +44,11 @@ public class WindowNameTransport implements JsonTransport, TextTransport {
 		this.url = url;
 	}
 
-	public void setDecoder(JsonDecoder decoder) {
-		this.decoder = decoder;
-	}
-
-	public void setEncoder(LooseJsonEncoder encoder) {
-		this.encoder = encoder;
-	}
-
 	public void setDocument(Document document) {
 		this.document = document;
 	}
 
-	public <T> void call(String arguments, final AsyncCallback<String> callback) {
+	public void call(String arguments, final AsyncCallback<String> callback) {
 		final String iframeName = "windowNameTransport" + nameSerial++;
 
 		// Create the attached iframe
@@ -90,7 +74,7 @@ public class WindowNameTransport implements JsonTransport, TextTransport {
 				String currentIframeName = getIFrameContentWindowName(iframe);
 				if (currentIframeName != null && !currentIframeName.equals(iframeName)) {
 					cleanup(iframe, form, timeoutTimer);
-					GWT.log("RECV: " + currentIframeName, null);
+					TransportLogger.logReceive(currentIframeName);
 
 					try {
 						callback.onSuccess(currentIframeName);
@@ -106,26 +90,10 @@ public class WindowNameTransport implements JsonTransport, TextTransport {
 			}
 		});
 
+		TransportLogger.logSend(arguments);
 		populateForm(form, arguments);
 
 		form.submit();
-	}
-
-	public <T> void call(final int methodId, JavaScriptObject arguments, final AsyncCallback<?> callback,
-			final CallResponseProcessor callResponseProcessor) {
-		call(encoder.encode(arguments), new AsyncCallback<String>() {
-			public void onFailure(Throwable caught) {
-				callback.onFailure(caught);
-			}
-
-			public void onSuccess(String result) {
-				try {
-					callResponseProcessor.onResponse(methodId, callback, decoder.decode(result));
-				} catch (Throwable t) {
-					callback.onFailure(t);
-				}
-			}
-		});
 	}
 
 	private void cleanup(final IFrameElement iframe, final FormElement form, final Timer timeout) {
