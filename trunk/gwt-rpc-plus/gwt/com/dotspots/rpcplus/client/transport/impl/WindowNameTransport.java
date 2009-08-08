@@ -91,7 +91,7 @@ public class WindowNameTransport implements TextTransport {
 		});
 
 		TransportLogger.logSend(arguments);
-		populateForm(form, arguments);
+		populateForm(document, form, arguments);
 
 		form.submit();
 	}
@@ -159,7 +159,7 @@ public class WindowNameTransport implements TextTransport {
 		return form;
 	}
 
-	private void populateForm(final FormElement form, String arguments) {
+	private void populateForm(Document document, final FormElement form, String arguments) {
 		InputElement input;
 
 		input = document.createHiddenInputElement();
