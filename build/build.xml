@@ -1,0 +1,16 @@
+<project basedir="." name="gwt-rpc-plus-build" default="build">
+    <target name="build">
+	<unzip src="../../tools/gwt/gwt-all-1.7.0.zip" dest=".">
+	</unzip>
+
+        <ant antfile="build.xml" dir="../gwt-rpc-plus" target="clean">
+            <property name="gwt.sdk.dir" value="../build/gwt" />
+        </ant>
+        <ant antfile="build.xml" dir="../gwt-rpc-plus" target="test">
+            <property name="gwt.sdk.dir" value="../build/gwt" />
+        </ant>
+
+        <delete dir="gwt" />
+    </target>
+</project>
+
