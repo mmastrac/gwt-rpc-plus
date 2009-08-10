@@ -56,6 +56,14 @@ public class TestJsonTransport extends GWTTestCase {
 	}
 
 	private void runInternal(JsonDecoder decoder, LooseJsonEncoder encoder) throws JsonParseException {
+		testListLong(decoder, encoder);
+		testTypes(decoder);
+	}
+
+	/**
+	 * Ensures that a list of longs is correctly round-tripped.
+	 */
+	private void testListLong(JsonDecoder decoder, LooseJsonEncoder encoder) throws JsonParseException {
 		JsRpcListLong list = JsRpcListLong.create();
 		list.add(0);
 		list.add(0xffff0000ffff0000L);
@@ -66,6 +74,27 @@ public class TestJsonTransport extends GWTTestCase {
 		assertEquals(0L, list.get(0));
 		assertEquals(0xffff0000ffff0000L, list.get(1));
 	}
+
+	/**
+	 * Ensures that the the elements are decoded to the correct types.
+	 */
+	private void testTypes(JsonDecoder decoder) throws JsonParseException {
+		final JavaScriptObject decoded = decoder.decode("[0,0,{}]");
+		JavaScriptObject at0 = get(decoded, "0");
+		assertEquals("number", typeof(at0).toLowerCase());
+		JavaScriptObject at1 = get(decoded, "1");
+		assertEquals("number", typeof(at1).toLowerCase());
+		JavaScriptObject at2 = get(decoded, "2");
+		assertEquals("object", typeof(at2).toLowerCase());
+	}
+
+	private native JavaScriptObject get(JavaScriptObject jso, String key) /*-{
+		return [jso[key]];
+	}-*/;
+
+	private native String typeof(JavaScriptObject jso) /*-{
+		return typeof jso[0];
+	}-*/;
 
 	private native JavaScriptObject getWindow() /*-{
 		return $wnd;

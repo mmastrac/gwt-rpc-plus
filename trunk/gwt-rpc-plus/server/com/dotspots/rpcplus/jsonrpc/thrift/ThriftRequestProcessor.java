@@ -15,11 +15,20 @@ import org.json.JSONTokener;
 public class ThriftRequestProcessor {
 	public void handleRequest(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		try {
-			if (req.getContentType().equals("application/json")) {
-				handleJSONPost(servlet, req, resp);
-			} else if (req.getContentType().equals("application/x-www-form-urlencoded")) {
-				handleFormPost(servlet, req, resp);
+			if (req.getMethod().equals("POST")) {
+				final String contentType = req.getContentType();
+				if (contentType != null) {
+					if (contentType.startsWith("application/json")) {
+						handleJSONPost(servlet, req, resp);
+						return;
+					} else if (contentType.startsWith("application/x-www-form-urlencoded")) {
+						handleFormPost(servlet, req, resp);
+						return;
+					}
+				}
 			}
+
+			handleExplainUsage(servlet, resp);
 		} catch (TException e) {
 			throw new ServletException(e);
 		} catch (JSONException e) {
@@ -27,15 +36,20 @@ public class ThriftRequestProcessor {
 		}
 	}
 
+	public void handleExplainUsage(JSONServlet servlet, HttpServletResponse resp) throws IOException {
+		resp.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+		resp.setContentType("text/html");
+		resp.getOutputStream().print("<html><body>This is a thrift JSON endpoint which requires a POST</body></html>");
+		return;
+	}
+
 	public void handleJSONPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException, JSONException,
 			TException {
 		JSONTokener tokener = new JSONTokener(new InputStreamReader(req.getInputStream()));
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 
-		resp.getOutputStream().write('(');
 		TJSONNativeProtocol nativeProtocol = new TJSONNativeProtocol(new TIOStreamTransport(resp.getOutputStream()));
 		servlet.processRequest(protocol, nativeProtocol);
-		resp.getOutputStream().write(')');
 	}
 
 	public void handleFormPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException, JSONException,
