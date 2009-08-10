@@ -24,23 +24,9 @@ final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcIn
 
 	public void startClass(RpcInterface iface) {
 		printWriter.println("@SuppressWarnings(\"unused\")");
-		printWriter.println("public final class " + iface.getClassName() + " extends " + ThriftClientStub.class.getName()
-				+ " implements CallResponseProcessor {");
+		printWriter.println("public final class " + iface.getClassName() + " extends " + ThriftClientStub.class.getName() + "<"
+				+ iface.getClassName() + "> {");
 		if (iface.getRequestContext() != null) {
-			printWriter.println("    private " + iface.getRequestContext().getClassName() + " requestContext;");
-		}
-		if (iface.getResponseContext() != null) {
-			printWriter.println("    private " + iface.getResponseContext().getClassName() + " responseContext;");
-		}
-		printWriter.println();
-
-		if (iface.getRequestContext() != null) {
-			printWriter.println("    private " + iface.getRequestContext().getClassName() + " popRequestContext() {");
-			printWriter.println("        " + iface.getRequestContext().getClassName() + " requestContext = this.requestContext;");
-			printWriter.println("        this.requestContext = null;");
-			printWriter.println("        return requestContext;");
-			printWriter.println("    }");
-			printWriter.println();
 			printWriter.println("    public void setRequestContext(" + iface.getRequestContext().getClassName() + " requestContext) {");
 			printWriter.println("        this.requestContext = requestContext;");
 			printWriter.println("    }");
@@ -49,25 +35,14 @@ final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcIn
 
 		if (iface.getResponseContext() != null) {
 			printWriter.println("    public " + iface.getResponseContext().getClassName() + " popResponseContext() {");
-			printWriter.println("        " + iface.getResponseContext().getClassName() + " responseContext = this.responseContext;");
+			printWriter.println("        " + iface.getResponseContext().getClassName() + " responseContext = this.responseContext.cast();");
 			printWriter.println("        this.responseContext = null;");
 			printWriter.println("        return responseContext;");
 			printWriter.println("    }");
 			printWriter.println();
 		}
 
-		printWriter.println("    @SuppressWarnings(\"unchecked\")");
-		printWriter.println("    public void onResponse(int methodId, AsyncCallback<?> asyncCallback, JavaScriptObject rawResponse) {");
-		printWriter.println("        CallResponse<?> response = callDecoder.decodeCall(rawResponse);");
-		if (iface.getResponseContext() != null) {
-			printWriter.println("        this.responseContext = response.getResponseContext().cast();");
-		}
-		printWriter.println("        int responseCode = response.getResponseCode();");
-		printWriter.println("        if (responseCode == 0) {");
-		printWriter.println("            ((AsyncCallback<JavaScriptObject>)asyncCallback).onSuccess(response.getResponseObject().getFieldValue(0));");
-		printWriter.println("            return;");
-		printWriter.println("        }");
-		printWriter.println();
+		printWriter.println("    public void onException(int methodId, AsyncCallback<?> asyncCallback, int responseCode, BaseJsRpcObject response) {");
 		printWriter.println("        // Process exceptions per method");
 
 		final int methodCount = iface.getMethods().size();
@@ -83,7 +58,7 @@ final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcIn
 			for (RpcStruct exceptionType : method.getExceptionTypes()) {
 				printWriter.println("        case " + (index * methodCount + method.getMethodId()) + ":");
 				printWriter.println("            asyncCallback.onFailure(new " + exceptionType.getFullyQualifiedClassName()
-						+ "(response.getResponseObject().getFieldValue(" + index + ")));");
+						+ "(response.getFieldValue(" + index + ")));");
 				printWriter.println("            break;");
 				index++;
 			}
@@ -118,12 +93,10 @@ final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcIn
 
 		args.add("AsyncCallback<" + getType(method.getResult(), true) + "> callback");
 
-		String requestContext = iface.getRequestContext() == null ? "null" : "popRequestContext()";
-
 		printWriter.println("    public void " + method.getName() + "(" + StringUtils.join(args, ", ") + ") {");
 		final String argsClass = iface.getClassName() + "_" + method.getName() + "_args";
 		printWriter.println("        call(" + method.getMethodId() + ", \"" + method.getName() + "\", " + argsClass + ".create("
-				+ StringUtils.join(argsShort, ", ") + "), " + requestContext + ", callback);");
+				+ StringUtils.join(argsShort, ", ") + "), callback);");
 		printWriter.println("    };");
 		printWriter.println();
 	}

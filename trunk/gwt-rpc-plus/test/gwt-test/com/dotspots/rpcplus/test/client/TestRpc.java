@@ -6,6 +6,7 @@ import com.dotspots.rpcplus.client.jscollections.JsRpcSetString;
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.jsonrpc.impl.StandardCallDecoder;
 import com.dotspots.rpcplus.client.jsonrpc.impl.StandardCallEncoder;
+import com.dotspots.rpcplus.client.jsonrpc.thrift.CallInterceptor;
 import com.dotspots.rpcplus.client.transport.impl.HttpTransport;
 import com.dotspots.rpcplus.client.transport.impl.JsonOverTextTransport;
 import com.dotspots.rpcplus.client.transport.impl.WindowNameTransport;
@@ -136,6 +137,31 @@ public class TestRpc extends GWTTestCase {
 				ContextOut responseContext = api.popResponseContext();
 				assertEquals(">>>data", responseContext.getData());
 				assertNull(api.popResponseContext());
+				finishTest();
+			}
+		});
+	}
+
+	public void testOnBeforeAndAfterCall() {
+		delayTestFinish(15000);
+
+		api.addCallInterceptor(new CallInterceptor<TortureTestApi>() {
+			public void onAfterCall(TortureTestApi api) {
+				ContextOut responseContext = api.popResponseContext();
+				assertEquals(">>>datafrominterceptor", responseContext.getData());
+			}
+
+			public void onBeforeCall(TortureTestApi i) {
+				api.setRequestContext(ContextIn.create("token", "datafrominterceptor"));
+			}
+		});
+
+		api.testSetString(new AsyncCallback<JsRpcSetString>() {
+			public void onFailure(Throwable caught) {
+				fail(caught.toString());
+			}
+
+			public void onSuccess(JsRpcSetString result) {
 				finishTest();
 			}
 		});

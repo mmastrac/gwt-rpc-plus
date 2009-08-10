@@ -177,7 +177,7 @@ public class FlexibleRemoteServiceServlet extends HttpServlet implements Seriali
 			RPCRequest rpcRequest = RPC.decodeRequest(payload, this.getClass(), this);
 			onAfterRequestDeserialized(rpcRequest);
 			return RPC.invokeAndEncodeResponse(this, rpcRequest.getMethod(), rpcRequest.getParameters(),
-					rpcRequest.getSerializationPolicy(), rpcRequest.getFlags());
+					rpcRequest.getSerializationPolicy());
 		} catch (IncompatibleRemoteServiceException ex) {
 			log("An IncompatibleRemoteServiceException was thrown while processing this call.", ex);
 			return RPC.encodeResponseForFailure(null, ex);
