@@ -237,7 +237,7 @@
 			<jvmarg value="-server" />
 			<jvmarg value="${gwt.jvm.args}" />
 
-			<sysproperty key="gwt.args" value="-ea -gen ${output.dir}/tests/gen -out ${output.dir}/tests/out" />
+			<sysproperty key="gwt.args" value="-notHeadless -ea -gen ${output.dir}/tests/gen -out ${output.dir}/tests/out" />
 
 			<classpath>
 				<path location="gwt" />
