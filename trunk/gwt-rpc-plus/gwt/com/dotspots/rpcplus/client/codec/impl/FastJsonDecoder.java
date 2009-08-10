@@ -137,7 +137,7 @@ public class FastJsonDecoder implements JsonDecoder {
 		    switch (tok.charCodeAt(0)) {
 		      default:  // sign or digit
 		        cont = stack[0];
-		        cont[key || cont.length] = +(tok);
+		        cont[key || cont.length] = -(-(tok));
 		        key = void 0;
 		        break;
 		      case 0x22:  // '"'
