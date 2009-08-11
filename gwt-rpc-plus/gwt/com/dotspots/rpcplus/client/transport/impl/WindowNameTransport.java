@@ -1,5 +1,7 @@
 package com.dotspots.rpcplus.client.transport.impl;
 
+import java.util.ArrayList;
+
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.transport.TextTransport;
 import com.dotspots.rpcplus.client.transport.TransportLogger;
@@ -32,6 +34,20 @@ public class WindowNameTransport implements TextTransport {
 	private Document document;
 	private int timeout = 30000;
 
+	private int callsInProgress = 0;
+
+	private ArrayList<QueuedCall> queuedCalls = new ArrayList<QueuedCall>();
+
+	private class QueuedCall {
+		public QueuedCall(String arguments, AsyncCallback<String> callback) {
+			this.arguments = arguments;
+			this.callback = callback;
+		}
+
+		private String arguments;
+		private AsyncCallback<String> callback;
+	}
+
 	private interface IFrameListener {
 		public void check();
 
@@ -54,7 +70,19 @@ public class WindowNameTransport implements TextTransport {
 		this.document = document;
 	}
 
+	private boolean canMakeThisCall() {
+		// if (!isActiveXSupported()) {
+		// return true;
+		// }
+
+		return callsInProgress < 2;
+	}
+
 	public void call(String arguments, final AsyncCallback<String> callback) {
+		if (!canMakeThisCall()) {
+			queuedCalls.add(new QueuedCall(arguments, callback));
+		}
+
 		try {
 			final String serial = nameSerial++ + "-" + Duration.currentTimeMillis();
 			final String iframeName = SEND_PREFIX + serial;
@@ -114,6 +142,18 @@ public class WindowNameTransport implements TextTransport {
 	}
 
 	private void cleanup(final IFrameElement iframe, final FormElement form, final Timer timeout) {
+		callsInProgress--;
+
+		if (queuedCalls.size() > 0) {
+			final QueuedCall call = queuedCalls.remove(0);
+			new Timer() {
+				@Override
+				public void run() {
+					call(call.arguments, call.callback);
+				}
+			}.schedule(1);
+		}
+
 		if (timeout != null) {
 			timeout.cancel();
 		}
