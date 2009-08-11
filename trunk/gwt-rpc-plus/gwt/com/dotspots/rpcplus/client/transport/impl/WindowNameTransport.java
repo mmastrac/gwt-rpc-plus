@@ -2,7 +2,6 @@ package com.dotspots.rpcplus.client.transport.impl;
 
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.transport.TextTransport;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
@@ -59,7 +58,6 @@ public class WindowNameTransport implements TextTransport {
 
 		// Create and attach the form
 		final FormElement form = createForm(document, iframeName);
-		makeInvisible(form);
 
 		final Timer timeoutTimer = new Timer() {
 			@Override
@@ -115,22 +113,17 @@ public class WindowNameTransport implements TextTransport {
 		elem.getParentElement().removeChild(elem);
 	}
 
-	private void makeInvisible(final Element form) {
+	private void makeInvisible(final Element elem) {
 		// TODO: GWT 2.0
-		// form.getStyle().setVisibility(Visibility.HIDDEN);
-		// form.getStyle().setHeight(10, Unit.PX);
-		// form.getStyle().setWidth(10, Unit.PX);
-		// form.getStyle().setPosition(Position.ABSOLUTE);
+		// elem.getStyle().setVisibility(Visibility.HIDDEN);
+		// elem.getStyle().setHeight(10, Unit.PX);
+		// elem.getStyle().setWidth(10, Unit.PX);
+		// elem.getStyle().setPosition(Position.ABSOLUTE);
 
-		try {
-			form.getStyle().setProperty("visibility", "hidden");
-			form.getStyle().setPropertyPx("height", 10);
-			form.getStyle().setPropertyPx("width", 10);
-			form.getStyle().setProperty("position", "absolute");
-		} catch (Throwable t) {
-			// IE will randomly fail to set these styles.
-			GWT.log("Failed to set styles", t);
-		}
+		elem.getStyle().setProperty("visibility", "hidden");
+		elem.getStyle().setPropertyPx("height", 10);
+		elem.getStyle().setPropertyPx("width", 10);
+		elem.getStyle().setProperty("position", "absolute");
 	}
 
 	private IFrameElement createAttachedIFrame() {
@@ -162,6 +155,13 @@ public class WindowNameTransport implements TextTransport {
 		form.setMethod(FormPanel.METHOD_POST);
 		form.setTarget(iframeName);
 		form.setEnctype(FormPanel.ENCODING_URLENCODED);
+
+		// If we are using IE, we don't need to hide the form (it's running under the already-invisible ActiveX
+		// htmlfile)
+		if (!isActiveXSupported()) {
+			makeInvisible(form);
+		}
+
 		return form;
 	}
 
