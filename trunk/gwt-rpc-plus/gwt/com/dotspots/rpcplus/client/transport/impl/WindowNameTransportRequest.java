@@ -3,7 +3,6 @@ package com.dotspots.rpcplus.client.transport.impl;
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.transport.TransportLogger;
 import com.google.gwt.core.client.Duration;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
@@ -33,9 +32,22 @@ public class WindowNameTransportRequest {
 	 * The document holding the iframe. Pinned here so IE doesn't GC it.
 	 */
 	private Document iframeDocument;
+
+	/**
+	 * The iframe that we're posting into.
+	 */
 	private IFrameElement iframe;
+
+	/**
+	 * The form that we're posting to the iframe.
+	 */
 	private FormElement form;
+
+	/**
+	 * A timer that tracks when we should consider this request timed out.
+	 */
 	private Timer timeoutTimer;
+
 	private String serial;
 	private String iframeName;
 	private String responseName;
@@ -60,24 +72,14 @@ public class WindowNameTransportRequest {
 		}
 
 		if (iframe != null) {
-			try {
-				detachIFrameListener(iframe);
-			} catch (Throwable t) {
-				// IE will sometimes fail here
-				GWT.log("Failed to remove listeners", t);
-			}
+			detachIFrameListener(iframe);
 
 			// TODO: GWT 2.0
 			// iframe.removeFromParent();
 			// form.removeFromParent();
 
-			try {
-				removeFromParent(iframe);
-				removeFromParent(form);
-			} catch (Throwable t) {
-				// IE will sometimes fail here
-				GWT.log("Failed to detact iframe and form", t);
-			}
+			removeFromParent(iframe);
+			removeFromParent(form);
 
 			iframeDocument = null;
 			iframe = null;
