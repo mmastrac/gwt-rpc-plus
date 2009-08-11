@@ -26,6 +26,19 @@ public class TestJSONOrgProtocol extends Assert {
 	}
 
 	@Test
+	public void testOneItemMapWithSpaces() throws JSONException, TException {
+		JSONTokener tokener = new JSONTokener("  {  123  :  456  }  ");
+
+		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
+
+		assertTrue(protocol.readMapBegin());
+		assertEquals(123, protocol.readI32());
+		assertEquals(456, protocol.readI32());
+		assertFalse(protocol.hasNext());
+		protocol.readMapEnd();
+	}
+
+	@Test
 	public void testBiggerMap() throws JSONException, TException {
 		JSONTokener tokener = new JSONTokener("{123:456, \"1\":2, 3:4}");
 
@@ -69,5 +82,32 @@ public class TestJSONOrgProtocol extends Assert {
 
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 		final SimpleObjectWithFieldIds obj = TortureTestApiJson.readSimpleObjectWithFieldIds(protocol);
+	}
+
+	@Test
+	public void testListWithSpaces() throws JSONException, TException {
+		JSONTokener tokener = new JSONTokener("[0, \"testSetString\", [\"token\", \"data\"], []]\n");
+		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
+		assertTrue(protocol.readListBegin());
+		assertEquals(0, protocol.readI32());
+		assertTrue(protocol.hasNext());
+		assertEquals("testSetString", protocol.readString());
+		assertTrue(protocol.hasNext());
+
+		assertTrue(protocol.readListBegin());
+		assertEquals("token", protocol.readString());
+		assertTrue(protocol.hasNext());
+		assertEquals("data", protocol.readString());
+		assertFalse(protocol.hasNext());
+		protocol.readListEnd();
+
+		assertTrue(protocol.hasNext());
+
+		assertTrue(protocol.readListBegin());
+		assertFalse(protocol.hasNext());
+		protocol.readListEnd();
+
+		assertFalse(protocol.hasNext());
+		protocol.readListEnd();
 	}
 }
