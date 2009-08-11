@@ -232,7 +232,7 @@
 	<target name="test" depends="compile-test">
 		<mkdir dir="${output.dir}/tests" />
 		
-		<junit printsummary="yes" showoutput="true" fork="true" timeout="120000" jvm="${gwt.hosted.java.command}">
+		<junit printsummary="yes" showoutput="true" fork="true" timeout="600000" jvm="${gwt.hosted.java.command}">
 			<jvmarg value="-Xmx1000M" />
 			<jvmarg value="-server" />
 			<jvmarg value="${gwt.jvm.args}" />
