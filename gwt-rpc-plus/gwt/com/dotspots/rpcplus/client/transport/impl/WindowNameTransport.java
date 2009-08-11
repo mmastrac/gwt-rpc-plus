@@ -4,6 +4,7 @@ import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.transport.TextTransport;
 import com.dotspots.rpcplus.client.transport.TransportLogger;
 import com.google.gwt.core.client.Duration;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
@@ -121,14 +122,20 @@ public class WindowNameTransport implements TextTransport {
 			detachIFrameListener(iframe);
 		} catch (Throwable t) {
 			// IE will sometimes fail here
+			GWT.log("Failed to remove listeners", t);
 		}
 
 		// TODO: GWT 2.0
 		// iframe.removeFromParent();
 		// form.removeFromParent();
 
-		removeFromParent(iframe);
-		removeFromParent(form);
+		try {
+			removeFromParent(iframe);
+			removeFromParent(form);
+		} catch (Throwable t) {
+			// IE will sometimes fail here
+			GWT.log("Failed to detact iframe and form", t);
+		}
 	}
 
 	private void removeFromParent(Element elem) {
