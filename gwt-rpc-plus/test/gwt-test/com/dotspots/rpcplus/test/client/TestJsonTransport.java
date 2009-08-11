@@ -45,7 +45,15 @@ public class TestJsonTransport extends GWTTestCase {
 	 */
 	public void testJSONFactoryLooseOnlySafe() throws JsonParseException {
 		JSONFactory factory = new JSONFactory(false);
-		run(factory.createLooseJSONDecoder(), factory.createLooseJSONEncoder());
+		try {
+			factory.createLooseJSONDecoder();
+			fail("This should have failed");
+		} catch (Throwable t) {
+			// Expected
+		}
+
+		// We can't test a safe and loose JSON decoder here because we don't have an implementation of it
+		run(factory.createJSONDecoder(), (JsonEncoder) factory.createLooseJSONEncoder());
 	}
 
 	public void testFastJsonDecoder() throws JsonParseException {
