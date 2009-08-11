@@ -10,9 +10,22 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class HttpTransport implements TextTransport {
 	private String url;
+	private String mimeType = DEFAULT_MIME_TYPE;
+
+	public static final String GWT_MIME_TYPE = "text/x-gwt-rpc; charset=utf-8";
+	public static final String JSON_MIME_TYPE = "application/json; charset=utf-8";
+	public static final String DEFAULT_MIME_TYPE = "text/plain; charset=utf-8";
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
+	}
+
+	public String getMimeType() {
+		return mimeType;
 	}
 
 	public void call(String arguments, AsyncCallback<String> callback) {
@@ -43,7 +56,7 @@ public class HttpTransport implements TextTransport {
 	}
 
 	protected void build(RequestBuilder builder) {
-		builder.setHeader("Content-Type", "application/json");
+		builder.setHeader("Content-Type", mimeType);
 	}
 
 	public Method getMethod() {

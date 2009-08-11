@@ -1,9 +1,9 @@
 <module>
 	<inherits name="com.google.gwt.user.User" />
-	<inherits name="com.dotspots.rpcplus.RpcPlus" />
+	<inherits name="com.dotspots.rpcplus.FlexibleRPC" />
 	<inherits name="com.dotspots.rpcplus.example.Example" />
-	
-	<servlet path="/api" class="com.dotspots.rpcplus.example.jsonrpc.thrift.ExampleService" />
+
+	<servlet path="/api" class="com.dotspots.rpcplus.example.flexiblerpc.ExampleService" />
 	
 	<source path="client" />
 </module>
