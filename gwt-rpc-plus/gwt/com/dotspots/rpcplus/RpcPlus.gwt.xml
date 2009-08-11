@@ -3,10 +3,17 @@
 	<inherits name='com.google.gwt.json.JSON' />
 	<inherits name='com.google.gwt.http.HTTP' />
 	
-	<!-- Default transport is HttpRPC -->
+	<!-- Don't log transport results by default -->
+	<replace-with class="com.dotspots.rpcplus.client.transport.impl.NoOpTransportLogger">
+		<when-type-is class="com.dotspots.rpcplus.client.transport.TransportLogger" />
+	</replace-with>
+
+	<!-- Useful for debugging transport problems -->
+	<!-- 
 	<replace-with class="com.dotspots.rpcplus.client.transport.impl.DebuggingTransportLogger">
 		<when-type-is class="com.dotspots.rpcplus.client.transport.TransportLogger" />
 	</replace-with>
+ 	-->
 
 	<source path="client/codec" />
 	<source path="client/transport" />

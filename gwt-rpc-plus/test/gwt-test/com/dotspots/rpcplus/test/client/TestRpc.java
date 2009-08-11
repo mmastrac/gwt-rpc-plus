@@ -94,7 +94,7 @@ public class TestRpc extends GWTTestCase {
 	 * Temporary test hoping to shake out IE7 bugs.
 	 */
 	public void testLotsOfWindowNameTransports() {
-		delayTestFinish(60000);
+		delayTestFinish(120000);
 		WindowNameTransport transport = new WindowNameTransport();
 		transport.setUrl(GWT.getModuleBaseURL() + "/api");
 		transport.setDocument(Document.get());
@@ -130,7 +130,7 @@ public class TestRpc extends GWTTestCase {
 							public void onSuccess(JsRpcSetString result) {
 								total[0]++;
 
-								GWT.log("Completed: " + total[0], null);
+								System.out.println("Completed: " + total[0]);
 
 								if (total[0] == 50) {
 									finishTest();
