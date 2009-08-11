@@ -189,10 +189,17 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 		try {
 			getState().beforeRead();
 
-			if (nextIgnoreSpaces() == '[') {
+			switch (nextIgnoreSpaces()) {
+			case '[':
 				pushState(new ListState());
 				return true;
+			case 'n':
+				tokener.next(); // u
+				tokener.next(); // l
+				tokener.next(); // l
+				return false;
 			}
+			;
 		} catch (JSONException e) {
 			throw new TException(e);
 		}
@@ -210,9 +217,15 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 		try {
 			getState().beforeRead();
 
-			if (nextIgnoreSpaces() == '{') {
+			switch (nextIgnoreSpaces()) {
+			case '{':
 				pushState(new MapState());
 				return true;
+			case 'n':
+				tokener.next(); // u
+				tokener.next(); // l
+				tokener.next(); // l
+				return false;
 			}
 		} catch (JSONException e) {
 			throw new TException(e);
@@ -266,6 +279,11 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 			case '{':
 				pushState(new MapStructState());
 				return true;
+			case 'n':
+				tokener.next(); // u
+				tokener.next(); // l
+				tokener.next(); // l
+				return false;
 			}
 		} catch (JSONException e) {
 			throw new TException(e);

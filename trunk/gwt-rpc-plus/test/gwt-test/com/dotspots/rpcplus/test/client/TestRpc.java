@@ -60,7 +60,7 @@ public class TestRpc extends GWTTestCase {
 	}
 
 	public void testPositionalArguments() {
-		delayTestFinish(15000);
+		delayTestFinish(1500000);
 		api.testPositionalArguments(123, "somestring", new AsyncCallback<String>() {
 			public void onFailure(Throwable caught) {
 				fail(caught.toString());
