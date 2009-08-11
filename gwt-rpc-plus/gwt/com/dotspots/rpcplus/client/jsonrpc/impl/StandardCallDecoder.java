@@ -9,7 +9,7 @@ public class StandardCallDecoder implements CallDecoder {
 		INT, STRING
 	}
 
-	public CallResponse decodeCall(JavaScriptObject callResponse) {
+	public CallResponse<?> decodeCall(JavaScriptObject callResponse) {
 		return callResponse.cast();
 	}
 }
