@@ -3,6 +3,7 @@ package com.dotspots.rpcplus.client.transport.impl;
 import com.dotspots.rpcplus.client.codec.JsonDecoder;
 import com.dotspots.rpcplus.client.codec.JsonParseException;
 import com.dotspots.rpcplus.client.codec.LooseJsonEncoder;
+import com.dotspots.rpcplus.client.codec.impl.JSONFactory;
 import com.dotspots.rpcplus.client.transport.HasContentType;
 import com.dotspots.rpcplus.client.transport.JsonTransport;
 import com.dotspots.rpcplus.client.transport.TextTransport;
@@ -15,6 +16,12 @@ public class JsonOverTextTransport implements JsonTransport, HasContentType {
 	private LooseJsonEncoder encoder;
 
 	public JsonOverTextTransport() {
+	}
+
+	public JsonOverTextTransport(TextTransport textTransport, JSONFactory factory) {
+		this.textTransport = textTransport;
+		this.decoder = factory.createJSONDecoder();
+		this.encoder = factory.createLooseJSONEncoder();
 	}
 
 	public JsonOverTextTransport(TextTransport textTransport, JsonDecoder decoder, LooseJsonEncoder encoder) {

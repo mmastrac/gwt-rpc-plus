@@ -1,6 +1,7 @@
 package com.dotspots.rpcplus.test.client;
 
 import com.dotspots.rpcplus.client.codec.impl.EvalJsonDecoder;
+import com.dotspots.rpcplus.client.codec.impl.JSONFactory;
 import com.dotspots.rpcplus.client.codec.impl.JSONObjectJsonEncoder;
 import com.dotspots.rpcplus.client.jscollections.JsRpcSetString;
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
@@ -29,8 +30,10 @@ public class TestRpc extends GWTTestCase {
 		transport = new HttpTransport();
 		transport.setUrl(GWT.getModuleBaseURL() + "/api");
 
+		JSONFactory factory = new JSONFactory();
+
 		api = new TortureTestApi();
-		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
+		api.setTransport(new JsonOverTextTransport(transport, factory));
 		api.setCallEncoder(new StandardCallEncoder());
 		api.setCallDecoder(new StandardCallDecoder());
 	}
