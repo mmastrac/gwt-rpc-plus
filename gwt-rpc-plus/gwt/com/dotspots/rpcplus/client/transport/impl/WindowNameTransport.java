@@ -54,54 +54,62 @@ public class WindowNameTransport implements TextTransport {
 	}
 
 	public void call(String arguments, final AsyncCallback<String> callback) {
-		final String serial = nameSerial++ + "-" + Duration.currentTimeMillis();
-		final String iframeName = SEND_PREFIX + serial;
-		final String responseName = RECEIVE_PREFIX + serial;
+		try {
+			final String serial = nameSerial++ + "-" + Duration.currentTimeMillis();
+			final String iframeName = SEND_PREFIX + serial;
+			final String responseName = RECEIVE_PREFIX + serial;
 
-		// Create the attached iframe
-		final IFrameElement iframe = createAttachedIFrame();
-		setIFrameContentWindowName(iframe, iframeName);
-		Document document = iframe.getOwnerDocument();
+			// Create the attached iframe
+			final IFrameElement iframe = createAttachedIFrame();
+			setIFrameContentWindowName(iframe, iframeName);
+			Document document = iframe.getOwnerDocument();
 
-		// Create and attach the form
-		final FormElement form = createForm(document, iframeName);
+			// Create and attach the form
+			final FormElement form = createForm(document, iframeName);
 
-		final Timer timeoutTimer = new Timer() {
-			@Override
-			public void run() {
-				cleanup(iframe, form, null);
-				callback.onFailure(new RpcException("RPC timed out"));
-			}
-		};
-		timeoutTimer.schedule(timeout);
+			final Timer timeoutTimer = new Timer() {
+				@Override
+				public void run() {
+					cleanup(iframe, form, null);
+					callback.onFailure(new RpcException("RPC timed out"));
+				}
+			};
+			timeoutTimer.schedule(timeout);
 
-		attachIFrameListener(iframe, new IFrameListener() {
-			public void check() {
-				String currentIframeName = getIFrameContentWindowName(iframe);
-				if (currentIframeName != null && !currentIframeName.equals(iframeName) && currentIframeName.startsWith(responseName)) {
-					cleanup(iframe, form, timeoutTimer);
+			attachIFrameListener(iframe, new IFrameListener() {
+				public void check() {
+					String currentIframeName = getIFrameContentWindowName(iframe);
+					if (currentIframeName != null && !currentIframeName.equals(iframeName) && currentIframeName.startsWith(responseName)) {
+						try {
+							cleanup(iframe, form, timeoutTimer);
+						} catch (Throwable t) {
+							callback.onFailure(new RpcException("Unexpected error cleaning up iframe"));
+						}
 
-					currentIframeName = currentIframeName.substring(responseName.length());
-					TransportLogger.INSTANCE.logReceive(currentIframeName);
+						currentIframeName = currentIframeName.substring(responseName.length());
+						TransportLogger.INSTANCE.logReceive(currentIframeName);
 
-					try {
-						callback.onSuccess(currentIframeName);
-					} catch (Throwable t) {
-						callback.onFailure(t);
+						try {
+							callback.onSuccess(currentIframeName);
+						} catch (Throwable t) {
+							callback.onFailure(t);
+						}
 					}
 				}
-			}
 
-			public void error() {
-				timeoutTimer.cancel();
-				callback.onFailure(new RpcException("RPC failed"));
-			}
-		});
+				public void error() {
+					timeoutTimer.cancel();
+					callback.onFailure(new RpcException("RPC failed"));
+				}
+			});
 
-		TransportLogger.INSTANCE.logSend(arguments);
-		populateForm(document, form, arguments, serial);
+			TransportLogger.INSTANCE.logSend(arguments);
+			populateForm(document, form, arguments, serial);
 
-		form.submit();
+			form.submit();
+		} catch (Throwable t) {
+			callback.onFailure(new RpcException("Unexpected error while submitting request", t));
+		}
 	}
 
 	private void cleanup(final IFrameElement iframe, final FormElement form, final Timer timeout) {
