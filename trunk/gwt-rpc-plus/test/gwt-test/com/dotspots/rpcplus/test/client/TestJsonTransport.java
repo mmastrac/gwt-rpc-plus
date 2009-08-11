@@ -32,6 +32,22 @@ public class TestJsonTransport extends GWTTestCase {
 		run(factory.createLooseJSONDecoder(), factory.createLooseJSONEncoder());
 	}
 
+	/**
+	 * Tests the standard encoder/decoder for every platform, only allowing safe decoders.
+	 */
+	public void testJSONFactoryOnlySafe() throws JsonParseException {
+		JSONFactory factory = new JSONFactory(false);
+		run(factory.createJSONDecoder(), factory.createJSONEncoder());
+	}
+
+	/**
+	 * Tests the loose encoder/decoder for every platform, only allowing safe decoders.
+	 */
+	public void testJSONFactoryLooseOnlySafe() throws JsonParseException {
+		JSONFactory factory = new JSONFactory(false);
+		run(factory.createLooseJSONDecoder(), factory.createLooseJSONEncoder());
+	}
+
 	public void testFastJsonDecoder() throws JsonParseException {
 		FastJsonDecoder decoder = new FastJsonDecoder();
 		JSONObjectJsonEncoder encoder = new JSONObjectJsonEncoder();
