@@ -9,7 +9,7 @@ public class BaseJsRpcObject extends JavaScriptObject {
 	/**
 	 * Gets a raw field value.
 	 */
-	public final native JavaScriptObject getFieldValue(int id) /*-{
+	public final native Object getFieldValue(int id) /*-{
 		return this[id];
 	}-*/;
 }

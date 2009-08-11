@@ -74,8 +74,7 @@ public class ExampleService extends BaseServlet<TortureTestApi.Iface> implements
 	}
 
 	public String testPositionalArguments(int int32, String str) throws TException {
-		// TODO Auto-generated method stub
-		return null;
+		return int32 + str;
 	}
 
 	public Set<Integer> testSetInt() throws TException {
