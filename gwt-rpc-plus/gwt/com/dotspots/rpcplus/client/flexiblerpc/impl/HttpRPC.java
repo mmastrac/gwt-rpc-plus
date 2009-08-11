@@ -11,7 +11,6 @@ import com.google.gwt.user.client.rpc.impl.Serializer;
 public class HttpRPC extends TextTransportRPC<HttpTransport> {
 	public HttpRPC() {
 		textTransport = new HttpTransport();
-		textTransport.setMimeType(HttpTransport.GWT_MIME_TYPE);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.dotspots.rpcplus.client.transport.impl;
 
+import com.dotspots.rpcplus.client.transport.HasContentType;
 import com.dotspots.rpcplus.client.transport.TextTransport;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -8,7 +9,7 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.RequestBuilder.Method;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public class HttpTransport implements TextTransport {
+public class HttpTransport implements TextTransport, HasContentType {
 	private String url;
 	private String mimeType = DEFAULT_MIME_TYPE;
 
@@ -20,12 +21,12 @@ public class HttpTransport implements TextTransport {
 		this.url = url;
 	}
 
-	public void setMimeType(String mimeType) {
-		this.mimeType = mimeType;
+	public String getContentType() {
+		return mimeType;
 	}
 
-	public String getMimeType() {
-		return mimeType;
+	public void setContentType(String contentType) {
+		this.mimeType = contentType;
 	}
 
 	public void call(String arguments, AsyncCallback<String> callback) {
