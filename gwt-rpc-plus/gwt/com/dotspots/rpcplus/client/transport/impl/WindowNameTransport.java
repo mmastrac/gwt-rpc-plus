@@ -3,6 +3,7 @@ package com.dotspots.rpcplus.client.transport.impl;
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.transport.TextTransport;
 import com.dotspots.rpcplus.client.transport.TransportLogger;
+import com.google.gwt.core.client.Duration;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
@@ -22,6 +23,9 @@ import com.google.gwt.user.client.ui.FormPanel;
 public class WindowNameTransport implements TextTransport {
 	// Globally unique ID
 	private static int nameSerial;
+
+	private static final String SEND_PREFIX = "wnt-";
+	private static final String RECEIVE_PREFIX = "wnr-";
 
 	private String url;
 	private Document document;
@@ -50,7 +54,9 @@ public class WindowNameTransport implements TextTransport {
 	}
 
 	public void call(String arguments, final AsyncCallback<String> callback) {
-		final String iframeName = "windowNameTransport" + nameSerial++;
+		final String serial = nameSerial++ + "-" + Duration.currentTimeMillis();
+		final String iframeName = SEND_PREFIX + serial;
+		final String responseName = RECEIVE_PREFIX + serial;
 
 		// Create the attached iframe
 		final IFrameElement iframe = createAttachedIFrame();
@@ -72,8 +78,10 @@ public class WindowNameTransport implements TextTransport {
 		attachIFrameListener(iframe, new IFrameListener() {
 			public void check() {
 				String currentIframeName = getIFrameContentWindowName(iframe);
-				if (currentIframeName != null && !currentIframeName.equals(iframeName)) {
+				if (currentIframeName != null && !currentIframeName.equals(iframeName) && currentIframeName.startsWith(responseName)) {
 					cleanup(iframe, form, timeoutTimer);
+
+					currentIframeName = currentIframeName.substring(responseName.length());
 					TransportLogger.INSTANCE.logReceive(currentIframeName);
 
 					try {
@@ -91,7 +99,7 @@ public class WindowNameTransport implements TextTransport {
 		});
 
 		TransportLogger.INSTANCE.logSend(arguments);
-		populateForm(document, form, arguments);
+		populateForm(document, form, arguments, serial);
 
 		form.submit();
 	}
@@ -166,8 +174,13 @@ public class WindowNameTransport implements TextTransport {
 		return form;
 	}
 
-	private void populateForm(Document document, final FormElement form, String arguments) {
+	private void populateForm(Document document, final FormElement form, String arguments, String serial) {
 		InputElement input;
+
+		input = document.createHiddenInputElement();
+		input.setName("serial");
+		input.setValue(serial);
+		form.appendChild(input);
 
 		input = document.createHiddenInputElement();
 		input.setName("data");

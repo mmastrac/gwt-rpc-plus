@@ -3,6 +3,7 @@ package com.dotspots.rpcplus.test;
 import junit.framework.TestSuite;
 
 import com.dotspots.rpcplus.test.client.TestFlexibleRPC;
+import com.dotspots.rpcplus.test.client.TestFlexibleRPCCrossDomain;
 import com.dotspots.rpcplus.test.client.TestJsonTransport;
 import com.dotspots.rpcplus.test.client.TestRpc;
 import com.dotspots.rpcplus.test.client.TestThriftCollections;
@@ -15,6 +16,7 @@ public class RpcTestSuite extends GWTTestSuite {
 		suite.addTestSuite(TestRpc.class);
 		suite.addTestSuite(TestThriftCollections.class);
 		suite.addTestSuite(TestFlexibleRPC.class);
+		suite.addTestSuite(TestFlexibleRPCCrossDomain.class);
 
 		return suite;
 	}
