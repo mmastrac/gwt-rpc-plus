@@ -2,6 +2,7 @@ package com.dotspots.rpcplus.client.transport.impl;
 
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.transport.TextTransport;
+import com.dotspots.rpcplus.client.transport.TransportLogger;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
@@ -73,7 +74,7 @@ public class WindowNameTransport implements TextTransport {
 				String currentIframeName = getIFrameContentWindowName(iframe);
 				if (currentIframeName != null && !currentIframeName.equals(iframeName)) {
 					cleanup(iframe, form, timeoutTimer);
-					TransportLogger.logReceive(currentIframeName);
+					TransportLogger.INSTANCE.logReceive(currentIframeName);
 
 					try {
 						callback.onSuccess(currentIframeName);
@@ -89,7 +90,7 @@ public class WindowNameTransport implements TextTransport {
 			}
 		});
 
-		TransportLogger.logSend(arguments);
+		TransportLogger.INSTANCE.logSend(arguments);
 		populateForm(document, form, arguments);
 
 		form.submit();
