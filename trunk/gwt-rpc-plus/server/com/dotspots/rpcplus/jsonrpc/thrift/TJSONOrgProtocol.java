@@ -44,7 +44,7 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 		@Override
 		public boolean hasNext() throws TException {
 			try {
-				return tokener.next() == ',';
+				return nextIgnoreSpaces() == ',';
 			} catch (JSONException e) {
 				throw new TException(e);
 			}
@@ -57,7 +57,7 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 		@Override
 		public boolean hasNext() throws TException {
 			try {
-				return tokener.next() == ',';
+				return nextIgnoreSpaces() == ',';
 			} catch (JSONException e) {
 				throw new TException(e);
 			}
@@ -66,7 +66,7 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 		@Override
 		public void beforeRead() throws TException {
 			try {
-				if (expectColon && tokener.next() != ':') {
+				if (expectColon && nextIgnoreSpaces() != ':') {
 					throw new TException("Missing colon");
 				}
 
@@ -109,7 +109,7 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 		public int readFieldId() throws TException {
 			if (index > 0) {
 				try {
-					return tokener.next() == ',' ? index++ : -1;
+					return nextIgnoreSpaces() == ',' ? index++ : -1;
 				} catch (JSONException e) {
 					throw new TException(e);
 				}
@@ -189,7 +189,7 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 		try {
 			getState().beforeRead();
 
-			if (tokener.next() == '[') {
+			if (nextIgnoreSpaces() == '[') {
 				pushState(new ListState());
 				return true;
 			}
@@ -210,7 +210,7 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 		try {
 			getState().beforeRead();
 
-			if (tokener.next() == '{') {
+			if (nextIgnoreSpaces() == '{') {
 				pushState(new MapState());
 				return true;
 			}
@@ -259,7 +259,7 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 		try {
 			getState().beforeRead();
 
-			switch (tokener.next()) {
+			switch (nextIgnoreSpaces()) {
 			case '[':
 				pushState(new ListStructState());
 				return true;
@@ -282,6 +282,14 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 	@Override
 	public void skip() {
 
+	}
+
+	private char nextIgnoreSpaces() throws JSONException {
+		char c;
+		while ((c = tokener.next()) == ' ') {
+		}
+
+		return c;
 	}
 
 	private State getState() {
