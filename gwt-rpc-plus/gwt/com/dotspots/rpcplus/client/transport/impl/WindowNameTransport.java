@@ -2,6 +2,7 @@ package com.dotspots.rpcplus.client.transport.impl;
 
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.transport.TextTransport;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
@@ -121,10 +122,15 @@ public class WindowNameTransport implements TextTransport {
 		// form.getStyle().setWidth(10, Unit.PX);
 		// form.getStyle().setPosition(Position.ABSOLUTE);
 
-		form.getStyle().setProperty("visibility", "hidden");
-		form.getStyle().setPropertyPx("height", 10);
-		form.getStyle().setPropertyPx("width", 10);
-		form.getStyle().setProperty("position", "absolute");
+		try {
+			form.getStyle().setProperty("visibility", "hidden");
+			form.getStyle().setPropertyPx("height", 10);
+			form.getStyle().setPropertyPx("width", 10);
+			form.getStyle().setProperty("position", "absolute");
+		} catch (Throwable t) {
+			// IE will randomly fail to set these styles.
+			GWT.log("Failed to set styles", t);
+		}
 	}
 
 	private IFrameElement createAttachedIFrame() {
