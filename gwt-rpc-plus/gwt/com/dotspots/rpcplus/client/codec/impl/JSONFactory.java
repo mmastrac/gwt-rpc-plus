@@ -8,13 +8,23 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class JSONFactory {
 	private final JavaScriptObject wnd;
+	private final boolean allowUnsafe;
 
 	public JSONFactory() {
 		this(getWindow());
 	}
 
 	public JSONFactory(JavaScriptObject wnd) {
+		this(wnd, true);
+	}
+
+	public JSONFactory(boolean allowUnsafe) {
+		this(getWindow(), allowUnsafe);
+	}
+
+	public JSONFactory(JavaScriptObject wnd, boolean allowUnsafe) {
 		this.wnd = wnd;
+		this.allowUnsafe = allowUnsafe;
 	}
 
 	public JsonDecoder createJSONDecoder() {
@@ -22,10 +32,18 @@ public class JSONFactory {
 			return new NativeJson(wnd);
 		}
 
-		return new FastJsonDecoder();
+		if (allowUnsafe) {
+			return new EvalJsonDecoder(wnd);
+		} else {
+			return new FastJsonDecoder();
+		}
 	}
 
 	public LooseJsonDecoder createLooseJSONDecoder() {
+		if (!allowUnsafe) {
+			throw new RuntimeException("Unable to create a safe LooseJsonDecoder");
+		}
+
 		return new EvalJsonDecoder(wnd);
 	}
 
