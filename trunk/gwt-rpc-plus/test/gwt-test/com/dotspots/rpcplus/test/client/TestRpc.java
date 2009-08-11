@@ -27,6 +27,7 @@ public class TestRpc extends GWTTestCase {
 	@Override
 	protected void gwtSetUp() throws Exception {
 		transport = new HttpTransport();
+		transport.setMimeType(HttpTransport.JSON_MIME_TYPE);
 		transport.setUrl(GWT.getModuleBaseURL() + "/api");
 
 		api = new TortureTestApi();
