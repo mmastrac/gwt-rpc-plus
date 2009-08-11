@@ -111,6 +111,7 @@ public class ExampleService extends BaseServlet<TortureTestApi.Iface> implements
 	public void __setContext(ContextIn requestContext) throws TException {
 		this.requestContext = requestContext;
 		this.responseContext = new ContextOut();
+		System.out.println("Got context: " + requestContext.getData());
 		if (requestContext.getData() != null) {
 			responseContext.setData(">>>" + requestContext.getData());
 		}
