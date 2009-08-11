@@ -90,6 +90,59 @@ public class TestRpc extends GWTTestCase {
 		});
 	}
 
+	/**
+	 * Temporary test hoping to shake out IE7 bugs.
+	 */
+	public void testLotsOfWindowNameTransports() {
+		delayTestFinish(60000);
+		WindowNameTransport transport = new WindowNameTransport();
+		transport.setUrl(GWT.getModuleBaseURL() + "/api");
+		transport.setDocument(Document.get());
+
+		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
+
+		final int[] total = new int[] { 0 };
+
+		for (int i = 0; i < 10; i++) {
+			api.setRequestContext(ContextIn.create("token", "\"'*(,.&^<>!@#5$%()^\\\n"));
+			api.testSetString(new AsyncCallback<JsRpcSetString>() {
+				public void onFailure(Throwable caught) {
+					fail(caught.toString());
+				}
+
+				public void onSuccess(JsRpcSetString result) {
+					ContextOut responseContext = api.popResponseContext();
+					assertEquals(">>>\"'*(,.&^<>!@#5$%()^\\\n", responseContext.getData());
+
+					assertEquals(4, result.countSize());
+					assertTrue(result.contains("hi0"));
+					assertTrue(result.contains("hi1"));
+					assertTrue(result.contains("hi2"));
+					assertTrue(result.contains("hi3"));
+					assertFalse(result.contains("hi4"));
+
+					for (int j = 0; j < 5; j++) {
+						api.testSetString(new AsyncCallback<JsRpcSetString>() {
+							public void onFailure(Throwable caught) {
+								fail(caught.toString());
+							}
+
+							public void onSuccess(JsRpcSetString result) {
+								total[0]++;
+
+								GWT.log("Completed: " + total[0], null);
+
+								if (total[0] == 50) {
+									finishTest();
+								}
+							}
+						});
+					}
+				}
+			});
+		}
+	}
+
 	public void testWindowNameTransportError() {
 		delayTestFinish(15000);
 		WindowNameTransport transport = new WindowNameTransport();

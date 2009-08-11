@@ -54,9 +54,11 @@ public class ThriftRequestProcessor {
 
 	public void handleFormPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException, JSONException,
 			TException {
-		resp.getOutputStream().print("<html><body><script>window.name='");
 		String json = req.getParameter("data");
 		String redirect = req.getParameter("redirect");
+		String serial = req.getParameter("serial");
+
+		resp.getOutputStream().print("<html><body><script>window.name='wnr-" + serial);
 		JSONTokener tokener = new JSONTokener(json);
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 		TJSONNativeProtocol nativeProtocol = new TJSONNativeProtocol(new EscapingStreamTransport(resp.getOutputStream()));
