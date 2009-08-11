@@ -84,6 +84,7 @@ public class TestRpc extends GWTTestCase {
 
 		api.testSetString(new AsyncCallback<JsRpcSetString>() {
 			public void onFailure(Throwable caught) {
+				caught.printStackTrace();
 				fail(caught.toString());
 				finishTest();
 			}
