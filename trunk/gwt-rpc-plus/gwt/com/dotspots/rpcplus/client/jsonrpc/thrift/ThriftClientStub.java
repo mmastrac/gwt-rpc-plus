@@ -6,7 +6,9 @@ import com.dotspots.rpcplus.client.jsonrpc.BaseJsRpcObject;
 import com.dotspots.rpcplus.client.jsonrpc.CallDecoder;
 import com.dotspots.rpcplus.client.jsonrpc.CallEncoder;
 import com.dotspots.rpcplus.client.jsonrpc.CallResponse;
+import com.dotspots.rpcplus.client.transport.HasContentType;
 import com.dotspots.rpcplus.client.transport.JsonTransport;
+import com.dotspots.rpcplus.client.transport.impl.HttpTransport;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -46,6 +48,10 @@ public abstract class ThriftClientStub<T extends ThriftClientStub<T>> {
 
 	public void setTransport(JsonTransport transport) {
 		this.transport = transport;
+		if (transport instanceof HasContentType) {
+			// TODO: Use a custom content-type instead of JSON
+			((HasContentType) transport).setContentType(HttpTransport.JSON_MIME_TYPE);
+		}
 	}
 
 	public void setCallEncoder(CallEncoder callEncoder) {
