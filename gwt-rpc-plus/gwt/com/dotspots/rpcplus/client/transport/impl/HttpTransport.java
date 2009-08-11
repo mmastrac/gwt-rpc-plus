@@ -2,6 +2,7 @@ package com.dotspots.rpcplus.client.transport.impl;
 
 import com.dotspots.rpcplus.client.transport.HasContentType;
 import com.dotspots.rpcplus.client.transport.TextTransport;
+import com.dotspots.rpcplus.client.transport.TransportLogger;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -33,7 +34,7 @@ public class HttpTransport implements TextTransport, HasContentType {
 		RequestBuilder builder = new RequestBuilder(getMethod(), url);
 		builder.setCallback(getCallback(callback));
 		builder.setRequestData(arguments);
-		TransportLogger.logSend(arguments);
+		TransportLogger.INSTANCE.logSend(arguments);
 		build(builder);
 
 		try {
@@ -50,7 +51,7 @@ public class HttpTransport implements TextTransport, HasContentType {
 			}
 
 			public void onResponseReceived(Request request, Response response) {
-				TransportLogger.logReceive(response.getText());
+				TransportLogger.INSTANCE.logReceive(response.getText());
 				callback.onSuccess(response.getText());
 			}
 		};
