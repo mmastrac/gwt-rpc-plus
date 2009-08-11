@@ -22,19 +22,19 @@ public final class TortureTestApi extends com.dotspots.rpcplus.client.jsonrpc.th
         // Process exceptions per method
         switch (responseCode * 14 + methodId) {
         case 14:
-            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException(response.getFieldValue(1)));
+            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
             break;
         case 15:
-            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException(response.getFieldValue(1)));
+            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
             break;
         case 16:
-            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException(response.getFieldValue(1)));
+            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
             break;
         case 17:
-            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException(response.getFieldValue(1)));
+            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
             break;
         case 31:
-            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.MoreComplexException(response.getFieldValue(2)));
+            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.MoreComplexException((JavaScriptObject)response.getFieldValue(2)));
             break;
         default:
             asyncCallback.onFailure(new com.dotspots.rpcplus.client.jsonrpc.RpcException("Unknown exception"));

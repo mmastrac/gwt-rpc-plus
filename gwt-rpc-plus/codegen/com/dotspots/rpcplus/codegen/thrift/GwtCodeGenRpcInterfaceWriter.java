@@ -58,7 +58,7 @@ final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcIn
 			for (RpcStruct exceptionType : method.getExceptionTypes()) {
 				printWriter.println("        case " + (index * methodCount + method.getMethodId()) + ":");
 				printWriter.println("            asyncCallback.onFailure(new " + exceptionType.getFullyQualifiedClassName()
-						+ "(response.getFieldValue(" + index + ")));");
+						+ "((JavaScriptObject)response.getFieldValue(" + index + ")));");
 				printWriter.println("            break;");
 				index++;
 			}

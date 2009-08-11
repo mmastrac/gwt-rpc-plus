@@ -116,7 +116,12 @@ public class WindowNameTransport implements TextTransport {
 		if (timeout != null) {
 			timeout.cancel();
 		}
-		detachIFrameListener(iframe);
+
+		try {
+			detachIFrameListener(iframe);
+		} catch (Throwable t) {
+			// IE will sometimes fail here
+		}
 
 		// TODO: GWT 2.0
 		// iframe.removeFromParent();

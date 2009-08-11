@@ -59,6 +59,20 @@ public class TestRpc extends GWTTestCase {
 		});
 	}
 
+	public void testPositionalArguments() {
+		delayTestFinish(15000);
+		api.testPositionalArguments(123, "somestring", new AsyncCallback<String>() {
+			public void onFailure(Throwable caught) {
+				fail(caught.toString());
+			}
+
+			public void onSuccess(String result) {
+				assertEquals("123somestring", result);
+				finishTest();
+			}
+		});
+	}
+
 	public void testWindowNameTransport() {
 		delayTestFinish(15000);
 		WindowNameTransport transport = new WindowNameTransport();
