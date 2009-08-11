@@ -1,7 +1,7 @@
 <module>
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="com.dotspots.rpcplus.FlexibleRPC" />
-	<inherits name="com.dotspots.rpcplus.example.ThriftTortureTest" />
+	<inherits name="com.dotspots.rpcplus.example.Example" />
 	
 	<entry-point class="com.dotspots.rpcplus.example.client.flexiblerpc.FlexibleRPCExampleEntryPoint"></entry-point>
 	<servlet path="/api" class="com.dotspots.rpcplus.example.flexiblerpc.ExampleService" />
@@ -9,6 +9,4 @@
 	<replace-with class="com.dotspots.rpcplus.client.flexiblerpc.impl.CrossDomainRPC">
 		<when-type-is class="com.dotspots.rpcplus.client.flexiblerpc.FlexibleRPC" />
 	</replace-with>
-	
-	<source path="client" />
 </module>

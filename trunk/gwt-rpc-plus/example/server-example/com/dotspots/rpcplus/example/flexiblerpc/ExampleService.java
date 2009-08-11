@@ -22,21 +22,36 @@ public class ExampleService extends FlexibleRemoteServiceServlet implements Simp
 	protected void writeResponse(HttpServletRequest request, HttpServletResponse response, String responsePayload) throws IOException {
 		boolean gzipEncode = RPCServletUtils.acceptsGzipEncoding(request) && shouldCompressResponse(request, response, responsePayload);
 
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.setContentType("text/html");
+		final String contentType = request.getContentType();
+		if (contentType.startsWith("text/x-gwt-rpc")) {
+			RPCServletUtils.writeResponse(getServletContext(), response, responsePayload, gzipEncode);
+		} else {
+			response.setStatus(HttpServletResponse.SC_OK);
+			response.setContentType("text/html");
 
-		ServletOutputStream output = response.getOutputStream();
+			ServletOutputStream output = response.getOutputStream();
 
-		output.print("<html><body><script>window.name='");
-		String result = StringEscapeUtils.escapeJavaScript(responsePayload);
-		output.write(result.getBytes("UTF-8"));
-		output.print("';window.location.replace('" + StringEscapeUtils.escapeJavaScript(request.getParameter("redirect"))
-				+ "');</script></body></html>");
+			output.print("<html><body><script>window.name='");
+			String result = StringEscapeUtils.escapeJavaScript(responsePayload);
+			output.write(result.getBytes("UTF-8"));
+			output.print("';window.location.replace('" + StringEscapeUtils.escapeJavaScript(request.getParameter("redirect"))
+					+ "');</script></body></html>");
+		}
 	}
 
 	@Override
 	protected String readContent(HttpServletRequest request) throws ServletException, IOException {
-		return request.getParameter("data");
-	}
+		if (request.getMethod().equals("POST")) {
+			final String contentType = request.getContentType();
+			if (contentType != null) {
+				if (contentType.startsWith("text/x-gwt-rpc")) {
+					return RPCServletUtils.readContentAsUtf8(request, true);
+				} else if (contentType.startsWith("application/x-www-form-urlencoded")) {
+					return request.getParameter("data");
+				}
+			}
+		}
 
+		throw new UnsupportedOperationException("Invalid RPC attempt");
+	}
 }

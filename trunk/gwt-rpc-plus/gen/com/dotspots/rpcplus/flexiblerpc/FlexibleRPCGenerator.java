@@ -102,33 +102,39 @@ public class FlexibleRPCGenerator extends Generator {
 		f.setSuperclass(userType.getQualifiedSourceName() + "_Proxy");
 		f.addImplementedInterface(FlexibleRPCService.class.getName());
 
+		// Don't mess with internal GWT interfaces (ie: JUnit RPC)
+		boolean blacklisted = (userType.getQualifiedSourceName().startsWith("com.google.gwt"));
+
 		final PrintWriter pw = context.tryCreate(logger, pkgName, subName);
 		if (pw != null) {
 			final SourceWriter sw = f.createSourceWriter(context, pw);
-			sw.println("protected FlexibleRPC flexibleRPC = GWT.create(FlexibleRPC.class);");
 
-			sw.println();
-			sw.println("@Override public void setServiceEntryPoint(String address) {");
-			sw.indent();
-			sw.println("super.setServiceEntryPoint(address);");
-			sw.println("flexibleRPC.initialize(this, violateSerializer(this));");
-			sw.outdent();
-			sw.println("}");
+			if (!blacklisted) {
+				sw.println("protected FlexibleRPC flexibleRPC = GWT.create(FlexibleRPC.class);");
 
-			sw.println();
-			sw.println("@Override protected <T> Request doInvoke(ResponseReader responseReader, "
-					+ "String methodName, int invocationCount, String requestData, AsyncCallback<T> callback) {");
-			sw.indent();
-			sw.println("return new FlexibleRPCRequestWrapper(flexibleRPC.doInvoke(responseReader, methodName, invocationCount, requestData, callback));");
-			sw.outdent();
-			sw.println("}");
+				sw.println();
+				sw.println("@Override public void setServiceEntryPoint(String address) {");
+				sw.indent();
+				sw.println("super.setServiceEntryPoint(address);");
+				sw.println("flexibleRPC.initialize(this, violateSerializer(this));");
+				sw.outdent();
+				sw.println("}");
 
-			sw.println();
-			sw.println("private native Serializer violateSerializer(RemoteServiceProxy remoteServiceProxy) /*-{");
-			sw.indent();
-			sw.println("return remoteServiceProxy.@" + RemoteServiceProxy.class.getName() + "::serializer;");
-			sw.outdent();
-			sw.println("}-*/;");
+				sw.println();
+				sw.println("@Override protected <T> Request doInvoke(ResponseReader responseReader, "
+						+ "String methodName, int invocationCount, String requestData, AsyncCallback<T> callback) {");
+				sw.indent();
+				sw.println("return new FlexibleRPCRequestWrapper(flexibleRPC.doInvoke(responseReader, methodName, invocationCount, requestData, callback));");
+				sw.outdent();
+				sw.println("}");
+
+				sw.println();
+				sw.println("private native Serializer violateSerializer(RemoteServiceProxy remoteServiceProxy) /*-{");
+				sw.indent();
+				sw.println("return remoteServiceProxy.@" + RemoteServiceProxy.class.getName() + "::serializer;");
+				sw.outdent();
+				sw.println("}-*/;");
+			}
 
 			// Finish.
 			sw.commit(logger);
