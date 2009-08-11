@@ -29,6 +29,9 @@ public class WindowNameTransportRequest {
 	private final Document document;
 	private final String url;
 
+	/**
+	 * The document holding the iframe. Pinned here so IE doesn't GC it.
+	 */
 	private Document iframeDocument;
 	private IFrameElement iframe;
 	private FormElement form;
@@ -45,6 +48,9 @@ public class WindowNameTransportRequest {
 		this.timeout = timeout;
 	}
 
+	/**
+	 * Cancels a running request. Safe to call more than once.
+	 */
 	public void cancel() {
 		running = false;
 
@@ -76,6 +82,9 @@ public class WindowNameTransportRequest {
 			iframeDocument = null;
 			iframe = null;
 			form = null;
+
+			// Allow IE to reclaim the htmlfile document
+			collectGarbage();
 		}
 	}
 
@@ -202,22 +211,22 @@ public class WindowNameTransportRequest {
 	private void populateForm() {
 		InputElement input;
 
-		input = document.createHiddenInputElement();
+		input = iframeDocument.createHiddenInputElement();
 		input.setName("serial");
 		input.setValue(serial);
 		form.appendChild(input);
 
-		input = document.createHiddenInputElement();
+		input = iframeDocument.createHiddenInputElement();
 		input.setName("data");
 		input.setValue(arguments);
 		form.appendChild(input);
 
-		input = document.createHiddenInputElement();
+		input = iframeDocument.createHiddenInputElement();
 		input.setName("type");
 		input.setValue("window.name");
 		form.appendChild(input);
 
-		input = document.createHiddenInputElement();
+		input = iframeDocument.createHiddenInputElement();
 		input.setName("redirect");
 		input.setValue(Window.Location.getProtocol() + "//" + Window.Location.getHost() + "/favicon.ico");
 		form.appendChild(input);
@@ -225,6 +234,11 @@ public class WindowNameTransportRequest {
 
 	private static native boolean isActiveXSupported() /*-{
 		return ("ActiveXObject" in $wnd);
+	}-*/;
+
+	private static native void collectGarbage() /*-{
+		if ("CollectGarbage" in $wnd)
+			CollectGarbage();
 	}-*/;
 
 	private static native void attachIFrameListener(IFrameElement iframe, WindowNameTransportRequest self) /*-{
