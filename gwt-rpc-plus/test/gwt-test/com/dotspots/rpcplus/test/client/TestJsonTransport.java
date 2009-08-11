@@ -7,6 +7,7 @@ import com.dotspots.rpcplus.client.codec.LooseJsonDecoder;
 import com.dotspots.rpcplus.client.codec.LooseJsonEncoder;
 import com.dotspots.rpcplus.client.codec.impl.EvalJsonDecoder;
 import com.dotspots.rpcplus.client.codec.impl.FastJsonDecoder;
+import com.dotspots.rpcplus.client.codec.impl.JSONFactory;
 import com.dotspots.rpcplus.client.codec.impl.JSONObjectJsonEncoder;
 import com.dotspots.rpcplus.client.codec.impl.NativeJson;
 import com.dotspots.rpcplus.client.codec.impl.UnevalJsonEncoder;
@@ -15,6 +16,22 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.junit.client.GWTTestCase;
 
 public class TestJsonTransport extends GWTTestCase {
+	/**
+	 * Tests the standard encoder/decoder for every platform.
+	 */
+	public void testJSONFactory() throws JsonParseException {
+		JSONFactory factory = new JSONFactory();
+		run(factory.createJSONDecoder(), factory.createJSONEncoder());
+	}
+
+	/**
+	 * Tests the loose encoder/decoder for every platform.
+	 */
+	public void testJSONFactoryLoose() throws JsonParseException {
+		JSONFactory factory = new JSONFactory();
+		run(factory.createLooseJSONDecoder(), factory.createLooseJSONEncoder());
+	}
+
 	public void testFastJsonDecoder() throws JsonParseException {
 		FastJsonDecoder decoder = new FastJsonDecoder();
 		JSONObjectJsonEncoder encoder = new JSONObjectJsonEncoder();
