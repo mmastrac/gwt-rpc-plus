@@ -53,7 +53,8 @@ public class WindowNameTransport implements TextTransport {
 		// return true;
 		// }
 
-		return callsInProgress < 2;
+		// return callsInProgress < 2;
+		return true;
 	}
 
 	public void call(String arguments, final AsyncCallback<String> callback) {
