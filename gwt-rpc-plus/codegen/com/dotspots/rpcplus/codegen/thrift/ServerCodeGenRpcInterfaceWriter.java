@@ -29,7 +29,12 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 		printWriter.println("        in.hasNext();");
 		printWriter.println("        String call = in.readString();");
 		printWriter.println("        in.hasNext();");
-		if (iface.getRequestContext() != null) {
+		if (iface.getRequestContext() == null) {
+			printWriter.println("        // No context");
+			printWriter.println("        in.readString();");
+			printWriter.println("        in.hasNext();");
+		} else {
+			printWriter.println("        // Read request context");
 			printWriter.println("        service.__setContext(read" + iface.getRequestContext().getClassName() + "(in));");
 			printWriter.println("        in.hasNext();");
 		}
