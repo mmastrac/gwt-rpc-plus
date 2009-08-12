@@ -252,7 +252,7 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 			printWriter.println(indent + "    " + getType(mapMetaData.getKeyType(), false) + " key" + (level + 1) + " = entry" + level
 					+ ".getKey();");
 			printWriter.println(indent + "    " + getType(mapMetaData.getValueType(), false) + " value" + (level + 1) + " = entry" + level
-					+ ".getKey();");
+					+ ".getValue();");
 			writeWriter(typeFactory, mapMetaData.getKeyType(), "key", level + 1);
 			writeWriter(typeFactory, mapMetaData.getValueType(), "value", level + 1);
 			printWriter.println(indent + "}");

@@ -200,7 +200,6 @@ public class TestJSONOrgProtocol extends Assert {
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 		assertTrue(protocol.readStructBegin());
 		assertFalse(protocol.hasNext());
-
 	}
 
 	private JSONTokenizer newTokenizer(String json) {

@@ -14,16 +14,19 @@ import org.apache.thrift.TBase;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TMemoryBuffer;
 import org.junit.Assert;
+import org.junit.Test;
+import org.svenson.tokenize.JSONTokenizer;
 
 import com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes;
 import com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds;
 import com.dotspots.rpcplus.example.torturetest.TortureTestApiJson;
 import com.dotspots.rpcplus.jsonrpc.thrift.TJSONNativeProtocol;
+import com.dotspots.rpcplus.jsonrpc.thrift.TJSONOrgProtocol;
 
 public class TestJSONNativeProtocol extends Assert {
-
+	@Test
 	public void testSimpleObject() throws Exception {
-		final String expected = "{\"1\":\"myString\",\"2\":123}";
+		final String expected = "{\"0\":\"myString\",\"1\":123}";
 		SimpleObjectWithFieldIds obj = new SimpleObjectWithFieldIds();
 		obj.setToken("myString");
 		obj.setUserId(123);
@@ -31,11 +34,13 @@ public class TestJSONNativeProtocol extends Assert {
 		roundTrip(expected, obj);
 	}
 
+	@Test
 	public void testSimpleObjectEmpty() throws Exception {
 		SimpleObjectWithFieldIds obj = new SimpleObjectWithFieldIds();
-		roundTrip("{\"2\":0}", obj);
+		roundTrip("{}", obj);
 	}
 
+	@Test
 	public void testObjectWithComplexTypes() throws Exception {
 		ObjectWithComplexTypes obj = new ObjectWithComplexTypes();
 
@@ -50,9 +55,10 @@ public class TestJSONNativeProtocol extends Assert {
 		final Set<String> set = new HashSet<String>(Arrays.asList("a2", "b2"));
 		obj.setSetOfStrings(set);
 
-		roundTrip("{\"1\":{\"c\":\"d\",\"a\":\"b\"},\"2\":{\"b2\":0,\"a2\":0},\"3\":[\"a1\",\"b1\"]}", obj);
+		roundTrip("{\"0\":{\"c\":\"d\",\"a\":\"b\"},\"1\":{\"_b2\":0,\"_a2\":0},\"2\":[\"a1\",\"b1\"]}", obj);
 	}
 
+	@Test
 	public void testObjectWithComplexTypesEmpty() throws Exception {
 		ObjectWithComplexTypes obj = new ObjectWithComplexTypes();
 
@@ -65,23 +71,27 @@ public class TestJSONNativeProtocol extends Assert {
 		TJSONNativeProtocol protocol = new TJSONNativeProtocol(buffer);
 
 		// Write to the protocol
-		obj.write(protocol);
+		for (Method method : TortureTestApiJson.class.getDeclaredMethods()) {
+			if (method.getName().equalsIgnoreCase("write" + obj.getClass().getSimpleName())) {
+				method.setAccessible(true);
+				method.invoke(null, protocol, obj);
+				break;
+			}
+		}
 
 		// Check it
 		String str = buffer.toString("UTF-8");
 		Assert.assertEquals(expected, str);
 
 		// Read from the buffer we just wrote
-		buffer = new TMemoryBuffer(10000);
-		buffer.write(str.getBytes("UTF-8"));
-
-		protocol = new TJSONNativeProtocol(buffer);
+		TJSONOrgProtocol readProtocol = new TJSONOrgProtocol(new JSONTokenizer(str, true));
 
 		TBase obj2 = null;
 		for (Method method : TortureTestApiJson.class.getDeclaredMethods()) {
 			if (method.getName().equalsIgnoreCase("read" + obj.getClass().getSimpleName())) {
 				method.setAccessible(true);
-				obj2 = (TBase) method.invoke(null, protocol);
+				obj2 = (TBase) method.invoke(null, readProtocol);
+				break;
 			}
 		}
 
@@ -91,7 +101,13 @@ public class TestJSONNativeProtocol extends Assert {
 		buffer = new TMemoryBuffer(10000);
 		protocol = new TJSONNativeProtocol(buffer);
 
-		obj2.write(protocol);
+		for (Method method : TortureTestApiJson.class.getDeclaredMethods()) {
+			if (method.getName().equalsIgnoreCase("write" + obj.getClass().getSimpleName())) {
+				method.setAccessible(true);
+				obj2 = (TBase) method.invoke(null, protocol, obj2);
+				break;
+			}
+		}
 
 		// Make sure it's still as expected
 		str = buffer.toString("UTF-8");

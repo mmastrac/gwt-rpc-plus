@@ -870,7 +870,7 @@ public final class TortureTestApiJson implements JSONServlet {
              protocol.writeMapBegin(null);
              for (Map.Entry<String, String> entry0 : value0.entrySet()) {
                  String key1 = entry0.getKey();
-                 String value1 = entry0.getKey();
+                 String value1 = entry0.getValue();
                  protocol.writeString(key1);
                  protocol.writeString(value1);
              }
@@ -1087,7 +1087,7 @@ public final class TortureTestApiJson implements JSONServlet {
              protocol.writeMapBegin(null);
              for (Map.Entry<String, String> entry0 : value0.entrySet()) {
                  String key1 = entry0.getKey();
-                 String value1 = entry0.getKey();
+                 String value1 = entry0.getValue();
                  protocol.writeString(key1);
                  protocol.writeString(value1);
              }
