@@ -10,19 +10,11 @@ public abstract class TBaseJSONProtocol {
 
 	public abstract boolean readStructBegin() throws TException;
 
-	public abstract void readStructEnd() throws TException;
-
 	public abstract boolean readMapBegin() throws TException;
-
-	public abstract void readMapEnd() throws TException;
 
 	public abstract boolean readSetBegin() throws TException;
 
-	public abstract void readSetEnd() throws TException;
-
 	public abstract boolean readListBegin() throws TException;
-
-	public abstract void readListEnd() throws TException;
 
 	public abstract String readString() throws TException;
 
@@ -35,11 +27,6 @@ public abstract class TBaseJSONProtocol {
 	public abstract boolean readBool() throws TException;
 
 	public abstract double readDouble() throws TException;
-
-	/**
-	 * Reads the field ID from a struct, returning -1 if no more fields are available.
-	 */
-	public abstract int readFieldId() throws TException;
 
 	/**
 	 * Skips the current object.

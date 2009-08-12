@@ -22,10 +22,12 @@ public final class TortureTestApiJson implements JSONServlet {
 
     public void processRequest(TBaseJSONProtocol in, TProtocol out) throws TException {
         in.readListBegin();
+        in.hasNext();
         int version = in.readI32();
         in.hasNext();
         String call = in.readString();
         in.hasNext();
+        // Read request context
         service.__setContext(readContextIn(in));
         in.hasNext();
         if (call.equals("testThrowsAnException")) {
@@ -415,8 +417,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.ContextIn obj = new com.dotspots.rpcplus.example.torturetest.ContextIn();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  String value0 = protocol.readString();
                      obj.setToken(value0);
@@ -431,7 +433,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -455,8 +456,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.MoreComplexException obj = new com.dotspots.rpcplus.example.torturetest.MoreComplexException();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  String value0 = protocol.readString();
                      obj.setMessage(value0);
@@ -471,7 +472,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -495,8 +495,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.ObjectThatIsReferenced obj = new com.dotspots.rpcplus.example.torturetest.ObjectThatIsReferenced();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  int value0 = protocol.readI32();
                      obj.setId(value0);
@@ -506,7 +506,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -525,8 +524,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testExceptionPassthru_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testExceptionPassthru_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  com.dotspots.rpcplus.example.torturetest.SimpleException value0 = readSimpleException(protocol);
                      obj.setEx(value0);
@@ -536,7 +535,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -555,8 +553,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnUnpositionedException_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnUnpositionedException_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  String value0 = protocol.readString();
                      obj.setSuccess(value0);
@@ -566,7 +564,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -585,8 +582,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetString_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetString_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  Set<String> value0 = new HashSet<String>();
                  protocol.readSetBegin();
@@ -594,7 +591,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      String value1 = protocol.readString();
                      value0.add(value1);
                  }
-                 protocol.readSetEnd();
                      obj.setSuccess(value0);
                      break;
                  }
@@ -602,7 +598,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -625,13 +620,12 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testMapStringString_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testMapStringString_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  default:
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -645,8 +639,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.ObjectThatReferencesAnother obj = new com.dotspots.rpcplus.example.torturetest.ObjectThatReferencesAnother();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  com.dotspots.rpcplus.example.torturetest.ObjectThatIsReferenced value0 = readObjectThatIsReferenced(protocol);
                      obj.setReference(value0);
@@ -656,7 +650,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -675,8 +668,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testExceptionPassthru_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testExceptionPassthru_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  com.dotspots.rpcplus.example.torturetest.SimpleException value0 = readSimpleException(protocol);
                      obj.setSuccess(value0);
@@ -686,7 +679,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -705,8 +697,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  com.dotspots.rpcplus.example.torturetest.ObjectThatReferencesAnother value0 = readObjectThatReferencesAnother(protocol);
                      obj.setSuccess(value0);
@@ -716,7 +708,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -735,13 +726,12 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsTwoExceptions_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsTwoExceptions_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  default:
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -755,13 +745,12 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnUnpositionedException_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnUnpositionedException_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  default:
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -775,13 +764,12 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetInt_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetInt_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  default:
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -795,8 +783,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.SimpleObjectWithNoFieldIds obj = new com.dotspots.rpcplus.example.torturetest.SimpleObjectWithNoFieldIds();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case -2: {
                  int value0 = protocol.readI32();
                      obj.setUserId(value0);
@@ -811,7 +799,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -835,13 +822,12 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnException_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnException_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  default:
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -855,8 +841,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testMapStringString_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testMapStringString_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  Map<String, String> value0 = new HashMap<String, String>();
                  protocol.readMapBegin();
@@ -865,7 +851,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      String value1 = protocol.readString();
                      value0.put(key1, value1);
                  }
-                 protocol.readMapEnd();
                      obj.setSuccess(value0);
                      break;
                  }
@@ -873,7 +858,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -899,8 +883,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPositionalArguments_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPositionalArguments_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  int value0 = protocol.readI32();
                      obj.setInt32(value0);
@@ -915,7 +899,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -939,8 +922,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.SimpleException obj = new com.dotspots.rpcplus.example.torturetest.SimpleException();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  String value0 = protocol.readString();
                      obj.setMessage(value0);
@@ -950,7 +933,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -969,8 +951,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testDeclaresAnException_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testDeclaresAnException_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  String value0 = protocol.readString();
                      obj.setSuccess(value0);
@@ -980,7 +962,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -999,8 +980,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testBinary_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testBinary_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  byte[] value0 = protocol.readBinary();
                      obj.setBinaryValue(value0);
@@ -1010,7 +991,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1029,8 +1009,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPositionalArguments_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPositionalArguments_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  String value0 = protocol.readString();
                      obj.setSuccess(value0);
@@ -1040,7 +1020,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1059,8 +1038,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes obj = new com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  Map<String, String> value0 = new HashMap<String, String>();
                  protocol.readMapBegin();
@@ -1069,7 +1048,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      String value1 = protocol.readString();
                      value0.put(key1, value1);
                  }
-                 protocol.readMapEnd();
                      obj.setMapStringToString(value0);
                      break;
                  }
@@ -1080,7 +1058,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      String value1 = protocol.readString();
                      value0.add(value1);
                  }
-                 protocol.readSetEnd();
                      obj.setSetOfStrings(value0);
                      break;
                  }
@@ -1091,7 +1068,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      String value1 = protocol.readString();
                      value0.add(value1);
                  }
-                 protocol.readListEnd();
                      obj.setListOfStrings(value0);
                      break;
                  }
@@ -1099,7 +1075,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1143,8 +1118,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testBinary_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testBinary_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  byte[] value0 = protocol.readBinary();
                      obj.setSuccess(value0);
@@ -1154,7 +1129,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1173,8 +1147,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject3_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject3_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  com.dotspots.rpcplus.example.torturetest.SimpleObjectWithNoFieldIds value0 = readSimpleObjectWithNoFieldIds(protocol);
                      obj.setSuccess(value0);
@@ -1184,7 +1158,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1203,13 +1176,12 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testDeclaresAnException_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testDeclaresAnException_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  default:
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1223,8 +1195,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject2_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject2_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds value0 = readSimpleObjectWithFieldIds(protocol);
                      obj.setSuccess(value0);
@@ -1234,7 +1206,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1253,13 +1224,12 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetString_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetString_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  default:
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1273,8 +1243,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject4_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject4_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes value0 = readObjectWithComplexTypes(protocol);
                      obj.setSuccess(value0);
@@ -1284,7 +1254,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1303,8 +1272,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.ContextOut obj = new com.dotspots.rpcplus.example.torturetest.ContextOut();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  int value0 = protocol.readI32();
                      obj.setTiming(value0);
@@ -1319,7 +1288,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1343,13 +1311,12 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject3_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject3_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  default:
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1363,8 +1330,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds obj = new com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  String value0 = protocol.readString();
                      obj.setToken(value0);
@@ -1379,7 +1346,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1403,13 +1369,12 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject2_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject2_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  default:
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1423,13 +1388,12 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject4_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject4_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  default:
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1443,8 +1407,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsTwoExceptions_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsTwoExceptions_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  String value0 = protocol.readString();
                      obj.setSuccess(value0);
@@ -1454,7 +1418,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1473,13 +1436,12 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject_args();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  default:
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1493,8 +1455,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnException_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnException_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  String value0 = protocol.readString();
                      obj.setSuccess(value0);
@@ -1504,7 +1466,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }
@@ -1523,8 +1484,8 @@ public final class TortureTestApiJson implements JSONServlet {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetInt_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetInt_result();
          if (protocol.readStructBegin()) {
              int fieldId;
-             while((fieldId = protocol.readFieldId()) != -1) {
-                 switch (fieldId) {
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
                  case 0: {
                  Set<Integer> value0 = new HashSet<Integer>();
                  protocol.readSetBegin();
@@ -1532,7 +1493,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      int value1 = protocol.readI32();
                      value0.add(value1);
                  }
-                 protocol.readSetEnd();
                      obj.setSuccess(value0);
                      break;
                  }
@@ -1540,7 +1500,6 @@ public final class TortureTestApiJson implements JSONServlet {
                      protocol.skip();
                  }
              }
-             protocol.readStructEnd();
          }
          return obj;
     }

@@ -25,6 +25,7 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 		printWriter.println();
 		printWriter.println("    public void processRequest(TBaseJSONProtocol in, TProtocol out) throws TException {");
 		printWriter.println("        in.readListBegin();");
+		printWriter.println("        in.hasNext();");
 		printWriter.println("        int version = in.readI32();");
 		printWriter.println("        in.hasNext();");
 		printWriter.println("        String call = in.readString();");
@@ -138,8 +139,8 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 				+ "." + type.getClassName(true) + "();");
 		printWriter.println("         if (protocol.readStructBegin()) {");
 		printWriter.println("             int fieldId;");
-		printWriter.println("             while((fieldId = protocol.readFieldId()) != -1) {");
-		printWriter.println("                 switch (fieldId) {");
+		printWriter.println("             while(protocol.hasNext()) {");
+		printWriter.println("                 switch (protocol.readI32()) {");
 
 		for (RpcField field : type.getOrderedFields()) {
 			printWriter.println("                 case " + field.getKey() + ": {");
@@ -154,7 +155,6 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 
 		printWriter.println("                 }");
 		printWriter.println("             }");
-		printWriter.println("             protocol.readStructEnd();");
 		printWriter.println("         }");
 		printWriter.println("         return obj;");
 		printWriter.println("    }");
@@ -198,7 +198,6 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 			writeReader(typeFactory, setMetaData.getElementType(), name, level + 1);
 			printWriter.println(indent + "    " + name + level + ".add(" + name + (level + 1) + ");");
 			printWriter.println(indent + "}");
-			printWriter.println(indent + "protocol.readSetEnd();");
 			return;
 		case MAP:
 			printWriter.println(prefix + "new Hash" + getType(fieldType, true) + "();");
@@ -209,7 +208,6 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 			writeReader(typeFactory, mapMetaData.getValueType(), "value", level + 1);
 			printWriter.println(indent + "    " + name + level + ".put(key" + (level + 1) + ", value" + (level + 1) + ");");
 			printWriter.println(indent + "}");
-			printWriter.println(indent + "protocol.readMapEnd();");
 			return;
 		case LIST:
 			printWriter.println(prefix + "new Array" + getType(fieldType, true) + "();");
@@ -219,7 +217,6 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 			writeReader(typeFactory, listMetaData.getElementType(), name, level + 1);
 			printWriter.println(indent + "    " + name + level + ".add(" + name + (level + 1) + ");");
 			printWriter.println(indent + "}");
-			printWriter.println(indent + "protocol.readListEnd();");
 			break;
 		default:
 			printWriter.println(prefix + "protocol.read" + fieldType.getTypeKey().getThriftTypeString() + "();");

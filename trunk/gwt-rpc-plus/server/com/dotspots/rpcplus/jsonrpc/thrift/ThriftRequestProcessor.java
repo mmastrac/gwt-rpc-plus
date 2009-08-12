@@ -1,7 +1,6 @@
 package com.dotspots.rpcplus.jsonrpc.thrift;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TIOStreamTransport;
-import org.json.JSONException;
-import org.json.JSONTokener;
+import org.svenson.JSONParseException;
+import org.svenson.tokenize.InputStreamSource;
+import org.svenson.tokenize.JSONTokenizer;
+import org.svenson.tokenize.StringJSONSource;
 
 public class ThriftRequestProcessor {
 	public void handleRequest(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -31,7 +32,7 @@ public class ThriftRequestProcessor {
 			handleExplainUsage(servlet, resp);
 		} catch (TException e) {
 			throw new ServletException(e);
-		} catch (JSONException e) {
+		} catch (JSONParseException e) {
 			throw new ServletException(e);
 		}
 	}
@@ -43,23 +44,23 @@ public class ThriftRequestProcessor {
 		return;
 	}
 
-	public void handleJSONPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException, JSONException,
-			TException {
-		JSONTokener tokener = new JSONTokener(new InputStreamReader(req.getInputStream()));
+	public void handleJSONPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException,
+			JSONParseException, TException {
+		JSONTokenizer tokener = new JSONTokenizer(new InputStreamSource(req.getInputStream(), false), true);
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 
 		TJSONNativeProtocol nativeProtocol = new TJSONNativeProtocol(new TIOStreamTransport(resp.getOutputStream()));
 		servlet.processRequest(protocol, nativeProtocol);
 	}
 
-	public void handleFormPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException, JSONException,
-			TException {
+	public void handleFormPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException,
+			JSONParseException, TException {
 		String json = req.getParameter("data");
 		String redirect = req.getParameter("redirect");
 		String serial = req.getParameter("serial");
 
 		resp.getOutputStream().print("<html><body><script>window.name='wnr-" + serial);
-		JSONTokener tokener = new JSONTokener(json);
+		JSONTokenizer tokener = new JSONTokenizer(new StringJSONSource(json), true);
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 		TJSONNativeProtocol nativeProtocol = new TJSONNativeProtocol(new EscapingStreamTransport(resp.getOutputStream()));
 		servlet.processRequest(protocol, nativeProtocol);
