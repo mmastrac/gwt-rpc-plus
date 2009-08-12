@@ -3,9 +3,8 @@ package com.dotspots.rpcplus.test.server;
 import junit.framework.Assert;
 
 import org.apache.thrift.TException;
-import org.json.JSONException;
-import org.json.JSONTokener;
 import org.junit.Test;
+import org.svenson.tokenize.JSONTokenizer;
 
 import com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds;
 import com.dotspots.rpcplus.example.torturetest.TortureTestApiJson;
@@ -13,38 +12,41 @@ import com.dotspots.rpcplus.jsonrpc.thrift.TJSONOrgProtocol;
 
 public class TestJSONOrgProtocol extends Assert {
 	@Test
-	public void testOneItemMap() throws JSONException, TException {
-		JSONTokener tokener = new JSONTokener("{123:456}");
+	public void testOneItemMap() throws TException {
+		JSONTokenizer tokener = newTokenizer("{123:456}");
 
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 
 		assertTrue(protocol.readMapBegin());
+		assertTrue(protocol.hasNext());
 		assertEquals(123, protocol.readI32());
 		assertEquals(456, protocol.readI32());
 		assertFalse(protocol.hasNext());
-		protocol.readMapEnd();
+
 	}
 
 	@Test
-	public void testOneItemMapWithSpaces() throws JSONException, TException {
-		JSONTokener tokener = new JSONTokener("  {  123  :  456  }  ");
+	public void testOneItemMapWithSpaces() throws TException {
+		JSONTokenizer tokener = newTokenizer("  {  123  :  456  }  ");
 
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 
 		assertTrue(protocol.readMapBegin());
+		assertTrue(protocol.hasNext());
 		assertEquals(123, protocol.readI32());
 		assertEquals(456, protocol.readI32());
 		assertFalse(protocol.hasNext());
-		protocol.readMapEnd();
+
 	}
 
 	@Test
-	public void testBiggerMap() throws JSONException, TException {
-		JSONTokener tokener = new JSONTokener("{123:456, \"1\":2, 3:4}");
+	public void testBiggerMap() throws TException {
+		JSONTokenizer tokener = newTokenizer("{123:456, \"1\":2, 3:4}");
 
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 
 		assertTrue(protocol.readMapBegin());
+		assertTrue(protocol.hasNext());
 		assertEquals(123, protocol.readI32());
 		assertEquals(456, protocol.readI32());
 		assertTrue(protocol.hasNext());
@@ -54,68 +56,69 @@ public class TestJSONOrgProtocol extends Assert {
 		assertEquals(3, protocol.readI32());
 		assertEquals(4, protocol.readI32());
 		assertFalse(protocol.hasNext());
-		protocol.readMapEnd();
+
 	}
 
 	@Test
-	public void testMapAsStruct() throws JSONException, TException {
-		JSONTokener tokener = new JSONTokener("{123:456, \"1\":2, 3:4}");
+	public void testMapAsStruct() throws TException {
+		JSONTokenizer tokener = newTokenizer("{123:456, \"1\":2, 3:4}");
 
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 
 		assertTrue(protocol.readStructBegin());
-		assertEquals(123, protocol.readFieldId());
+		assertTrue(protocol.hasNext());
+		assertEquals(123, protocol.readI32());
 		assertEquals(456, protocol.readI32());
 		assertTrue(protocol.hasNext());
-		assertEquals(1, protocol.readFieldId());
+		assertEquals(1, protocol.readI32());
 		assertEquals(2, protocol.readI32());
 		assertTrue(protocol.hasNext());
-		assertEquals(3, protocol.readFieldId());
+		assertEquals(3, protocol.readI32());
 		assertEquals(4, protocol.readI32());
-		assertEquals(-1, protocol.readFieldId());
-		protocol.readStructEnd();
+		assertFalse(protocol.hasNext());
+
 	}
 
 	@Test
-	public void testSerializedObject() throws JSONException, TException {
-		JSONTokener tokener = new JSONTokener("{0:\"this is a token\", 1:123}");
+	public void testSerializedObject() throws TException {
+		JSONTokenizer tokener = newTokenizer("{0:\"this is a token\", 1:123}");
 
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 		final SimpleObjectWithFieldIds obj = TortureTestApiJson.readSimpleObjectWithFieldIds(protocol);
 	}
 
 	@Test
-	public void testListWithSpaces() throws JSONException, TException {
-		JSONTokener tokener = new JSONTokener("[0, \"testSetString\", [\"token\", \"data\"], []]\n");
+	public void testListWithSpaces() throws TException {
+		JSONTokenizer tokener = newTokenizer("[0, \"testSetString\", [\"token\", \"data\"], []]\n");
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 		assertTrue(protocol.readListBegin());
+		assertTrue(protocol.hasNext());
 		assertEquals(0, protocol.readI32());
 		assertTrue(protocol.hasNext());
 		assertEquals("testSetString", protocol.readString());
 		assertTrue(protocol.hasNext());
 
 		assertTrue(protocol.readListBegin());
+		assertTrue(protocol.hasNext());
 		assertEquals("token", protocol.readString());
 		assertTrue(protocol.hasNext());
 		assertEquals("data", protocol.readString());
 		assertFalse(protocol.hasNext());
-		protocol.readListEnd();
 
 		assertTrue(protocol.hasNext());
 
 		assertTrue(protocol.readListBegin());
 		assertFalse(protocol.hasNext());
-		protocol.readListEnd();
 
 		assertFalse(protocol.hasNext());
-		protocol.readListEnd();
 	}
 
 	@Test
-	public void testListWithNull() throws JSONException, TException {
-		JSONTokener tokener = new JSONTokener("[0, \"testSetString\", null, [0]]\n");
+	public void testListWithNull() throws TException {
+		JSONTokenizer tokener = newTokenizer("[0, \"testSetString\", null, [0]]\n");
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 		assertTrue(protocol.readListBegin());
+		assertTrue(protocol.hasNext());
 		assertEquals(0, protocol.readI32());
 		assertTrue(protocol.hasNext());
 		assertEquals("testSetString", protocol.readString());
@@ -128,17 +131,17 @@ public class TestJSONOrgProtocol extends Assert {
 		assertTrue(protocol.readListBegin());
 		assertEquals(0, protocol.readI32());
 		assertFalse(protocol.hasNext());
-		protocol.readListEnd();
 
 		assertFalse(protocol.hasNext());
-		protocol.readListEnd();
+
 	}
 
 	@Test
-	public void testStructWithNull() throws JSONException, TException {
-		JSONTokener tokener = new JSONTokener("[0, \"testSetString\", null, [0]]\n");
+	public void testStructWithNull() throws TException {
+		JSONTokenizer tokener = newTokenizer("[0, \"testSetString\", null, [0]]\n");
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 		assertTrue(protocol.readListBegin());
+		assertTrue(protocol.hasNext());
 		assertEquals(0, protocol.readI32());
 		assertTrue(protocol.hasNext());
 		assertEquals("testSetString", protocol.readString());
@@ -151,9 +154,56 @@ public class TestJSONOrgProtocol extends Assert {
 		assertTrue(protocol.readListBegin());
 		assertEquals(0, protocol.readI32());
 		assertFalse(protocol.hasNext());
-		protocol.readListEnd();
 
 		assertFalse(protocol.hasNext());
-		protocol.readListEnd();
+
+	}
+
+	@Test
+	public void testListWithEmptyElements() throws TException {
+		JSONTokenizer tokener = newTokenizer("[,,,]\n");
+		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
+		assertTrue(protocol.readListBegin());
+		assertTrue(protocol.hasNext());
+		assertEquals(0, protocol.readI32());
+		assertTrue(protocol.hasNext());
+		assertEquals(null, protocol.readString());
+		assertTrue(protocol.hasNext());
+		assertEquals(0, protocol.readI64());
+		assertTrue(protocol.hasNext());
+		assertEquals(0.0, protocol.readDouble());
+		assertFalse(protocol.hasNext());
+
+	}
+
+	@Test
+	public void testEmptyList() throws TException {
+		JSONTokenizer tokener = newTokenizer("[]\n");
+		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
+		assertTrue(protocol.readListBegin());
+		assertFalse(protocol.hasNext());
+
+	}
+
+	@Test
+	public void testEmptyListStruct() throws TException {
+		JSONTokenizer tokener = newTokenizer("[]\n");
+		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
+		assertTrue(protocol.readStructBegin());
+		assertFalse(protocol.hasNext());
+
+	}
+
+	@Test
+	public void testEmptyMapStruct() throws TException {
+		JSONTokenizer tokener = newTokenizer("{}\n");
+		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
+		assertTrue(protocol.readStructBegin());
+		assertFalse(protocol.hasNext());
+
+	}
+
+	private JSONTokenizer newTokenizer(String json) {
+		return new JSONTokenizer(json, true);
 	}
 }
