@@ -81,14 +81,20 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 		@Override
 		public boolean hasNext() throws TException {
 			try {
-				final Token token = tokener.peekToken();
-				switch (token.type()) {
-				case BRACE_CLOSE:
-					return false;
-				case COLON:
-					throw new TException("Unexpected token: " + token);
-				default:
-					return true;
+				if (first) {
+					first = false;
+
+					final Token token = tokener.peekToken();
+					switch (token.type()) {
+					case BRACE_CLOSE:
+						return false;
+					case COLON:
+						throw new TException("Unexpected token: " + token);
+					default:
+						return true;
+					}
+				} else {
+					return (tokener.next().type() == TokenType.COMMA);
 				}
 			} catch (JSONException e) {
 				throw new TException(e);
@@ -101,17 +107,52 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 				if (expectColon) {
 					tokener.expectNext(TokenType.COLON);
 				}
-				if (!first && !expectColon) {
-					tokener.expectNext(TokenType.COMMA);
-				}
 
 				expectColon = !expectColon;
-				first = false;
 			} catch (JSONException e) {
 				throw new TException(e);
 			}
 
 			return super.readToken();
+		}
+	}
+
+	public class SetState extends State {
+		boolean first = true;
+
+		@Override
+		public boolean hasNext() throws TException {
+			try {
+				if (first) {
+					first = false;
+
+					final Token token = tokener.peekToken();
+					switch (token.type()) {
+					case BRACE_CLOSE:
+						return false;
+					case COLON:
+						throw new TException("Unexpected token: " + token);
+					default:
+						return true;
+					}
+				} else {
+					tokener.expectNext(TokenType.COLON);
+					tokener.expectNext(TokenType.INTEGER);
+					return (tokener.next().type() == TokenType.COMMA);
+				}
+			} catch (JSONException e) {
+				throw new TException(e);
+			}
+		}
+
+		@Override
+		public Token readToken() throws TException {
+			final Token token = super.readToken();
+			if (token.type() == TokenType.STRING) {
+				return Token.getToken(TokenType.STRING, ((String) token.value()).substring(1));
+			}
+
+			return token;
 		}
 	}
 
@@ -148,7 +189,16 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 	@Override
 	public boolean readBool() throws TException {
 		try {
-			return (Boolean) getState().readToken().value();
+			final Token nextValue = getState().readToken();
+			switch (nextValue.type()) {
+			case NULL:
+			case FALSE:
+				return false;
+			case TRUE:
+				return true;
+			}
+
+			throw new TException("Unexpected type: " + nextValue.toString());
 		} catch (JSONException e) {
 			throw new TException(e);
 		}
@@ -187,7 +237,7 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 			long i64 = (long) ((Number) tokener.expectNext(TokenType.INTEGER).value()).doubleValue() * 0x100000000L;
 			tokener.expectNext(TokenType.COMMA);
 			i64 += ((Number) tokener.expectNext(TokenType.INTEGER).value()).doubleValue();
-
+			tokener.expectNext(TokenType.BRACKET_CLOSE);
 			return i64;
 		}
 
@@ -252,7 +302,19 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 	}
 
 	@Override
-	public boolean readSetBegin() {
+	public boolean readSetBegin() throws TException {
+		try {
+			switch (getState().readToken().type()) {
+			case BRACE_OPEN:
+				pushState(new SetState());
+				return true;
+			case NULL:
+				return false;
+			}
+		} catch (JSONException e) {
+			throw new TException(e);
+		}
+
 		return false;
 	}
 
