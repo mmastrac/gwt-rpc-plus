@@ -77,6 +77,20 @@ public class WindowNameTransport implements TextTransport {
 		redirectType = RedirectType.MANUAL;
 	}
 
+	/**
+	 * Redirect to GWT's clear.cache.gif (the default)
+	 */
+	public void setRedirectClearCacheGif() {
+		redirectType = RedirectType.CLEAR_CACHE;
+	}
+
+	/**
+	 * Redirect to the domain's favicon.
+	 */
+	public void setRedirectFavicon() {
+		redirectType = RedirectType.FAVICON;
+	}
+
 	private native JavaScriptObject getWindowFromDocument(Document doc) /*-{
 		return doc.defaultView || doc.parentWindow;
 	}-*/;
