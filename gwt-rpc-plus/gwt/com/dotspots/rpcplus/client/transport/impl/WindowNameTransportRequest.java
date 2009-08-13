@@ -230,7 +230,7 @@ public class WindowNameTransportRequest {
 
 		input = iframeDocument.createHiddenInputElement();
 		input.setName("redirect");
-		input.setValue(Window.Location.getProtocol() + "//" + Window.Location.getHost() + "/favicon.ico");
+		input.setValue(Window.Location.getProtocol() + "//" + document.getDomain() + "/favicon.ico");
 		form.appendChild(input);
 	}
 
