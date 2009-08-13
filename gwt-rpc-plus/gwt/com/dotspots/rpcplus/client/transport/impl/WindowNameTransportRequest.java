@@ -9,7 +9,6 @@ import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.IFrameElement;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel;
 
@@ -27,6 +26,7 @@ public class WindowNameTransportRequest {
 	private final int timeout;
 	private final Document document;
 	private final String url;
+	private final String redirect;
 
 	/**
 	 * The document holding the iframe. Pinned here so IE doesn't GC it.
@@ -52,12 +52,14 @@ public class WindowNameTransportRequest {
 	private String iframeName;
 	private String responseName;
 
-	public WindowNameTransportRequest(String arguments, final AsyncCallback<String> callback, Document document, String url, int timeout) {
+	public WindowNameTransportRequest(String arguments, final AsyncCallback<String> callback, Document document, String url, int timeout,
+			String redirect) {
 		this.arguments = arguments;
 		this.callback = callback;
 		this.document = document;
 		this.url = url;
 		this.timeout = timeout;
+		this.redirect = redirect;
 	}
 
 	/**
@@ -230,7 +232,7 @@ public class WindowNameTransportRequest {
 
 		input = iframeDocument.createHiddenInputElement();
 		input.setName("redirect");
-		input.setValue(Window.Location.getProtocol() + "//" + document.getDomain() + "/favicon.ico");
+		input.setValue(redirect);
 		form.appendChild(input);
 	}
 
