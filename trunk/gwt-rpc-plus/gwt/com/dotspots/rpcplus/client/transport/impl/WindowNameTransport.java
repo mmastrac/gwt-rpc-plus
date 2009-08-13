@@ -24,7 +24,7 @@ public class WindowNameTransport implements TextTransport {
 	}
 
 	public WindowNameTransport() {
-		// By default, assume clear.cache.gif is safe
+		// Favicon redirect is the most stable right now
 		redirectType = RedirectType.FAVICON;
 	}
 
@@ -46,6 +46,9 @@ public class WindowNameTransport implements TextTransport {
 
 	/**
 	 * Sets the redirect URL to use the clear.cache.gif (found in most GWT applications).
+	 * 
+	 * TODO: This doesn't seem to work on FF1.5 during testing. I can't figure out why right now, so I don't recommend
+	 * using it.
 	 */
 	private String getRedirectToClearCacheGif() {
 		return GWT.getModuleBaseURL() + "clear.cache.gif";
@@ -112,13 +115,9 @@ public class WindowNameTransport implements TextTransport {
 			break;
 		case CLEAR_CACHE:
 			redirect = getRedirectToClearCacheGif();
-			// Try to figure out why this is busted
-			System.out.println("clear cache redirect: " + redirect);
 			break;
 		case FAVICON:
 			redirect = getRedirectToFavicon();
-			// Try to figure out why this is busted
-			System.out.println("favicon redirect: " + redirect);
 			break;
 		default:
 			throw new RuntimeException();
