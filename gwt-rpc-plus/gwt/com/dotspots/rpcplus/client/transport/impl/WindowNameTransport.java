@@ -25,7 +25,7 @@ public class WindowNameTransport implements TextTransport {
 
 	public WindowNameTransport() {
 		// By default, assume clear.cache.gif is safe
-		redirectType = RedirectType.CLEAR_CACHE;
+		redirectType = RedirectType.FAVICON;
 	}
 
 	public void setTimeout(int timeout) {
