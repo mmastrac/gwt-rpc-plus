@@ -231,13 +231,16 @@
 
 	<target name="test" depends="compile-test">
 		<mkdir dir="${output.dir}/tests" />
+
+		<property name="gwt.test.args" value="-notHeadless" />
+		<echo>Running tests (${gwt.test.args})</echo>
 		
 		<junit printsummary="yes" showoutput="true" fork="true" timeout="600000" jvm="${gwt.hosted.java.command}">
 			<jvmarg value="-Xmx1000M" />
 			<jvmarg value="-server" />
 			<jvmarg value="${gwt.jvm.args}" />
 
-			<sysproperty key="gwt.args" value="-notHeadless -ea -gen ${output.dir}/tests/gen -out ${output.dir}/tests/out" />
+			<sysproperty key="gwt.args" value="${gwt.test.args} -ea -gen ${output.dir}/tests/gen -out ${output.dir}/tests/out" />
 
 			<classpath>
 				<path location="gwt" />

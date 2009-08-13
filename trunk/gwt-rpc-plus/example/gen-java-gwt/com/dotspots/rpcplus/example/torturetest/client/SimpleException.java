@@ -20,19 +20,19 @@ public final class SimpleException extends Exception {
     }-*/;
 
     public native String getMessage() /*-{
-         return @com.dotspots.rpcplus.example.torturetest.client.SimpleException::e[0];
+         return this.@com.dotspots.rpcplus.example.torturetest.client.SimpleException::e[0];
     }-*/;
 
     public native void setMessage(String message) /*-{
-         @com.dotspots.rpcplus.example.torturetest.client.SimpleException::e[0] = message;
+         this.@com.dotspots.rpcplus.example.torturetest.client.SimpleException::e[0] = message;
     }-*/;
 
     public native boolean isSetMessage() /*-{
-         return @com.dotspots.rpcplus.example.torturetest.client.SimpleException::e[0] != null;
+         return this.@com.dotspots.rpcplus.example.torturetest.client.SimpleException::e[0] != null;
     }-*/;
 
     public native void unsetMessage() /*-{
-         delete @com.dotspots.rpcplus.example.torturetest.client.SimpleException::e[0];
+         delete this.@com.dotspots.rpcplus.example.torturetest.client.SimpleException::e[0];
     }-*/;
 
 }
