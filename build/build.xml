@@ -8,7 +8,7 @@
 pref("security.warn_submit_insecure", false);
         </echo>
 
-		<condition property="gwt.test.args" value="-Dgwt.test.args=-selenium vm-dotspots-ie7:4444/*${selenium}">
+		<condition property="gwt.test.args" value="-selenium vm-dotspots-ie7:4444/*${selenium}">
 			<equals arg1="${label}" arg2="linux" />
 		</condition>
 		
