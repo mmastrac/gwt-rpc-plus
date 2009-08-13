@@ -105,6 +105,29 @@ public class TestRpc extends GWTTestCase {
 		});
 	}
 
+	public void testWindowNameTransportWithFaviconRedirect() {
+		delayTestFinish(15000);
+		WindowNameTransport transport = new WindowNameTransport();
+		transport.setUrl(GWT.getModuleBaseURL() + "/api");
+		transport.setDocument(Document.get());
+		transport.setRedirectFavicon();
+
+		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
+		api.setRequestContext(ContextIn.create("token", "\"'*(,.&^<>!@#5$%()^\\\n"));
+
+		api.testSetString(new AsyncCallback<JsRpcSetString>() {
+			public void onFailure(Throwable caught) {
+				caught.printStackTrace();
+				fail(caught.toString());
+				finishTest();
+			}
+
+			public void onSuccess(JsRpcSetString result) {
+				finishTest();
+			}
+		});
+	}
+
 	/**
 	 * Temporary test hoping to shake out IE7 bugs.
 	 */
