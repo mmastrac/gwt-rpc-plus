@@ -9,6 +9,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.RequestBuilder.Method;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.StatusCodeException;
 
 public class HttpTransport implements TextTransport, HasContentType {
 	private String url;
@@ -51,8 +52,12 @@ public class HttpTransport implements TextTransport, HasContentType {
 			}
 
 			public void onResponseReceived(Request request, Response response) {
-				TransportLogger.INSTANCE.logReceive(response.getText());
-				callback.onSuccess(response.getText());
+				if (response.getStatusCode() == 200) {
+					TransportLogger.INSTANCE.logReceive(response.getText());
+					callback.onSuccess(response.getText());
+				} else {
+					callback.onFailure(new StatusCodeException(response.getStatusCode(), response.getStatusText()));
+				}
 			}
 		};
 	}
