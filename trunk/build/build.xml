@@ -8,6 +8,10 @@
 pref("security.warn_submit_insecure", false);
         </echo>
 
+		<condition property="gwt.test.type" value="-Dgwt.test.args=-selenium vm-dotspots-ie7:4444/*${selenium}">
+			<equals arg1="${label}" arg2="linux" />
+		</condition>
+		
 		<ant antfile="build.xml" dir="../gwt-rpc-plus" target="clean">
 			<property name="gwt.sdk.dir" value="../build/gwt" />
 		</ant>
