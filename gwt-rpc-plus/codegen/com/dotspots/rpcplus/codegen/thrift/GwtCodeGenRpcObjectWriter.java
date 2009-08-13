@@ -177,7 +177,7 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 
 	private String getJavaScriptInstance(RpcStruct type) {
 		if (type.isException()) {
-			return "@" + type.getFullyQualifiedClassName() + "::e";
+			return "this.@" + type.getFullyQualifiedClassName() + "::e";
 		} else {
 			return "this";
 		}

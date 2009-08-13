@@ -20,35 +20,35 @@ public final class MoreComplexException extends Exception {
     }-*/;
 
     public native String getMessage() /*-{
-         return @com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[0];
+         return this.@com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[0];
     }-*/;
 
     public native void setMessage(String message) /*-{
-         @com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[0] = message;
+         this.@com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[0] = message;
     }-*/;
 
     public native boolean isSetMessage() /*-{
-         return @com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[0] != null;
+         return this.@com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[0] != null;
     }-*/;
 
     public native void unsetMessage() /*-{
-         delete @com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[0];
+         delete this.@com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[0];
     }-*/;
 
     public native com.dotspots.rpcplus.example.torturetest.client.ObjectWithComplexTypes getData() /*-{
-         return @com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[1];
+         return this.@com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[1];
     }-*/;
 
     public native void setData(com.dotspots.rpcplus.example.torturetest.client.ObjectWithComplexTypes data) /*-{
-         @com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[1] = data;
+         this.@com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[1] = data;
     }-*/;
 
     public native boolean isSetData() /*-{
-         return @com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[1] != null;
+         return this.@com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[1] != null;
     }-*/;
 
     public native void unsetData() /*-{
-         delete @com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[1];
+         delete this.@com.dotspots.rpcplus.example.torturetest.client.MoreComplexException::e[1];
     }-*/;
 
 }
