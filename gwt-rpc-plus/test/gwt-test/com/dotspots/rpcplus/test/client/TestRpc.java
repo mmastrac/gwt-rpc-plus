@@ -76,7 +76,7 @@ public class TestRpc extends GWTTestCase {
 	public void testWindowNameTransport() {
 		delayTestFinish(15000);
 		WindowNameTransport transport = new WindowNameTransport();
-		transport.setUrl(GWT.getModuleBaseURL() + "/api");
+		transport.setUrl(getCrossSiteModuleBaseUrl() + "/api");
 		transport.setDocument(Document.get());
 
 		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
@@ -108,7 +108,7 @@ public class TestRpc extends GWTTestCase {
 	public void testWindowNameTransportWithFaviconRedirect() {
 		delayTestFinish(15000);
 		WindowNameTransport transport = new WindowNameTransport();
-		transport.setUrl(GWT.getModuleBaseURL() + "/api");
+		transport.setUrl(getCrossSiteModuleBaseUrl() + "/api");
 		transport.setDocument(Document.get());
 		// Removing this to test
 		// transport.setRedirectFavicon();
@@ -135,7 +135,7 @@ public class TestRpc extends GWTTestCase {
 	public void testLotsOfWindowNameTransports() {
 		delayTestFinish(120000);
 		WindowNameTransport transport = new WindowNameTransport();
-		transport.setUrl(GWT.getModuleBaseURL() + "/api");
+		transport.setUrl(getCrossSiteModuleBaseUrl() + "/api");
 		transport.setDocument(Document.get());
 
 		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
@@ -185,7 +185,7 @@ public class TestRpc extends GWTTestCase {
 	public void testWindowNameTransportError() {
 		delayTestFinish(15000);
 		WindowNameTransport transport = new WindowNameTransport();
-		transport.setUrl(GWT.getModuleBaseURL() + "/apidoesntexist");
+		transport.setUrl(getCrossSiteModuleBaseUrl() + "/apidoesntexist");
 		transport.setDocument(Document.get());
 		transport.setTimeout(2000);
 
@@ -265,6 +265,10 @@ public class TestRpc extends GWTTestCase {
 	public static native JavaScriptObject getWindow() /*-{
 		return $wnd;
 	}-*/;
+
+	public String getCrossSiteModuleBaseUrl() {
+		return GWT.getModuleBaseURL().replaceAll("localhost", "127.0.0.1");
+	}
 
 	@Override
 	public String getModuleName() {
