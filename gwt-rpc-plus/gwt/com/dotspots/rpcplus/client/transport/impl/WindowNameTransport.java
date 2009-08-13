@@ -115,6 +115,8 @@ public class WindowNameTransport implements TextTransport {
 			break;
 		case FAVICON:
 			redirect = getRedirectToFavicon();
+			// Try to figure out why this is busted
+			System.out.println("favicon redirect: " + redirect);
 			break;
 		default:
 			throw new RuntimeException();
