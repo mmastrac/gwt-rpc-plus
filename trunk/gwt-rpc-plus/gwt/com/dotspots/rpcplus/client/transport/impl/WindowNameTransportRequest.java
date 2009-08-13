@@ -124,7 +124,7 @@ public class WindowNameTransportRequest {
 			return;
 		}
 
-		String currentIframeName = getIFrameContentWindowName(iframe);
+		String currentIframeName = getIFrameContentWindowName();
 		if (currentIframeName != null && !currentIframeName.equals(iframeName) && currentIframeName.startsWith(responseName)) {
 			cancel();
 
@@ -265,12 +265,17 @@ public class WindowNameTransportRequest {
 		iframe.setAttribute('name', name);
 	}-*/;
 
-	private static native String getIFrameContentWindowName(IFrameElement iframe) /*-{
+	private String getIFrameContentWindowName() {
 		try {
-			return iframe.contentWindow.name || null;
-		} catch (e) {
-			// Probably a permission error
+			return getIFrameContentWindowName0(iframe);
+		} catch (Throwable t) {
+			System.out.println(t.getMessage());
+			t.printStackTrace();
 			return null;
 		}
+	}
+
+	private static native String getIFrameContentWindowName0(IFrameElement iframe) /*-{
+		return iframe.contentWindow.name || null;
 	}-*/;
 }
