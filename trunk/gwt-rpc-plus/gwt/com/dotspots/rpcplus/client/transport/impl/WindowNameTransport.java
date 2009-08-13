@@ -112,6 +112,8 @@ public class WindowNameTransport implements TextTransport {
 			break;
 		case CLEAR_CACHE:
 			redirect = getRedirectToClearCacheGif();
+			// Try to figure out why this is busted
+			System.out.println("clear cache redirect: " + redirect);
 			break;
 		case FAVICON:
 			redirect = getRedirectToFavicon();
