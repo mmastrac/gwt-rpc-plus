@@ -15,7 +15,7 @@ public class TestFlexibleRPCCrossDomain extends GWTTestCase {
 		delayTestFinish(15000);
 
 		SimpleServiceAsync api = GWT.create(SimpleService.class);
-		((ServiceDefTarget) api).setServiceEntryPoint(GWT.getModuleBaseURL() + "/api");
+		((ServiceDefTarget) api).setServiceEntryPoint(getCrossSiteModuleBaseUrl() + "/api");
 		api.add(1, 2, new AsyncCallback<Integer>() {
 			public void onFailure(Throwable caught) {
 				fail(caught.toString());
@@ -27,6 +27,10 @@ public class TestFlexibleRPCCrossDomain extends GWTTestCase {
 			}
 
 		});
+	}
+
+	public String getCrossSiteModuleBaseUrl() {
+		return GWT.getModuleBaseURL().replaceAll("localhost", "127.0.0.1");
 	}
 
 	@Override
