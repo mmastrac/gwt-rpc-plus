@@ -8,8 +8,8 @@
 pref("security.warn_submit_insecure", false);
         </echo>
 
-		<condition property="gwt.test.args" value="-selenium vm-dotspots-ie7:4444/*${selenium}">
-			<equals arg1="${label}" arg2="linux" />
+		<condition property="gwt.test.args" value="-selenium vm-dotspots-selenium:4444/*${selenium}">
+			<equals arg1="${label}" arg2="selenium" />
 		</condition>
 		
 		<ant antfile="build.xml" dir="../gwt-rpc-plus" target="clean">
