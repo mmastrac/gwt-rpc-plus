@@ -25,7 +25,7 @@ public class WindowNameTransport implements TextTransport {
 
 	public WindowNameTransport() {
 		// Favicon redirect is the most stable right now
-		redirectType = RedirectType.FAVICON;
+		redirectType = RedirectType.CLEAR_CACHE;
 	}
 
 	public void setTimeout(int timeout) {
