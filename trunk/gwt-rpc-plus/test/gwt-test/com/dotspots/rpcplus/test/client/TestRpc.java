@@ -110,8 +110,7 @@ public class TestRpc extends GWTTestCase {
 		WindowNameTransport transport = new WindowNameTransport();
 		transport.setUrl(getCrossSiteModuleBaseUrl() + "/api");
 		transport.setDocument(Document.get());
-		// Removing this to test
-		// transport.setRedirectFavicon();
+		transport.setRedirectFavicon();
 
 		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
 		api.setRequestContext(ContextIn.create("token", "\"'*(,.&^<>!@#5$%()^\\\n"));
