@@ -63,7 +63,7 @@ public class TestJsonTransport extends GWTTestCase {
 	}
 
 	public void testEvalJsonDecoder() throws JsonParseException {
-		EvalJsonDecoder decoder = new EvalJsonDecoder(getWindow());
+		EvalJsonDecoder decoder = new EvalJsonDecoder();
 		JSONObjectJsonEncoder encoder = new JSONObjectJsonEncoder();
 
 		run((JsonDecoder) decoder, encoder);
@@ -81,7 +81,7 @@ public class TestJsonTransport extends GWTTestCase {
 	public void testUnevalJsonEncoder() throws JsonParseException {
 		if (UnevalJsonEncoder.isSupported(getWindow())) {
 			UnevalJsonEncoder encoder = new UnevalJsonEncoder(getWindow());
-			EvalJsonDecoder decoder = new EvalJsonDecoder(getWindow());
+			EvalJsonDecoder decoder = new EvalJsonDecoder();
 
 			run(decoder, encoder);
 		}

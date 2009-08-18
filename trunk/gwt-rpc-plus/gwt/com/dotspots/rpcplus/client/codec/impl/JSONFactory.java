@@ -33,7 +33,7 @@ public class JSONFactory {
 		}
 
 		if (allowUnsafe) {
-			return new EvalJsonDecoder(wnd);
+			return new EvalJsonDecoder();
 		} else {
 			return new FastJsonDecoder();
 		}
@@ -44,7 +44,7 @@ public class JSONFactory {
 			throw new RuntimeException("Unable to create a safe LooseJsonDecoder");
 		}
 
-		return new EvalJsonDecoder(wnd);
+		return new EvalJsonDecoder();
 	}
 
 	public JsonEncoder createJSONEncoder() {
