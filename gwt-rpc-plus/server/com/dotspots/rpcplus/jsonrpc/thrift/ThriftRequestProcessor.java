@@ -46,6 +46,9 @@ public class ThriftRequestProcessor {
 
 	public void handleJSONPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException,
 			JSONParseException, TException {
+		resp.setStatus(HttpServletResponse.SC_OK);
+		resp.setContentType("application/json");
+
 		JSONTokenizer tokener = new JSONTokenizer(new InputStreamSource(req.getInputStream(), false), true);
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 
@@ -55,6 +58,9 @@ public class ThriftRequestProcessor {
 
 	public void handleFormPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException,
 			JSONParseException, TException {
+		resp.setStatus(HttpServletResponse.SC_OK);
+		resp.setContentType("text/html");
+
 		String json = req.getParameter("data");
 		String redirect = req.getParameter("redirect");
 		String serial = req.getParameter("serial");

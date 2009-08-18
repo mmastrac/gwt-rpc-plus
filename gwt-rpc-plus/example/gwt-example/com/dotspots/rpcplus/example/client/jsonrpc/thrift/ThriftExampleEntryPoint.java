@@ -24,7 +24,7 @@ public class ThriftExampleEntryPoint implements EntryPoint {
 		transport.setUrl(GWT.getModuleBaseURL() + "api");
 
 		TortureTestApi api = new TortureTestApi();
-		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
+		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(), new JSONObjectJsonEncoder()));
 		api.setCallEncoder(new StandardCallEncoder());
 		api.setCallDecoder(new StandardCallDecoder());
 

@@ -79,7 +79,7 @@ public class TestRpc extends GWTTestCase {
 		transport.setUrl(getCrossSiteModuleBaseUrl() + "/api");
 		transport.setDocument(Document.get());
 
-		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
+		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(), new JSONObjectJsonEncoder()));
 		api.setRequestContext(ContextIn.create("token", "\"'*(,.&^<>!@#5$%()^\\\n"));
 
 		api.testSetString(new AsyncCallback<JsRpcSetString>() {
@@ -112,7 +112,7 @@ public class TestRpc extends GWTTestCase {
 		transport.setDocument(Document.get());
 		transport.setRedirectFavicon();
 
-		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
+		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(), new JSONObjectJsonEncoder()));
 		api.setRequestContext(ContextIn.create("token", "\"'*(,.&^<>!@#5$%()^\\\n"));
 
 		api.testSetString(new AsyncCallback<JsRpcSetString>() {
@@ -137,7 +137,7 @@ public class TestRpc extends GWTTestCase {
 		transport.setUrl(getCrossSiteModuleBaseUrl() + "/api");
 		transport.setDocument(Document.get());
 
-		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
+		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(), new JSONObjectJsonEncoder()));
 
 		final int[] total = new int[] { 0 };
 
@@ -188,7 +188,7 @@ public class TestRpc extends GWTTestCase {
 		transport.setDocument(Document.get());
 		transport.setTimeout(2000);
 
-		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(getWindow()), new JSONObjectJsonEncoder()));
+		api.setTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(), new JSONObjectJsonEncoder()));
 		api.setRequestContext(ContextIn.create("token", "\"'*(,.&^<>!@#5$%()^\\\n"));
 
 		api.testSetString(new AsyncCallback<JsRpcSetString>() {
