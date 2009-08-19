@@ -16,13 +16,11 @@ import com.dotspots.rpcplus.client.transport.impl.HttpTransport;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.RpcRequestBuilder;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 /**
  * Base class for all generated Thrift stubs.
  */
-public abstract class ThriftClientStub<T extends ThriftClientStub<T>> implements RPCPlusService, HasJsonTransport, ServiceDefTarget {
+public abstract class ThriftClientStub<T extends ThriftClientStub<T>> implements RPCPlusService, HasJsonTransport {
 	private JsonTransport transport;
 	private CallEncoder callEncoder;
 	private CallDecoder callDecoder;
@@ -37,10 +35,6 @@ public abstract class ThriftClientStub<T extends ThriftClientStub<T>> implements
 	public ThriftClientStub() {
 		callEncoder = new StandardCallEncoder();
 		callDecoder = new StandardCallDecoder();
-	}
-
-	public void setRpcRequestBuilder(RpcRequestBuilder builder) {
-		assert false : "This method is currently unsupported";
 	}
 
 	public void setServiceEntryPoint(String address) {
