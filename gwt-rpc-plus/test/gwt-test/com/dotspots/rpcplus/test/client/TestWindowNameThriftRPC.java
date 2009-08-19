@@ -13,7 +13,6 @@ import com.dotspots.rpcplus.example.torturetest.client.TortureTestApi;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 public class TestWindowNameThriftRPC extends GWTTestCase {
 	private TortureTestApi api;
@@ -21,7 +20,7 @@ public class TestWindowNameThriftRPC extends GWTTestCase {
 	@Override
 	protected void gwtSetUp() throws Exception {
 		api = new TortureTestApi();
-		((ServiceDefTarget) api).setServiceEntryPoint(GWT.getModuleBaseURL() + "/api");
+		api.setServiceEntryPoint(GWT.getModuleBaseURL() + "api");
 	}
 
 	public void testWindowNameTransport() {

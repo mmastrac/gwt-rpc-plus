@@ -16,7 +16,7 @@ public class TestThriftRPC extends GWTTestCase {
 	@Override
 	protected void gwtSetUp() throws Exception {
 		api = new TortureTestApi();
-		api.setServiceEntryPoint(GWT.getModuleBaseURL() + "/api");
+		api.setServiceEntryPoint(GWT.getModuleBaseURL() + "api");
 	}
 
 	public void testSetString() {
