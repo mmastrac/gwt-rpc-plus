@@ -2,20 +2,27 @@ package com.dotspots.rpcplus.client.jsonrpc.thrift;
 
 import java.util.ArrayList;
 
+import com.dotspots.rpcplus.client.common.RPCPlusService;
 import com.dotspots.rpcplus.client.jsonrpc.BaseJsRpcObject;
 import com.dotspots.rpcplus.client.jsonrpc.CallDecoder;
 import com.dotspots.rpcplus.client.jsonrpc.CallEncoder;
 import com.dotspots.rpcplus.client.jsonrpc.CallResponse;
-import com.dotspots.rpcplus.client.transport.HasContentType;
+import com.dotspots.rpcplus.client.jsonrpc.impl.StandardCallDecoder;
+import com.dotspots.rpcplus.client.jsonrpc.impl.StandardCallEncoder;
+import com.dotspots.rpcplus.client.transport.HasJsonTransport;
 import com.dotspots.rpcplus.client.transport.JsonTransport;
+import com.dotspots.rpcplus.client.transport.TransportFactory;
 import com.dotspots.rpcplus.client.transport.impl.HttpTransport;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RpcRequestBuilder;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 /**
  * Base class for all generated Thrift stubs.
  */
-public abstract class ThriftClientStub<T extends ThriftClientStub<T>> {
+public abstract class ThriftClientStub<T extends ThriftClientStub<T>> implements RPCPlusService, HasJsonTransport, ServiceDefTarget {
 	private JsonTransport transport;
 	private CallEncoder callEncoder;
 	private CallDecoder callDecoder;
@@ -23,8 +30,29 @@ public abstract class ThriftClientStub<T extends ThriftClientStub<T>> {
 
 	protected JavaScriptObject requestContext;
 	protected JavaScriptObject responseContext;
+	private String serviceEntryPoint;
 
 	protected abstract void onException(int methodId, AsyncCallback<?> asyncCallback, int responseCode, BaseJsRpcObject baseJsRpcObject);
+
+	public ThriftClientStub() {
+		callEncoder = new StandardCallEncoder();
+		callDecoder = new StandardCallDecoder();
+	}
+
+	public void setRpcRequestBuilder(RpcRequestBuilder builder) {
+		assert false : "This method is currently unsupported";
+	}
+
+	public void setServiceEntryPoint(String address) {
+		serviceEntryPoint = address;
+
+		TransportFactory factory = GWT.create(TransportFactory.class);
+		factory.initialize(HttpTransport.JSON_MIME_TYPE, this, this);
+	}
+
+	public String getServiceEntryPoint() {
+		return serviceEntryPoint;
+	}
 
 	private JavaScriptObject popRequestContext() {
 		JavaScriptObject requestContext = this.requestContext;
@@ -46,20 +74,20 @@ public abstract class ThriftClientStub<T extends ThriftClientStub<T>> {
 		}
 	}
 
-	public void setTransport(JsonTransport transport) {
-		this.transport = transport;
-		if (transport instanceof HasContentType) {
-			// TODO: Use a custom content-type instead of JSON
-			((HasContentType) transport).setContentType(HttpTransport.JSON_MIME_TYPE);
-		}
-	}
-
 	public void setCallEncoder(CallEncoder callEncoder) {
 		this.callEncoder = callEncoder;
 	}
 
 	public void setCallDecoder(CallDecoder callDecoder) {
 		this.callDecoder = callDecoder;
+	}
+
+	public void setJsonTransport(JsonTransport transport) {
+		this.transport = transport;
+	}
+
+	public JsonTransport getJsonTransport() {
+		return transport;
 	}
 
 	protected <R> void call(final int methodId, String call, JavaScriptObject args, final AsyncCallback<R> callback) {

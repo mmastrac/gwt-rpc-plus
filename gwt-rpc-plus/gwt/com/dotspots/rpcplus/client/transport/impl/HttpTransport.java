@@ -1,6 +1,7 @@
 package com.dotspots.rpcplus.client.transport.impl;
 
 import com.dotspots.rpcplus.client.transport.HasContentType;
+import com.dotspots.rpcplus.client.transport.HasUrlEndpoint;
 import com.dotspots.rpcplus.client.transport.TextTransport;
 import com.dotspots.rpcplus.client.transport.TransportLogger;
 import com.google.gwt.http.client.Request;
@@ -11,7 +12,7 @@ import com.google.gwt.http.client.RequestBuilder.Method;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.StatusCodeException;
 
-public class HttpTransport implements TextTransport, HasContentType {
+public class HttpTransport implements TextTransport, HasContentType, HasUrlEndpoint {
 	private String url;
 	private String mimeType = DEFAULT_MIME_TYPE;
 

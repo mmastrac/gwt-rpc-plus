@@ -8,7 +8,7 @@
 
 
 	<!-- Default transport is HttpRPC -->
-	<replace-with class="com.dotspots.rpcplus.client.flexiblerpc.impl.HttpRPC">
+	<replace-with class="com.dotspots.rpcplus.client.flexiblerpc.impl.TextTransportRPC">
 		<when-type-is class="com.dotspots.rpcplus.client.flexiblerpc.FlexibleRPC" />
 	</replace-with>
 

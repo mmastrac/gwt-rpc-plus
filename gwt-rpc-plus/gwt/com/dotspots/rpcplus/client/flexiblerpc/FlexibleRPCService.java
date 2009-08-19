@@ -1,5 +1,9 @@
 package com.dotspots.rpcplus.client.flexiblerpc;
 
-public interface FlexibleRPCService {
+import com.dotspots.rpcplus.client.common.RPCPlusService;
 
+/**
+ * Marker interface for all flexible-RPC-enhanced GWT RPC services.
+ */
+public interface FlexibleRPCService extends RPCPlusService {
 }

@@ -1,5 +1,6 @@
 package com.dotspots.rpcplus.client.flexiblerpc;
 
+import com.dotspots.rpcplus.client.transport.HasTextTransport;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.impl.RemoteServiceProxy;
 import com.google.gwt.user.client.rpc.impl.Serializer;
@@ -10,7 +11,7 @@ import com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter.ResponseReader
  * 
  * @return A valid {@link FlexibleRPCRequest} if applicable, otherwise null.
  */
-public interface FlexibleRPC {
+public interface FlexibleRPC extends HasTextTransport {
 	/**
 	 * Initializes the RPC provider with the correct proxy and internal serializer.
 	 */
