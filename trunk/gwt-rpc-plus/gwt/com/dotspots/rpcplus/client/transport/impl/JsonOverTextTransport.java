@@ -4,13 +4,14 @@ import com.dotspots.rpcplus.client.codec.JsonDecoder;
 import com.dotspots.rpcplus.client.codec.JsonParseException;
 import com.dotspots.rpcplus.client.codec.LooseJsonEncoder;
 import com.dotspots.rpcplus.client.codec.impl.JSONFactory;
-import com.dotspots.rpcplus.client.transport.HasContentType;
+import com.dotspots.rpcplus.client.transport.HasWrappedTransport;
 import com.dotspots.rpcplus.client.transport.JsonTransport;
 import com.dotspots.rpcplus.client.transport.TextTransport;
+import com.dotspots.rpcplus.client.transport.Transport;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public class JsonOverTextTransport implements JsonTransport, HasContentType {
+public class JsonOverTextTransport implements JsonTransport, HasWrappedTransport {
 	private TextTransport textTransport;
 	private JsonDecoder decoder;
 	private LooseJsonEncoder encoder;
@@ -30,17 +31,8 @@ public class JsonOverTextTransport implements JsonTransport, HasContentType {
 		this.encoder = encoder;
 	}
 
-	public void setContentType(String contentType) {
-		if (textTransport instanceof HasContentType) {
-			((HasContentType) textTransport).setContentType(contentType);
-		}
-	}
-
-	public String getContentType() {
-		if (textTransport instanceof HasContentType) {
-			return ((HasContentType) textTransport).getContentType();
-		}
-		return null;
+	public Transport getWrappedTransport() {
+		return textTransport;
 	}
 
 	public void setDecoder(JsonDecoder decoder) {

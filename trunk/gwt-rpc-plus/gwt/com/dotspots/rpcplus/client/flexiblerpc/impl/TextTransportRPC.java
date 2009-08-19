@@ -1,28 +1,36 @@
 package com.dotspots.rpcplus.client.flexiblerpc.impl;
 
+import com.dotspots.rpcplus.client.common.RPCPlusService;
 import com.dotspots.rpcplus.client.flexiblerpc.FlexibleRPCRequest;
-import com.dotspots.rpcplus.client.transport.HasContentType;
 import com.dotspots.rpcplus.client.transport.TextTransport;
+import com.dotspots.rpcplus.client.transport.TransportFactory;
 import com.dotspots.rpcplus.client.transport.impl.HttpTransport;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.impl.RemoteServiceProxy;
 import com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter;
 import com.google.gwt.user.client.rpc.impl.Serializer;
 
-public class TextTransportRPC<TRANSPORT extends TextTransport> extends AbstractFlexibleRPC {
-	protected TRANSPORT textTransport;
+public class TextTransportRPC extends AbstractFlexibleRPC {
+	protected TextTransport textTransport;
 
 	public TextTransportRPC() {
+	}
+
+	public void setTextTransport(TextTransport transport) {
+		textTransport = transport;
+	}
+
+	public TextTransport getTextTransport() {
+		return textTransport;
 	}
 
 	@Override
 	public void initialize(RemoteServiceProxy proxy, Serializer serializer) {
 		super.initialize(proxy, serializer);
 
-		// Set the appropriate MIME type on the underlying transport
-		if (textTransport instanceof HasContentType) {
-			((HasContentType) textTransport).setContentType(HttpTransport.GWT_MIME_TYPE);
-		}
+		TransportFactory transportFactory = GWT.create(TransportFactory.class);
+		transportFactory.initialize(HttpTransport.GWT_MIME_TYPE, (RPCPlusService) proxy, this);
 	}
 
 	@Override

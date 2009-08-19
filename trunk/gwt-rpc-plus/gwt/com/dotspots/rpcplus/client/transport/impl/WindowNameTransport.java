@@ -1,5 +1,7 @@
 package com.dotspots.rpcplus.client.transport.impl;
 
+import com.dotspots.rpcplus.client.transport.HasDocument;
+import com.dotspots.rpcplus.client.transport.HasUrlEndpoint;
 import com.dotspots.rpcplus.client.transport.TextTransport;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -12,7 +14,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * 
  * Supports navigation-click-sound-free operation on IE through ActiveXObject("htmlfile").
  */
-public class WindowNameTransport implements TextTransport {
+public class WindowNameTransport implements TextTransport, HasUrlEndpoint, HasDocument {
 	private String url;
 	private Document document;
 	private int timeout = 30000;

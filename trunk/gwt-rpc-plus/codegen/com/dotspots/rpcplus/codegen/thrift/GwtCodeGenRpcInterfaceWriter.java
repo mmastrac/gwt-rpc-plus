@@ -26,6 +26,7 @@ final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcIn
 		printWriter.println("@SuppressWarnings(\"unused\")");
 		printWriter.println("public final class " + iface.getClassName() + " extends " + ThriftClientStub.class.getName() + "<"
 				+ iface.getClassName() + "> {");
+
 		if (iface.getRequestContext() != null) {
 			printWriter.println("    public void setRequestContext(" + iface.getRequestContext().getClassName() + " requestContext) {");
 			printWriter.println("        this.requestContext = requestContext;");

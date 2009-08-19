@@ -15,7 +15,20 @@
 	</replace-with>
  	-->
 
+	<!-- Create standard transport factories by default -->
+	<replace-with class="com.dotspots.rpcplus.client.transport.impl.StandardTransportFactory">
+		<when-type-is class="com.dotspots.rpcplus.client.transport.TransportFactory" />
+	</replace-with>
+
+	<!-- Cross-domain transport factory -->
+	<!-- 
+	<replace-with class="com.dotspots.rpcplus.client.transport.impl.CrossDomainTransportFactory">
+		<when-type-is class="com.dotspots.rpcplus.client.transport.TransportFactory" />
+	</replace-with>
+ 	-->
+ 
 	<source path="client/codec" />
+	<source path="client/common" />
 	<source path="client/transport" />
 	<source path="client/jscollections" />
 	<source path="client/jsonrpc" />
