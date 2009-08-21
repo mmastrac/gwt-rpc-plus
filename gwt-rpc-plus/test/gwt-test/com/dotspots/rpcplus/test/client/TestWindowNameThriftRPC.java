@@ -146,12 +146,12 @@ public class TestWindowNameThriftRPC extends GWTTestCase {
 	public void testReallyLongRequestAndResponse() {
 		delayTestFinish(15000);
 
+		// 1310720 bytes long
 		final StringBuilder stringBuilder = new StringBuilder("0123456789");
-		for (int i = 0; i < 14; i++) {
+		for (int i = 0; i < 17; i++) {
 			stringBuilder.append(stringBuilder.toString());
 		}
 
-		System.out.println(stringBuilder.length());
 		finishTest();
 
 		api.testPassthru(stringBuilder.toString(), new AsyncCallback<String>() {
