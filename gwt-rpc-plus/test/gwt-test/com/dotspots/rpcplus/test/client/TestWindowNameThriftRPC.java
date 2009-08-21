@@ -143,6 +143,32 @@ public class TestWindowNameThriftRPC extends GWTTestCase {
 		});
 	}
 
+	public void testReallyLongRequestAndResponse() {
+		delayTestFinish(15000);
+
+		final StringBuilder stringBuilder = new StringBuilder("0123456789");
+		for (int i = 0; i < 14; i++) {
+			stringBuilder.append(stringBuilder.toString());
+		}
+
+		System.out.println(stringBuilder.length());
+		finishTest();
+
+		api.testPassthru(stringBuilder.toString(), new AsyncCallback<String>() {
+			public void onFailure(Throwable caught) {
+				caught.printStackTrace();
+				fail(caught.toString());
+				finishTest();
+			}
+
+			public void onSuccess(String result) {
+				assertEquals(stringBuilder.toString(), result);
+
+				finishTest();
+			}
+		});
+	}
+
 	private String getCrossSiteModuleBaseUrl() {
 		return GWT.getModuleBaseURL().replaceAll("localhost", "127.0.0.1");
 	}

@@ -44,6 +44,8 @@ exception MoreComplexException {
 }
 
 service TortureTestApi {
+	string testPassthru(1:string arg);
+	
 	string testThrowsAnException() throws (1:SimpleException ex);
 	string testThrowsAnUnpositionedException() throws (SimpleException ex);
 	string testDeclaresAnException() throws (1:SimpleException ex);

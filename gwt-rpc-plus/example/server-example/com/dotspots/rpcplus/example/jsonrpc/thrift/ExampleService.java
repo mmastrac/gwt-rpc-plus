@@ -29,6 +29,10 @@ public class ExampleService extends BaseServlet<TortureTestApi.Iface> implements
 		apiJson.setService(this);
 	}
 
+	public String testPassthru(String str) {
+		return str;
+	}
+
 	public Set<String> complexMethod(String str, int count) throws SimpleException, TException {
 		Set<String> set = new HashSet<String>();
 		for (int i = 0; i < count; i++) {
