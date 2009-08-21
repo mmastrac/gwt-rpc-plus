@@ -22,6 +22,8 @@ public class TortureTestApi {
 
   public interface Iface {
 
+    public String testPassthru(String arg) throws TException;
+
     public String testThrowsAnException() throws SimpleException, TException;
 
     public String testThrowsAnUnpositionedException() throws SimpleException, TException;
@@ -81,6 +83,39 @@ public class TortureTestApi {
     public TProtocol getOutputProtocol()
     {
       return this.oprot_;
+    }
+
+    public String testPassthru(String arg) throws TException
+    {
+      send_testPassthru(arg);
+      return recv_testPassthru();
+    }
+
+    public void send_testPassthru(String arg) throws TException
+    {
+      oprot_.writeMessageBegin(new TMessage("testPassthru", TMessageType.CALL, seqid_));
+      testPassthru_args args = new testPassthru_args();
+      args.arg = arg;
+      args.write(oprot_);
+      oprot_.writeMessageEnd();
+      oprot_.getTransport().flush();
+    }
+
+    public String recv_testPassthru() throws TException
+    {
+      TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == TMessageType.EXCEPTION) {
+        TApplicationException x = TApplicationException.read(iprot_);
+        iprot_.readMessageEnd();
+        throw x;
+      }
+      testPassthru_result result = new testPassthru_result();
+      result.read(iprot_);
+      iprot_.readMessageEnd();
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new TApplicationException(TApplicationException.MISSING_RESULT, "testPassthru failed: unknown result");
     }
 
     public String testThrowsAnException() throws SimpleException, TException
@@ -617,6 +652,7 @@ public class TortureTestApi {
     public Processor(Iface iface)
     {
       iface_ = iface;
+      processMap_.put("testPassthru", new testPassthru());
       processMap_.put("testThrowsAnException", new testThrowsAnException());
       processMap_.put("testThrowsAnUnpositionedException", new testThrowsAnUnpositionedException());
       processMap_.put("testDeclaresAnException", new testDeclaresAnException());
@@ -658,6 +694,22 @@ public class TortureTestApi {
       }
       fn.process(msg.seqid, iprot, oprot);
       return true;
+    }
+
+    private class testPassthru implements ProcessFunction {
+      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      {
+        testPassthru_args args = new testPassthru_args();
+        args.read(iprot);
+        iprot.readMessageEnd();
+        testPassthru_result result = new testPassthru_result();
+        result.success = iface_.testPassthru(args.arg);
+        oprot.writeMessageBegin(new TMessage("testPassthru", TMessageType.REPLY, seqid));
+        result.write(oprot);
+        oprot.writeMessageEnd();
+        oprot.getTransport().flush();
+      }
+
     }
 
     private class testThrowsAnException implements ProcessFunction {
@@ -932,6 +984,387 @@ public class TortureTestApi {
         oprot.getTransport().flush();
       }
 
+    }
+
+  }
+
+  public static class testPassthru_args implements TBase, java.io.Serializable, Cloneable   {
+    private static final TStruct STRUCT_DESC = new TStruct("testPassthru_args");
+    private static final TField ARG_FIELD_DESC = new TField("arg", TType.STRING, (short)1);
+
+    private String arg;
+    public static final int ARG = 1;
+
+    private final Isset __isset = new Isset();
+    private static final class Isset implements java.io.Serializable {
+    }
+
+    public static final Map<Integer, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new HashMap<Integer, FieldMetaData>() {{
+      put(ARG, new FieldMetaData("arg", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRING)));
+    }});
+
+    static {
+      FieldMetaData.addStructMetaDataMap(testPassthru_args.class, metaDataMap);
+    }
+
+    public testPassthru_args() {
+    }
+
+    public testPassthru_args(
+      String arg)
+    {
+      this();
+      this.arg = arg;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public testPassthru_args(testPassthru_args other) {
+      if (other.isSetArg()) {
+        this.arg = other.arg;
+      }
+    }
+
+    @Override
+    public testPassthru_args clone() {
+      return new testPassthru_args(this);
+    }
+
+    public String getArg() {
+      return this.arg;
+    }
+
+    public void setArg(String arg) {
+      this.arg = arg;
+    }
+
+    public void unsetArg() {
+      this.arg = null;
+    }
+
+    // Returns true if field arg is set (has been asigned a value) and false otherwise
+    public boolean isSetArg() {
+      return this.arg != null;
+    }
+
+    public void setFieldValue(int fieldID, Object value) {
+      switch (fieldID) {
+      case ARG:
+        if (value == null) {
+          unsetArg();
+        } else {
+          setArg((String)value);
+        }
+        break;
+
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    public Object getFieldValue(int fieldID) {
+      switch (fieldID) {
+      case ARG:
+        return getArg();
+
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    // Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise
+    public boolean isSet(int fieldID) {
+      switch (fieldID) {
+      case ARG:
+        return isSetArg();
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof testPassthru_args)
+        return this.equals((testPassthru_args)that);
+      return false;
+    }
+
+    public boolean equals(testPassthru_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_arg = true && this.isSetArg();
+      boolean that_present_arg = true && that.isSetArg();
+      if (this_present_arg || that_present_arg) {
+        if (!(this_present_arg && that_present_arg))
+          return false;
+        if (!this.arg.equals(that.arg))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public void read(TProtocol iprot) throws TException {
+      TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == TType.STOP) { 
+          break;
+        }
+        switch (field.id)
+        {
+          case ARG:
+            if (field.type == TType.STRING) {
+              this.arg = iprot.readString();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          default:
+            TProtocolUtil.skip(iprot, field.type);
+            break;
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      validate();
+    }
+
+    public void write(TProtocol oprot) throws TException {
+      validate();
+
+      oprot.writeStructBegin(STRUCT_DESC);
+      if (this.arg != null) {
+        oprot.writeFieldBegin(ARG_FIELD_DESC);
+        oprot.writeString(this.arg);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("testPassthru_args(");
+      boolean first = true;
+
+      sb.append("arg:");
+      if (this.arg == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.arg);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+      // check that fields of type enum have valid values
+    }
+
+  }
+
+  public static class testPassthru_result implements TBase, java.io.Serializable, Cloneable   {
+    private static final TStruct STRUCT_DESC = new TStruct("testPassthru_result");
+    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRING, (short)0);
+
+    private String success;
+    public static final int SUCCESS = 0;
+
+    private final Isset __isset = new Isset();
+    private static final class Isset implements java.io.Serializable {
+    }
+
+    public static final Map<Integer, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new HashMap<Integer, FieldMetaData>() {{
+      put(SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRING)));
+    }});
+
+    static {
+      FieldMetaData.addStructMetaDataMap(testPassthru_result.class, metaDataMap);
+    }
+
+    public testPassthru_result() {
+    }
+
+    public testPassthru_result(
+      String success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public testPassthru_result(testPassthru_result other) {
+      if (other.isSetSuccess()) {
+        this.success = other.success;
+      }
+    }
+
+    @Override
+    public testPassthru_result clone() {
+      return new testPassthru_result(this);
+    }
+
+    public String getSuccess() {
+      return this.success;
+    }
+
+    public void setSuccess(String success) {
+      this.success = success;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    // Returns true if field success is set (has been asigned a value) and false otherwise
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setFieldValue(int fieldID, Object value) {
+      switch (fieldID) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((String)value);
+        }
+        break;
+
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    public Object getFieldValue(int fieldID) {
+      switch (fieldID) {
+      case SUCCESS:
+        return getSuccess();
+
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    // Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise
+    public boolean isSet(int fieldID) {
+      switch (fieldID) {
+      case SUCCESS:
+        return isSetSuccess();
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof testPassthru_result)
+        return this.equals((testPassthru_result)that);
+      return false;
+    }
+
+    public boolean equals(testPassthru_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public void read(TProtocol iprot) throws TException {
+      TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == TType.STOP) { 
+          break;
+        }
+        switch (field.id)
+        {
+          case SUCCESS:
+            if (field.type == TType.STRING) {
+              this.success = iprot.readString();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          default:
+            TProtocolUtil.skip(iprot, field.type);
+            break;
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      validate();
+    }
+
+    public void write(TProtocol oprot) throws TException {
+      oprot.writeStructBegin(STRUCT_DESC);
+
+      if (this.isSetSuccess()) {
+        oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+        oprot.writeString(this.success);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("testPassthru_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+      // check that fields of type enum have valid values
     }
 
   }
