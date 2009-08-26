@@ -173,7 +173,7 @@ public class TestWindowNameThriftRPC extends GWTTestCase {
 		delayTestFinish(15000);
 
 		final StringBuilder stringBuilder = new StringBuilder();
-		for (int i = 0; i < 0xffff; i++) {
+		for (int i = 0; i <= 0xffff; i++) {
 			stringBuilder.append((char) i);
 		}
 
