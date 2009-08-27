@@ -9,7 +9,7 @@ import com.google.gwt.json.client.JSONValue;
  */
 public class JSONObjectJsonEncoder implements JsonEncoder {
 	public String encode(JavaScriptObject jso) {
-		return getValue(jso).toString();
+		return TransportUnicodeCleaner.cleanUnicodeForTransport(getValue(jso).toString());
 	}
 
 	private native JSONValue getValue(JavaScriptObject v) /*-{

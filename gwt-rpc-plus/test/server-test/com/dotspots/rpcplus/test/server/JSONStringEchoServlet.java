@@ -23,6 +23,18 @@ public class JSONStringEchoServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// byte[] bytes = new byte[1024];
+		// int read = req.getInputStream().read(bytes);
+		// System.out.println(read);
+		// System.out.println(Arrays.toString(bytes));
+		// final String stringEquivalent = new String(bytes, "UTF8");
+		// System.out.println(stringEquivalent);
+		// System.out.println(Arrays.toString(stringEquivalent.getBytes("UTF8")));
+		// for (char c : stringEquivalent.toCharArray()) {
+		// System.out.print((int) c + " (0x" + Integer.toHexString(c) + ", '" + c + "')  ");
+		// }
+		// System.out.println();
+
 		JSONTokenizer tokener = new JSONTokenizer(new InputStreamSource(req.getInputStream(), false), true);
 		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
 

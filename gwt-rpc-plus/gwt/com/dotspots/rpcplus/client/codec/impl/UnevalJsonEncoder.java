@@ -18,7 +18,7 @@ public class UnevalJsonEncoder implements LooseJsonEncoder {
 	}
 
 	public String encode(JavaScriptObject jso) {
-		return uneval0(wnd, jso);
+		return TransportUnicodeCleaner.cleanUnicodeForTransport(uneval0(wnd, jso));
 	}
 
 	private static native String uneval0(JavaScriptObject wnd, JavaScriptObject jso) /*-{
