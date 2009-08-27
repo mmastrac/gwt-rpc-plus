@@ -28,7 +28,7 @@ public class NativeJson implements JsonDecoder, JsonEncoder {
 	}
 
 	public String encode(JavaScriptObject jso) {
-		return encodeNative(wnd, jso);
+		return TransportUnicodeCleaner.cleanUnicodeForTransport(encodeNative(wnd, jso));
 	}
 
 	public static native String encodeNative(JavaScriptObject wnd, JavaScriptObject jso) /*-{

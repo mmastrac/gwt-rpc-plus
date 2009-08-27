@@ -21,16 +21,20 @@ public class EveryCharacterStringUtility {
 
 	public static void checkString(String comparison) {
 		for (int i = 0; i < comparison.length(); i++) {
-			if (comparison.charAt(i) != i) {
-				final int actual = comparison.charAt(i);
-
-				Assert.fail("Comparison failed at index " + i + " (hex " + Integer.toString(i, 16) + "): was " + actual + " instead (hex "
-						+ Integer.toString(actual, 16) + ").  Length of comparsion was " + comparison.length());
+			final int expected = i + START_CHAR;
+			final int actual = comparison.charAt(i);
+			if (actual != expected) {
+				Assert.fail("Comparison failed at index " + i + ": character " + charToHex(expected) + " was " + charToHex(actual)
+						+ " instead.  Length of comparsion was " + comparison.length());
 			}
 		}
 
 		if (comparison.length() != END_CHAR - START_CHAR + 1) {
 			Assert.fail("Comparison was truncated at index " + comparison.length());
 		}
+	}
+
+	private static String charToHex(int val) {
+		return val + " (0x" + Integer.toString(val, 16) + " '" + (char) val + "')";
 	}
 }

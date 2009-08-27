@@ -138,7 +138,7 @@ public class TestJsonTransport extends GWTTestCase {
 	 */
 	private void testStringRoundtrip(final JsonDecoder decoder, LooseJsonEncoder encoder) throws JsonParseException {
 		HttpTransport transport = new HttpTransport();
-		transport.setContentType("text/plain; charset=\"utf8\"");
+		transport.setContentType("text/x-gwt-rpc; charset=utf-8");
 		transport.setUrl(GWT.getModuleBaseURL() + "echo");
 
 		String allCharacters = EveryCharacterStringUtility.getAllCharacterString();
@@ -148,7 +148,13 @@ public class TestJsonTransport extends GWTTestCase {
 
 		final String encoded = encoder.encode(list);
 
+		// for (char c : encoded.toCharArray()) {
+		// System.out.print((int) c + " (0x" + Integer.toHexString(c) + ", '" + c + "')  ");
+		// }
+		// System.out.println();
+
 		// First, check a round-trip client-side only
+		System.out.println(encoded);
 		JsRpcListString outputClientSide = decoder.decode(encoded).cast();
 		EveryCharacterStringUtility.checkString(outputClientSide.get(0));
 
@@ -172,7 +178,7 @@ public class TestJsonTransport extends GWTTestCase {
 			}
 		});
 
-		delayTestFinish(15000);
+		delayTestFinish(150000);
 	}
 
 	private native JavaScriptObject get(JavaScriptObject jso, String key) /*-{
