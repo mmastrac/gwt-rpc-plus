@@ -154,7 +154,6 @@ public class TestJsonTransport extends GWTTestCase {
 		// System.out.println();
 
 		// First, check a round-trip client-side only
-		System.out.println(encoded);
 		JsRpcListString outputClientSide = decoder.decode(encoded).cast();
 		EveryCharacterStringUtility.checkString(outputClientSide.get(0));
 
@@ -162,7 +161,6 @@ public class TestJsonTransport extends GWTTestCase {
 		transport.call(encoded, new AsyncCallback<String>() {
 			public void onSuccess(String result) {
 				try {
-					System.out.println(result);
 					JsRpcListString output = decoder.decode(result).cast();
 					EveryCharacterStringUtility.checkString(output.get(0));
 					finishTest();
