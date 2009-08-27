@@ -137,6 +137,7 @@ public class TJSONNativeProtocol extends TProtocol {
 	protected static final byte[] ZERO = new byte[] { '0' };
 
 	protected static final byte[] ESCSEQ = new byte[] { '\\', 'u', '0', '0' };
+	protected static final byte[] ESCSEQFULL = new byte[] { '\\', 'u' };
 
 	protected static final long VERSION = 1;
 
@@ -375,7 +376,7 @@ public class TJSONNativeProtocol extends TProtocol {
 	}
 
 	// Temporary buffer used by several methods
-	protected byte[] tmpbuf_ = new byte[4];
+	protected byte[] tmpbuf_ = new byte[8];
 
 	// Read a byte that must match b[0]; otherwise an excpetion is thrown.
 	// Marked protected to avoid synthetic accessor in JSONListContext.read
@@ -400,42 +401,51 @@ public class TJSONNativeProtocol extends TProtocol {
 	}
 
 	// Convert a byte containing a hex value to its corresponding hex character
-	protected static final byte hexChar(byte val) {
+	protected static final byte hexChar(int val) {
 		val &= 0x0F;
 		if (val < 10) {
-			return (byte) ((char) val + '0');
+			return (byte) (val + '0');
 		} else {
-			return (byte) ((char) val + 'a');
+			return (byte) (val + 'a' - 10);
 		}
 	}
 
 	// Write the bytes in array buf as a JSON characters, escaping as needed
-	protected void writeJSONString(byte[] b) throws TException {
+	protected void writeJSONString(char[] c) throws TException {
 		context_.write();
 		trans_.write(QUOTE);
 
 		context_.writeStartString();
 
-		int len = b.length;
+		int len = c.length;
 		for (int i = 0; i < len; i++) {
-			if ((b[i] & 0x00FF) >= 0x30) {
-				if (b[i] == BACKSLASH[0]) {
+			if (c[i] > 127) {
+				trans_.write(ESCSEQFULL);
+				tmpbuf_[0] = hexChar(c[i] >> 12);
+				tmpbuf_[1] = hexChar((c[i] & 0x0f00) >> 8);
+				tmpbuf_[2] = hexChar((c[i] & 0x00f0) >> 4);
+				tmpbuf_[3] = hexChar((c[i] & 0x000f));
+				trans_.write(tmpbuf_, 0, 4);
+			} else if ((c[i] & 0x00FF) >= 0x30) {
+				if (c[i] == BACKSLASH[0]) {
 					trans_.write(BACKSLASH);
 					trans_.write(BACKSLASH);
 				} else {
-					trans_.write(b, i, 1);
+					tmpbuf_[0] = (byte) c[i];
+					trans_.write(tmpbuf_, 0, 1);
 				}
 			} else {
-				tmpbuf_[0] = JSON_CHAR_TABLE[b[i]];
+				tmpbuf_[0] = JSON_CHAR_TABLE[c[i]];
 				if (tmpbuf_[0] == 1) {
-					trans_.write(b, i, 1);
+					tmpbuf_[0] = (byte) c[i];
+					trans_.write(tmpbuf_, 0, 1);
 				} else if (tmpbuf_[0] > 1) {
 					trans_.write(BACKSLASH);
 					trans_.write(tmpbuf_, 0, 1);
 				} else {
 					trans_.write(ESCSEQ);
-					tmpbuf_[0] = hexChar((byte) (b[i] >> 4));
-					tmpbuf_[1] = hexChar(b[i]);
+					tmpbuf_[0] = hexChar((byte) (c[i] >> 4));
+					tmpbuf_[1] = hexChar(c[i]);
 					trans_.write(tmpbuf_, 0, 2);
 				}
 			}
@@ -544,12 +554,7 @@ public class TJSONNativeProtocol extends TProtocol {
 	public void writeMessageBegin(TMessage message) throws TException {
 		writeJSONArrayStart();
 		writeJSONInteger(VERSION);
-		try {
-			byte[] b = message.name.getBytes("UTF-8");
-			writeJSONString(b);
-		} catch (UnsupportedEncodingException uex) {
-			throw new TException("JVM DOES NOT SUPPORT UTF-8");
-		}
+		writeJSONString(message.name.toCharArray());
 		writeJSONInteger(message.type);
 		writeJSONInteger(message.seqid);
 	}
@@ -613,12 +618,8 @@ public class TJSONNativeProtocol extends TProtocol {
 
 	@Override
 	public void writeString(String str) throws TException {
-		try {
-			byte[] b = str.getBytes("UTF-8");
-			writeJSONString(b);
-		} catch (UnsupportedEncodingException uex) {
-			throw new TException("JVM DOES NOT SUPPORT UTF-8");
-		}
+		char[] c = str.toCharArray();
+		writeJSONString(c);
 	}
 
 	@Override

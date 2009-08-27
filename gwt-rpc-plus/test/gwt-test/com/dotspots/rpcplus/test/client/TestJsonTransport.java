@@ -12,8 +12,12 @@ import com.dotspots.rpcplus.client.codec.impl.JSONObjectJsonEncoder;
 import com.dotspots.rpcplus.client.codec.impl.NativeJson;
 import com.dotspots.rpcplus.client.codec.impl.UnevalJsonEncoder;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListLong;
+import com.dotspots.rpcplus.client.jscollections.JsRpcListString;
+import com.dotspots.rpcplus.client.transport.impl.HttpTransport;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class TestJsonTransport extends GWTTestCase {
 	/**
@@ -98,6 +102,7 @@ public class TestJsonTransport extends GWTTestCase {
 	private void runInternal(JsonDecoder decoder, LooseJsonEncoder encoder) throws JsonParseException {
 		testListLong(decoder, encoder);
 		testTypes(decoder);
+		testStringRoundtrip(decoder, encoder);
 	}
 
 	/**
@@ -126,6 +131,48 @@ public class TestJsonTransport extends GWTTestCase {
 		assertEquals("number", typeof(at1).toLowerCase());
 		JavaScriptObject at2 = get(decoded, "2");
 		assertEquals("object", typeof(at2).toLowerCase());
+	}
+
+	/**
+	 * Ensures that strings roundtrip properly with this pair of decoder/encoder.
+	 */
+	private void testStringRoundtrip(final JsonDecoder decoder, LooseJsonEncoder encoder) throws JsonParseException {
+		HttpTransport transport = new HttpTransport();
+		transport.setContentType("text/plain; charset=\"utf8\"");
+		transport.setUrl(GWT.getModuleBaseURL() + "echo");
+
+		String allCharacters = EveryCharacterStringUtility.getAllCharacterString();
+
+		JsRpcListString list = JsRpcListString.create();
+		list.add(allCharacters);
+
+		final String encoded = encoder.encode(list);
+
+		// First, check a round-trip client-side only
+		JsRpcListString outputClientSide = decoder.decode(encoded).cast();
+		EveryCharacterStringUtility.checkString(outputClientSide.get(0));
+
+		// Now run it through the server and check that round-trip
+		transport.call(encoded, new AsyncCallback<String>() {
+			public void onSuccess(String result) {
+				try {
+					System.out.println(result);
+					JsRpcListString output = decoder.decode(result).cast();
+					EveryCharacterStringUtility.checkString(output.get(0));
+					finishTest();
+				} catch (JsonParseException e) {
+					fail(e.toString());
+					finishTest();
+				}
+			}
+
+			public void onFailure(Throwable caught) {
+				fail(caught.toString());
+				finishTest();
+			}
+		});
+
+		delayTestFinish(15000);
 	}
 
 	private native JavaScriptObject get(JavaScriptObject jso, String key) /*-{

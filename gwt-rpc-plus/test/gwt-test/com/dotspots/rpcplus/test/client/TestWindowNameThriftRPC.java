@@ -172,14 +172,7 @@ public class TestWindowNameThriftRPC extends GWTTestCase {
 	public void testPassThruAllChars() {
 		delayTestFinish(15000);
 
-		final StringBuilder stringBuilder = new StringBuilder();
-		for (int i = 0; i <= 0xffff; i++) {
-			stringBuilder.append((char) i);
-		}
-
-		finishTest();
-
-		api.testPassthru(stringBuilder.toString(), new AsyncCallback<String>() {
+		api.testPassthru(EveryCharacterStringUtility.getAllCharacterString(), new AsyncCallback<String>() {
 			public void onFailure(Throwable caught) {
 				caught.printStackTrace();
 				fail(caught.toString());
@@ -187,8 +180,7 @@ public class TestWindowNameThriftRPC extends GWTTestCase {
 			}
 
 			public void onSuccess(String result) {
-				assertEquals(stringBuilder.toString(), result);
-
+				EveryCharacterStringUtility.checkString(result);
 				finishTest();
 			}
 		});

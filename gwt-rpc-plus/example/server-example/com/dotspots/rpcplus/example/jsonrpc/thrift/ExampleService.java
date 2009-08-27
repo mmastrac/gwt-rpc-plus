@@ -18,6 +18,7 @@ import com.dotspots.rpcplus.example.torturetest.SimpleObjectWithNoFieldIds;
 import com.dotspots.rpcplus.example.torturetest.TortureTestApi;
 import com.dotspots.rpcplus.example.torturetest.TortureTestApiJson;
 import com.dotspots.rpcplus.jsonrpc.thrift.BaseServlet;
+import com.dotspots.rpcplus.test.client.EveryCharacterStringUtility;
 
 public class ExampleService extends BaseServlet<TortureTestApi.Iface> implements TortureTestApi.Iface {
 	private ContextIn requestContext;
@@ -30,6 +31,7 @@ public class ExampleService extends BaseServlet<TortureTestApi.Iface> implements
 	}
 
 	public String testPassthru(String str) {
+		EveryCharacterStringUtility.checkString(str);
 		return str;
 	}
 
