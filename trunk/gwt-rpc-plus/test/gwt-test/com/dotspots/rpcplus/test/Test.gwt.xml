@@ -3,5 +3,7 @@
 	<inherits name="com.dotspots.rpcplus.RpcPlus" />
 	<inherits name="com.dotspots.rpcplus.example.Example" />
 	
+	<servlet path="/echo" class="com.dotspots.rpcplus.test.server.JSONStringEchoServlet" />
+	
 	<source path="client" />
 </module>
