@@ -59,7 +59,7 @@ public class ThriftRequestProcessor {
 	public void handleFormPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException,
 			JSONParseException, TException {
 		resp.setStatus(HttpServletResponse.SC_OK);
-		resp.setContentType("text/html");
+		resp.setContentType("text/html; charset=utf-8");
 
 		String json = req.getParameter("data");
 		String redirect = req.getParameter("redirect");
