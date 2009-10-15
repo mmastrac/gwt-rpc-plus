@@ -8,6 +8,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.IFrameElement;
 import com.google.gwt.dom.client.InputElement;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -126,7 +128,17 @@ public class WindowNameTransportRequest {
 
 		String currentIframeName = getIFrameContentWindowName(iframe);
 		if (currentIframeName != null && !currentIframeName.equals(iframeName) && currentIframeName.startsWith(responseName)) {
-			cancel();
+			/*
+			 * Defer removing the iframe - works around a Firefox bug where the throbber keeps spinning, similar to this
+			 * GWT bug: (http://code.google.com/p/google-web-toolkit/issues/detail?id=916). The running flag is set to
+			 * false to make sure we don't try to re-send the response.
+			 */
+			running = false;
+			DeferredCommand.addCommand(new Command() {
+				public void execute() {
+					cancel();
+				}
+			});
 
 			currentIframeName = currentIframeName.substring(responseName.length());
 			TransportLogger.INSTANCE.logReceive(currentIframeName);
@@ -242,7 +254,7 @@ public class WindowNameTransportRequest {
 
 	private static native void collectGarbage() /*-{
 		if ("CollectGarbage" in $wnd)
-			CollectGarbage();
+		CollectGarbage();
 	}-*/;
 
 	private static native void attachIFrameListener(IFrameElement iframe, WindowNameTransportRequest self) /*-{
@@ -267,10 +279,10 @@ public class WindowNameTransportRequest {
 
 	private static native String getIFrameContentWindowName(IFrameElement iframe) /*-{
 		try {
-			return iframe.contentWindow.name || null;
+		return iframe.contentWindow.name || null;
 		} catch (e) {
-			// Probably a permission error
-			return null;
+		// Probably a permission error
+		return null;
 		}
 	}-*/;
 }
