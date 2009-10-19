@@ -17,8 +17,8 @@ public final class ObjectWithComplexTypes extends com.dotspots.rpcplus.client.js
     }
 
     /* Factory method, strongly dependent on order of fields */
-    public static native ObjectWithComplexTypes create(JsRpcMapString<String> mapStringToString, JsRpcSetString setOfStrings, JsRpcList<String> listOfStrings) /*-{
-        return [mapStringToString,setOfStrings,listOfStrings];
+    public static native ObjectWithComplexTypes create(JsRpcMapString<String> mapStringToString, JsRpcSetString setOfStrings, JsRpcList<String> listOfStrings, JsRpcMapIntInt mapOfIntToInt) /*-{
+        return [mapStringToString,setOfStrings,listOfStrings,mapOfIntToInt];
     }-*/;
 
     public native JsRpcMapString<String> getMapStringToString() /*-{
@@ -67,6 +67,22 @@ public final class ObjectWithComplexTypes extends com.dotspots.rpcplus.client.js
 
     public native void unsetListOfStrings() /*-{
          delete this[2];
+    }-*/;
+
+    public native JsRpcMapIntInt getMapOfIntToInt() /*-{
+         return this[3];
+    }-*/;
+
+    public native void setMapOfIntToInt(JsRpcMapIntInt mapOfIntToInt) /*-{
+         this[3] = mapOfIntToInt;
+    }-*/;
+
+    public native boolean isSetMapOfIntToInt() /*-{
+         return this[3] != null;
+    }-*/;
+
+    public native void unsetMapOfIntToInt() /*-{
+         delete this[3];
     }-*/;
 
 }

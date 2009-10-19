@@ -14,6 +14,7 @@ struct ObjectWithComplexTypes {
 	1: map<string, string> mapStringToString;
 	2: set<string> setOfStrings;
 	3: list<string> listOfStrings;
+	4: map<i32, i32> mapOfIntToInt;
 }
 
 struct ObjectThatIsReferenced {

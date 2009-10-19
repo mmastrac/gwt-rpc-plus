@@ -247,8 +247,8 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 		case MAP:
 			RpcTypeMap mapMetaData = (RpcTypeMap) fieldType;
 			printWriter.println(indent + "protocol.writeMapBegin(null);");
-			printWriter.println(indent + "for (Map.Entry<" + getType(mapMetaData.getKeyType(), false) + ", "
-					+ getType(mapMetaData.getValueType(), false) + "> entry" + level + " : " + name + level + ".entrySet()) {");
+			printWriter.println(indent + "for (Map.Entry<" + getType(mapMetaData.getKeyType(), true) + ", "
+					+ getType(mapMetaData.getValueType(), true) + "> entry" + level + " : " + name + level + ".entrySet()) {");
 			printWriter.println(indent + "    " + getType(mapMetaData.getKeyType(), false) + " key" + (level + 1) + " = entry" + level
 					+ ".getKey();");
 			printWriter.println(indent + "    " + getType(mapMetaData.getValueType(), false) + " value" + (level + 1) + " = entry" + level
