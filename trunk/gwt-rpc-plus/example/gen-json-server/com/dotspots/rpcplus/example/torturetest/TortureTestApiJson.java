@@ -1123,6 +1123,17 @@ public final class TortureTestApiJson implements JSONServlet {
                      obj.setListOfStrings(value0);
                      break;
                  }
+                 case 3: {
+                 Map<Integer, Integer> value0 = new HashMap<Integer, Integer>();
+                 protocol.readMapBegin();
+                 while (protocol.hasNext()) {
+                     int key1 = protocol.readI32();
+                     int value1 = protocol.readI32();
+                     value0.put(key1, value1);
+                 }
+                     obj.setMapOfIntToInt(value0);
+                     break;
+                 }
                  default:
                      protocol.skip();
                  }
@@ -1162,6 +1173,18 @@ public final class TortureTestApiJson implements JSONServlet {
                  protocol.writeString(value1);
              }
              protocol.writeListEnd();
+        }
+        if (obj.isSetMapOfIntToInt()) {
+            protocol.writeI32(3);
+            Map<Integer, Integer> value0 = obj.getMapOfIntToInt();
+             protocol.writeMapBegin(null);
+             for (Map.Entry<Integer, Integer> entry0 : value0.entrySet()) {
+                 int key1 = entry0.getKey();
+                 int value1 = entry0.getValue();
+                 protocol.writeI32(key1);
+                 protocol.writeI32(value1);
+             }
+             protocol.writeMapEnd();
         }
         protocol.writeStructEnd();
     }
