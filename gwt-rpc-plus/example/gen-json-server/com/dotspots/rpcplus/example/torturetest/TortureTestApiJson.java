@@ -20,7 +20,7 @@ import com.dotspots.rpcplus.jsonrpc.thrift.*;
 public final class TortureTestApiJson implements JSONServlet {
     com.dotspots.rpcplus.example.torturetest.TortureTestApi.Iface service;
 
-    public void processRequest(TBaseJSONProtocol in, TProtocol out) throws TException {
+    public void processRequest(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         in.readListBegin();
         in.hasNext();
         int version = in.readI32();
@@ -96,7 +96,7 @@ public final class TortureTestApiJson implements JSONServlet {
         this.service = service;
     }
 
-    private final void testPassthru(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void testPassthru(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.testPassthru_args args = readTortureTestApi_testPassthru_args(in);
         TortureTestApi.testPassthru_result result = new TortureTestApi.testPassthru_result();
         try {
@@ -117,7 +117,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void testThrowsAnException(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void testThrowsAnException(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.testThrowsAnException_args args = readTortureTestApi_testThrowsAnException_args(in);
         TortureTestApi.testThrowsAnException_result result = new TortureTestApi.testThrowsAnException_result();
         try {
@@ -149,7 +149,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void testThrowsAnUnpositionedException(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void testThrowsAnUnpositionedException(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.testThrowsAnUnpositionedException_args args = readTortureTestApi_testThrowsAnUnpositionedException_args(in);
         TortureTestApi.testThrowsAnUnpositionedException_result result = new TortureTestApi.testThrowsAnUnpositionedException_result();
         try {
@@ -181,7 +181,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void testDeclaresAnException(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void testDeclaresAnException(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.testDeclaresAnException_args args = readTortureTestApi_testDeclaresAnException_args(in);
         TortureTestApi.testDeclaresAnException_result result = new TortureTestApi.testDeclaresAnException_result();
         try {
@@ -213,7 +213,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void testThrowsTwoExceptions(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void testThrowsTwoExceptions(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.testThrowsTwoExceptions_args args = readTortureTestApi_testThrowsTwoExceptions_args(in);
         TortureTestApi.testThrowsTwoExceptions_result result = new TortureTestApi.testThrowsTwoExceptions_result();
         try {
@@ -256,7 +256,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void testExceptionPassthru(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void testExceptionPassthru(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.testExceptionPassthru_args args = readTortureTestApi_testExceptionPassthru_args(in);
         TortureTestApi.testExceptionPassthru_result result = new TortureTestApi.testExceptionPassthru_result();
         try {
@@ -277,7 +277,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void testPositionalArguments(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void testPositionalArguments(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.testPositionalArguments_args args = readTortureTestApi_testPositionalArguments_args(in);
         TortureTestApi.testPositionalArguments_result result = new TortureTestApi.testPositionalArguments_result();
         try {
@@ -298,7 +298,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void testSetString(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void testSetString(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.testSetString_args args = readTortureTestApi_testSetString_args(in);
         TortureTestApi.testSetString_result result = new TortureTestApi.testSetString_result();
         try {
@@ -319,7 +319,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void testSetInt(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void testSetInt(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.testSetInt_args args = readTortureTestApi_testSetInt_args(in);
         TortureTestApi.testSetInt_result result = new TortureTestApi.testSetInt_result();
         try {
@@ -340,7 +340,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void testMapStringString(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void testMapStringString(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.testMapStringString_args args = readTortureTestApi_testMapStringString_args(in);
         TortureTestApi.testMapStringString_result result = new TortureTestApi.testMapStringString_result();
         try {
@@ -361,7 +361,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void methodReturningAnObject(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void methodReturningAnObject(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.methodReturningAnObject_args args = readTortureTestApi_methodReturningAnObject_args(in);
         TortureTestApi.methodReturningAnObject_result result = new TortureTestApi.methodReturningAnObject_result();
         try {
@@ -382,7 +382,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void methodReturningAnObject2(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void methodReturningAnObject2(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.methodReturningAnObject2_args args = readTortureTestApi_methodReturningAnObject2_args(in);
         TortureTestApi.methodReturningAnObject2_result result = new TortureTestApi.methodReturningAnObject2_result();
         try {
@@ -403,7 +403,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void methodReturningAnObject3(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void methodReturningAnObject3(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.methodReturningAnObject3_args args = readTortureTestApi_methodReturningAnObject3_args(in);
         TortureTestApi.methodReturningAnObject3_result result = new TortureTestApi.methodReturningAnObject3_result();
         try {
@@ -424,7 +424,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void methodReturningAnObject4(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void methodReturningAnObject4(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.methodReturningAnObject4_args args = readTortureTestApi_methodReturningAnObject4_args(in);
         TortureTestApi.methodReturningAnObject4_result result = new TortureTestApi.methodReturningAnObject4_result();
         try {
@@ -445,7 +445,7 @@ public final class TortureTestApiJson implements JSONServlet {
         }
     };
 
-    private final void testBinary(TBaseJSONProtocol in, TProtocol out) throws TException {
+    private final void testBinary(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {
         TortureTestApi.testBinary_args args = readTortureTestApi_testBinary_args(in);
         TortureTestApi.testBinary_result result = new TortureTestApi.testBinary_result();
         try {
@@ -490,7 +490,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeContextIn(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.ContextIn obj) throws TException {
+    private static final void writeContextIn(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.ContextIn obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetToken()) {
             protocol.writeI32(0);
@@ -529,7 +529,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeMoreComplexException(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.MoreComplexException obj) throws TException {
+    private static final void writeMoreComplexException(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.MoreComplexException obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetMessage()) {
             protocol.writeI32(0);
@@ -563,7 +563,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeObjectThatIsReferenced(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.ObjectThatIsReferenced obj) throws TException {
+    private static final void writeObjectThatIsReferenced(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.ObjectThatIsReferenced obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetId()) {
             protocol.writeI32(0);
@@ -592,7 +592,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testThrowsAnUnpositionedException_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnUnpositionedException_result obj) throws TException {
+    private static final void writeTortureTestApi_testThrowsAnUnpositionedException_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnUnpositionedException_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -621,7 +621,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testExceptionPassthru_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testExceptionPassthru_args obj) throws TException {
+    private static final void writeTortureTestApi_testExceptionPassthru_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testExceptionPassthru_args obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetEx()) {
             protocol.writeI32(0);
@@ -655,7 +655,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testSetString_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetString_result obj) throws TException {
+    private static final void writeTortureTestApi_testSetString_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetString_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -683,7 +683,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testMapStringString_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testMapStringString_args obj) throws TException {
+    private static final void writeTortureTestApi_testMapStringString_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testMapStringString_args obj) throws TException {
         protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
@@ -707,7 +707,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeObjectThatReferencesAnother(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.ObjectThatReferencesAnother obj) throws TException {
+    private static final void writeObjectThatReferencesAnother(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.ObjectThatReferencesAnother obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetReference()) {
             protocol.writeI32(0);
@@ -736,7 +736,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testExceptionPassthru_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testExceptionPassthru_result obj) throws TException {
+    private static final void writeTortureTestApi_testExceptionPassthru_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testExceptionPassthru_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -765,7 +765,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_methodReturningAnObject_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject_result obj) throws TException {
+    private static final void writeTortureTestApi_methodReturningAnObject_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -789,7 +789,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testThrowsTwoExceptions_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsTwoExceptions_args obj) throws TException {
+    private static final void writeTortureTestApi_testThrowsTwoExceptions_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsTwoExceptions_args obj) throws TException {
         protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
@@ -808,7 +808,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testThrowsAnUnpositionedException_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnUnpositionedException_args obj) throws TException {
+    private static final void writeTortureTestApi_testThrowsAnUnpositionedException_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnUnpositionedException_args obj) throws TException {
         protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
@@ -832,7 +832,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testPassthru_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPassthru_result obj) throws TException {
+    private static final void writeTortureTestApi_testPassthru_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPassthru_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -856,7 +856,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testSetInt_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetInt_args obj) throws TException {
+    private static final void writeTortureTestApi_testSetInt_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetInt_args obj) throws TException {
         protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
@@ -885,7 +885,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeSimpleObjectWithNoFieldIds(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.SimpleObjectWithNoFieldIds obj) throws TException {
+    private static final void writeSimpleObjectWithNoFieldIds(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.SimpleObjectWithNoFieldIds obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetUserId()) {
             protocol.writeI32(-2);
@@ -914,7 +914,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testThrowsAnException_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnException_args obj) throws TException {
+    private static final void writeTortureTestApi_testThrowsAnException_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnException_args obj) throws TException {
         protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
@@ -944,7 +944,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testMapStringString_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testMapStringString_result obj) throws TException {
+    private static final void writeTortureTestApi_testMapStringString_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testMapStringString_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -985,7 +985,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testPositionalArguments_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPositionalArguments_args obj) throws TException {
+    private static final void writeTortureTestApi_testPositionalArguments_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPositionalArguments_args obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetInt32()) {
             protocol.writeI32(0);
@@ -1019,7 +1019,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeSimpleException(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.SimpleException obj) throws TException {
+    private static final void writeSimpleException(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.SimpleException obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetMessage()) {
             protocol.writeI32(0);
@@ -1048,7 +1048,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testDeclaresAnException_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testDeclaresAnException_result obj) throws TException {
+    private static final void writeTortureTestApi_testDeclaresAnException_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testDeclaresAnException_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -1077,7 +1077,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testBinary_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testBinary_args obj) throws TException {
+    private static final void writeTortureTestApi_testBinary_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testBinary_args obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetBinaryValue()) {
             protocol.writeI32(0);
@@ -1106,7 +1106,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testPositionalArguments_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPositionalArguments_result obj) throws TException {
+    private static final void writeTortureTestApi_testPositionalArguments_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPositionalArguments_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -1172,7 +1172,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeObjectWithComplexTypes(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes obj) throws TException {
+    private static final void writeObjectWithComplexTypes(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetMapStringToString()) {
             protocol.writeI32(0);
@@ -1238,7 +1238,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testBinary_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testBinary_result obj) throws TException {
+    private static final void writeTortureTestApi_testBinary_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testBinary_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -1267,7 +1267,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_methodReturningAnObject3_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject3_result obj) throws TException {
+    private static final void writeTortureTestApi_methodReturningAnObject3_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject3_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -1291,7 +1291,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testDeclaresAnException_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testDeclaresAnException_args obj) throws TException {
+    private static final void writeTortureTestApi_testDeclaresAnException_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testDeclaresAnException_args obj) throws TException {
         protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
@@ -1315,7 +1315,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_methodReturningAnObject2_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject2_result obj) throws TException {
+    private static final void writeTortureTestApi_methodReturningAnObject2_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject2_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -1339,7 +1339,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testSetString_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetString_args obj) throws TException {
+    private static final void writeTortureTestApi_testSetString_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetString_args obj) throws TException {
         protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
@@ -1363,7 +1363,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_methodReturningAnObject4_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject4_result obj) throws TException {
+    private static final void writeTortureTestApi_methodReturningAnObject4_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject4_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -1397,7 +1397,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeContextOut(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.ContextOut obj) throws TException {
+    private static final void writeContextOut(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.ContextOut obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetTiming()) {
             protocol.writeI32(0);
@@ -1426,7 +1426,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_methodReturningAnObject3_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject3_args obj) throws TException {
+    private static final void writeTortureTestApi_methodReturningAnObject3_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject3_args obj) throws TException {
         protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
@@ -1455,7 +1455,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeSimpleObjectWithFieldIds(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds obj) throws TException {
+    private static final void writeSimpleObjectWithFieldIds(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetToken()) {
             protocol.writeI32(0);
@@ -1484,7 +1484,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_methodReturningAnObject2_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject2_args obj) throws TException {
+    private static final void writeTortureTestApi_methodReturningAnObject2_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject2_args obj) throws TException {
         protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
@@ -1508,7 +1508,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testPassthru_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPassthru_args obj) throws TException {
+    private static final void writeTortureTestApi_testPassthru_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testPassthru_args obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetArg()) {
             protocol.writeI32(0);
@@ -1532,7 +1532,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_methodReturningAnObject4_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject4_args obj) throws TException {
+    private static final void writeTortureTestApi_methodReturningAnObject4_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject4_args obj) throws TException {
         protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
@@ -1556,7 +1556,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testThrowsTwoExceptions_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsTwoExceptions_result obj) throws TException {
+    private static final void writeTortureTestApi_testThrowsTwoExceptions_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsTwoExceptions_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -1580,7 +1580,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_methodReturningAnObject_args(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject_args obj) throws TException {
+    private static final void writeTortureTestApi_methodReturningAnObject_args(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject_args obj) throws TException {
         protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
@@ -1604,7 +1604,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testThrowsAnException_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnException_result obj) throws TException {
+    private static final void writeTortureTestApi_testThrowsAnException_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testThrowsAnException_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
@@ -1638,7 +1638,7 @@ public final class TortureTestApiJson implements JSONServlet {
          return obj;
     }
 
-    private static final void writeTortureTestApi_testSetInt_result(TProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetInt_result obj) throws TException {
+    private static final void writeTortureTestApi_testSetInt_result(TJSONNativeProtocol protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetInt_result obj) throws TException {
         protocol.writeStructBegin(null);
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
