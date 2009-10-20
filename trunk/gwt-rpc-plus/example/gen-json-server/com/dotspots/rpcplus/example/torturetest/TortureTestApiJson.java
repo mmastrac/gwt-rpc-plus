@@ -112,6 +112,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -142,6 +144,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -172,6 +176,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -202,6 +208,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -243,6 +251,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -262,6 +272,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -281,6 +293,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -300,6 +314,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -319,6 +335,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -338,6 +356,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -357,6 +377,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -376,6 +398,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -395,6 +419,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -414,6 +440,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
@@ -433,6 +461,8 @@ public final class TortureTestApiJson implements JSONServlet {
             }
             out.writeListEnd();
         } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
         }
     };
 
