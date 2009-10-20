@@ -5,10 +5,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.thrift.TBase;
 import org.apache.thrift.TException;
@@ -52,10 +52,25 @@ public class TestJSONNativeProtocol extends Assert {
 		map.put("c", "d");
 		obj.setMapStringToString(map);
 
-		final Set<String> set = new HashSet<String>(Arrays.asList("a2", "b2"));
+		final Set<String> set = new TreeSet<String>(Arrays.asList("a2", "b2"));
 		obj.setSetOfStrings(set);
 
-		roundTrip("{\"0\":{\"c\":\"d\",\"a\":\"b\"},\"1\":{\"_b2\":0,\"_a2\":0},\"2\":[\"a1\",\"b1\"]}", obj);
+		roundTrip("{\"0\":{\"c\":\"d\",\"a\":\"b\"},\"1\":{\"_a2\":0,\"_b2\":0},\"2\":[\"a1\",\"b1\"]}", obj);
+	}
+
+	@Test
+	public void testObjectWithComplexTypesNull() throws Exception {
+		ObjectWithComplexTypes obj = new ObjectWithComplexTypes();
+
+		final List<String> list = Arrays.asList(null, null);
+		obj.setListOfStrings(list);
+
+		final Map<String, String> map = new HashMap<String, String>();
+		map.put("a", null);
+		map.put("c", null);
+		obj.setMapStringToString(map);
+
+		roundTrip("{\"0\":{\"c\":null,\"a\":null},\"2\":[,]}", obj);
 	}
 
 	@Test
