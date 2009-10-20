@@ -118,6 +118,9 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 		}
 
 		printWriter.println("        } catch (Throwable t) {");
+		printWriter.println("            // Log unexpected exceptions");
+		printWriter.println("            java.util.logging.Logger.getLogger(\"" + iface.getFullyQualifiedClassName()
+				+ "\").log(java.util.logging.Level.SEVERE, \"Unexpected error\", t);");
 		printWriter.println("        }");
 		printWriter.println("    };");
 		printWriter.println();
