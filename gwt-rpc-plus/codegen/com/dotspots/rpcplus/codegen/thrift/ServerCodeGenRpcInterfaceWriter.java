@@ -228,7 +228,7 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 	}
 
 	private void writeWriter(RpcTypeFactory typeFactory, RpcTypeBase fieldType, String name, int level) {
-		String indent = "             ";
+		String indent = "            ";
 		for (int i = 0; i < level; i++) {
 			indent += "    ";
 		}
