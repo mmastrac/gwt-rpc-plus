@@ -205,7 +205,11 @@ public class CollectionGen {
 					printWriter.println("    }-*/;");
 				} else {
 					printWriter.println("    public native " + valueType + " get(" + key.getSimpleName() + " idx) /*-{");
-					printWriter.println("        return this" + indexer + " || " + defaultValue + ";");
+					if (valueType.equals("boolean")) {
+						printWriter.println("        return !!this" + indexer + ";");
+					} else {
+						printWriter.println("        return this" + indexer + " || " + defaultValue + ";");
+					}
 					printWriter.println("    }-*/;");
 				}
 				printWriter.println();
@@ -258,7 +262,7 @@ public class CollectionGen {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
-		new CollectionGen(new File("/Users/matthew/Documents/dotspots/trunk/com.dotspots.thrift.gwt/gwt/com/dotspots/thrift/gwt/client"),
-				"com.dotspots.thrift.gwt.client").generateCode();
+		new CollectionGen(new File("/Users/matthew/Documents/workspace/gwt-rpc-plus/gwt/com/dotspots/rpcplus/client/jscollections"),
+				"com.dotspots.rpcplus.client.jscollections").generateCode();
 	}
 }
