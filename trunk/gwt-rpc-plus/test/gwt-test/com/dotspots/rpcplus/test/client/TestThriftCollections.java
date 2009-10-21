@@ -1,6 +1,8 @@
 package com.dotspots.rpcplus.test.client;
 
 import com.dotspots.rpcplus.client.jscollections.JsRpcList;
+import com.dotspots.rpcplus.client.jscollections.JsRpcListBool;
+import com.dotspots.rpcplus.client.jscollections.JsRpcListInt;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListLong;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapInt;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapIntLong;
@@ -163,6 +165,23 @@ public class TestThriftCollections extends GWTTestCase {
 		assertFalse(set.contains(""));
 		assertTrue(set.contains("watch"));
 		assertFalse(set.contains("_"));
+	}
+
+	/**
+	 * Test that a list of ints can work as a list of booleans (this is legal).
+	 */
+	public void testListBooleanWithInts() {
+		JsRpcListInt intList = JsRpcListInt.create();
+		intList.add(1);
+		intList.add(0);
+		intList.add(1);
+		intList.add(2);
+
+		JsRpcListBool boolList = intList.cast();
+		assertTrue(boolList.get(0));
+		assertFalse(boolList.get(1));
+		assertTrue(boolList.get(2));
+		assertTrue(boolList.get(3));
 	}
 
 	private native void removeObjectPrototypeBadness() /*-{

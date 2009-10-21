@@ -124,7 +124,7 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 	}
 
 	public void writeGetter(RpcStruct type, RpcField field) {
-		if (getType(field).equals("long")) {
+		if (field.getType().getTypeKey() == RpcTypeKey.I64) {
 			printWriter.println("    public " + getType(field) + " " + field.getGetterName() + "() {");
 			printWriter.println("         return RpcUtils.fromDoubles(" + field.getGetterName() + "0());");
 			printWriter.println("    }");
@@ -135,7 +135,11 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 			printWriter.println("    }-*/;");
 		} else {
 			printWriter.println("    public native " + getType(field) + " " + field.getGetterName() + "() /*-{");
-			printWriter.println("         return " + getJavaScriptInstance(type) + "[" + field.getKey() + "];");
+			if (field.getType().getTypeKey() == RpcTypeKey.BOOL) {
+				printWriter.println("         return !!" + getJavaScriptInstance(type) + "[" + field.getKey() + "];");
+			} else {
+				printWriter.println("         return " + getJavaScriptInstance(type) + "[" + field.getKey() + "];");
+			}
 			printWriter.println("    }-*/;");
 		}
 
@@ -143,7 +147,7 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 	}
 
 	public void writeSetter(RpcStruct type, RpcField field) {
-		if (getType(field).equals("long")) {
+		if (field.getType().getTypeKey() == RpcTypeKey.I64) {
 			printWriter.println("    public void " + field.getSetterName() + "(" + getType(field) + " " + field.getName() + ") {");
 			printWriter.println("         " + field.getSetterName() + "0(RpcUtils.toDoubles(" + field.getName() + "));");
 			printWriter.println("    }");
