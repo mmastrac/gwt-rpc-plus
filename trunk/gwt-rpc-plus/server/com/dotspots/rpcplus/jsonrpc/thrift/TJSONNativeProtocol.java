@@ -155,7 +155,9 @@ public class TJSONNativeProtocol {
 
 		@Override
 		protected boolean nullAsEmpty() {
-			return true;
+			// TODO Optimization: use null-as-empty here to optimize when the client supports it (JSON.parse doesn't on
+			// most browsers).
+			return false;
 		}
 	}
 
