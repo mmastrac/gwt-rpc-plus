@@ -167,6 +167,11 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 		printWriter.println("    private static final void write" + type.getClassName(false) + "(TJSONNativeProtocol protocol, "
 				+ type.getPackageName() + "." + type.getClassName(true) + " obj) throws TException {");
 
+		printWriter.println("        if (obj == null) {");
+		printWriter.println("            protocol.writeNull();");
+		printWriter.println("            return;");
+		printWriter.println("        }");
+
 		printWriter.println("        protocol.writeStructBegin(null);");
 		for (RpcField field : type.getOrderedFields()) {
 			printWriter.println("        if (obj." + field.getIsSetName() + "()) {");
