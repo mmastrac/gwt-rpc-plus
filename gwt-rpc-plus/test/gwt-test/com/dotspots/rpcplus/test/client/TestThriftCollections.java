@@ -11,6 +11,7 @@ import com.dotspots.rpcplus.client.jscollections.JsRpcMapStringLong;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapStringString;
 import com.dotspots.rpcplus.client.jscollections.JsRpcSetString;
 import com.dotspots.rpcplus.client.jscollections.JsRpcStringProcedure;
+import com.dotspots.rpcplus.client.jscollections.JsRpcStringStringProcedure;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -166,6 +167,31 @@ public class TestThriftCollections extends GWTTestCase {
 		assertEquals("c", map.get("watch"));
 	}
 
+	public void testMapStringStringForEach() {
+		JsRpcMapStringString map = JsRpcMapStringString.create();
+		map.set("", "a");
+		map.set("watch", "b");
+
+		final boolean[] result = new boolean[2];
+
+		assertTrue(map.forEachEntry(new JsRpcStringStringProcedure() {
+			public boolean execute(String a, String b) {
+				if (a.equals("") && b.equals("a")) {
+					result[0] = true;
+				} else if (a.equals("watch") && b.equals("b")) {
+					result[1] = true;
+				} else {
+					fail("Got unexpected entry: " + a + ", " + b);
+				}
+
+				return true;
+			}
+		}));
+
+		assertTrue(result[0]);
+		assertTrue(result[1]);
+	}
+
 	public void testSetStringIterable() {
 		JsRpcSetString set = JsRpcSetString.create();
 		set.add("");
@@ -217,7 +243,7 @@ public class TestThriftCollections extends GWTTestCase {
 		set.add("");
 		set.add("watch");
 
-		final boolean[] result = new boolean[3];
+		final boolean[] result = new boolean[2];
 
 		assertTrue(set.forEach(new JsRpcStringProcedure() {
 			public boolean execute(String value) {
@@ -226,7 +252,7 @@ public class TestThriftCollections extends GWTTestCase {
 				} else if (value.equals("watch")) {
 					result[1] = true;
 				} else {
-					result[2] = true;
+					fail("Unexpected value: " + value);
 				}
 
 				return true;
@@ -235,7 +261,6 @@ public class TestThriftCollections extends GWTTestCase {
 
 		assertTrue(result[0]);
 		assertTrue(result[1]);
-		assertFalse(result[2]);
 	}
 
 	/**

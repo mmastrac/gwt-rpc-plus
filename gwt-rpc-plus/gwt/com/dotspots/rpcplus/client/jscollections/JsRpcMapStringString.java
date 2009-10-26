@@ -22,6 +22,33 @@ public final class JsRpcMapStringString extends JavaScriptObject {
         return RpcUtils.<String>getMapIterable(this);
     }
 
+    public native boolean forEachEntry(JsRpcStringStringProcedure procedure) /*-{
+        for (x in this) { 
+            if (this.hasOwnProperty(x)) {
+                if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcStringStringProcedure::execute(Ljava/lang/String;Ljava/lang/String;)(x.slice(1), this[x])) return false;
+            }
+        }
+        return true;
+    }-*/;
+
+    public native boolean forEachKey(JsRpcStringProcedure procedure) /*-{
+        for (x in this) { 
+            if (this.hasOwnProperty(x)) {
+                if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcStringProcedure::execute(Ljava/lang/String;)(x.slice(1))) return false;
+            }
+        }
+        return true;
+    }-*/;
+
+    public native boolean forEachValue(JsRpcStringProcedure procedure) /*-{
+        for (x in this) { 
+            if (this.hasOwnProperty(x)) {
+                if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcStringProcedure::execute(Ljava/lang/String;)(this[x])) return false;
+            }
+        }
+        return true;
+    }-*/;
+
     /**
      * Counts the size of a collection through brute force (slow).
      */
