@@ -262,6 +262,36 @@ public class CollectionGen {
 					printWriter.println("        return RpcUtils.<" + valueType + ">getMapIterable(this);");
 					printWriter.println("    }");
 					printWriter.println();
+					printWriter.println("    public native boolean forEachEntry(" + getProcedureName(key, value, true) + " procedure) /*-{");
+					printWriter.println("        for (x in this) { ");
+					printWriter.println("            if (this.hasOwnProperty(x)) {");
+					printWriter.println("                if (!procedure.@" + packageName + "." + getProcedureName(key, value, false)
+							+ "::execute(" + keyBinaryName + valueBinaryName + ")(x.slice(1), this[x])) return false;");
+					printWriter.println("            }");
+					printWriter.println("        }");
+					printWriter.println("        return true;");
+					printWriter.println("    }-*/;");
+					printWriter.println();
+					printWriter.println("    public native boolean forEachKey(" + getProcedureName(key, true) + " procedure) /*-{");
+					printWriter.println("        for (x in this) { ");
+					printWriter.println("            if (this.hasOwnProperty(x)) {");
+					printWriter.println("                if (!procedure.@" + packageName + "." + getProcedureName(key, false)
+							+ "::execute(" + keyBinaryName + ")(x.slice(1))) return false;");
+					printWriter.println("            }");
+					printWriter.println("        }");
+					printWriter.println("        return true;");
+					printWriter.println("    }-*/;");
+					printWriter.println();
+					printWriter.println("    public native boolean forEachValue(" + getProcedureName(value, true) + " procedure) /*-{");
+					printWriter.println("        for (x in this) { ");
+					printWriter.println("            if (this.hasOwnProperty(x)) {");
+					printWriter.println("                if (!procedure.@" + packageName + "." + getProcedureName(value, false)
+							+ "::execute(" + valueBinaryName + ")(this[x])) return false;");
+					printWriter.println("            }");
+					printWriter.println("        }");
+					printWriter.println("        return true;");
+					printWriter.println("    }-*/;");
+					printWriter.println();
 				}
 				if (type == Type.SET) {
 					if (key == Object.class || key == String.class) {
