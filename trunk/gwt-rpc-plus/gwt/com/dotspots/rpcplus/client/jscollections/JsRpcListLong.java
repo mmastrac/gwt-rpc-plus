@@ -30,6 +30,7 @@ public final class JsRpcListLong extends JavaScriptObject {
         this.splice(idx, 1);
     }-*/;
 
+
     public long get(int idx) {
         return RpcUtils.fromDoubles(get0(idx));
     };

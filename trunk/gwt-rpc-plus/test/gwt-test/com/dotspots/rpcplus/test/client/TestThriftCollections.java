@@ -1,5 +1,6 @@
 package com.dotspots.rpcplus.test.client;
 
+import com.dotspots.rpcplus.client.jscollections.JsRpcIntObjectProcedure;
 import com.dotspots.rpcplus.client.jscollections.JsRpcList;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListBool;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListInt;
@@ -42,6 +43,46 @@ public class TestThriftCollections extends GWTTestCase {
 		list.add(JavaScriptObject.createArray());
 
 		assertEquals(2, list.size());
+	}
+
+	public void testListForEach() {
+		JsRpcList<JavaScriptObject> list = JsRpcList.create();
+		list.add(JavaScriptObject.createArray());
+		list.add(JavaScriptObject.createArray());
+
+		final int[] result = new int[2];
+
+		assertTrue(list.forEach(new JsRpcIntObjectProcedure<JavaScriptObject>() {
+			public boolean execute(int a, JavaScriptObject b) {
+				result[a] = 1;
+				return true;
+			}
+		}));
+
+		assertEquals(1, result[0]);
+		assertEquals(1, result[1]);
+	}
+
+	public void testListForEach2() {
+		JsRpcList<JavaScriptObject> list = JsRpcList.create();
+		list.add(JavaScriptObject.createArray());
+		list.add(JavaScriptObject.createArray());
+
+		final int[] result2 = new int[2];
+
+		assertFalse(list.forEach(new JsRpcIntObjectProcedure<JavaScriptObject>() {
+			public boolean execute(int a, JavaScriptObject b) {
+				result2[a] = 1;
+				if (a == 0) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		}));
+
+		assertEquals(1, result2[0]);
+		assertEquals(0, result2[1]);
 	}
 
 	public void testListLong() {
