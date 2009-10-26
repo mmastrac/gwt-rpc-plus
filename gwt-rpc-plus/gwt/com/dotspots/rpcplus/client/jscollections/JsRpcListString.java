@@ -30,6 +30,20 @@ public final class JsRpcListString extends JavaScriptObject {
         this.splice(idx, 1);
     }-*/;
 
+    public native boolean forEach(JsRpcStringProcedure procedure) /*-{
+        for (var i = 0; i < this.length; i++) { 
+            if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcStringProcedure::execute(Ljava/lang/String;)(this[i])) return false;
+        }
+        return true;
+    }-*/;
+
+    public native boolean forEach(JsRpcIntStringProcedure procedure) /*-{
+        for (var i = 0; i < this.length; i++) { 
+            if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcIntStringProcedure::execute(ILjava/lang/String;)(i, this[i])) return false;
+        }
+        return true;
+    }-*/;
+
     public native String get(int idx) /*-{
         return this[idx] || null;
     }-*/;
