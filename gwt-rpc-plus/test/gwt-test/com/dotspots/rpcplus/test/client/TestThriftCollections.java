@@ -10,6 +10,7 @@ import com.dotspots.rpcplus.client.jscollections.JsRpcMapIntLong;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapStringLong;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapStringString;
 import com.dotspots.rpcplus.client.jscollections.JsRpcSetString;
+import com.dotspots.rpcplus.client.jscollections.JsRpcStringProcedure;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -206,6 +207,35 @@ public class TestThriftCollections extends GWTTestCase {
 		assertFalse(set.contains(""));
 		assertTrue(set.contains("watch"));
 		assertFalse(set.contains("_"));
+	}
+
+	/**
+	 * Tests the forEach method over a set.
+	 */
+	public void testSetStringForEach() {
+		JsRpcSetString set = JsRpcSetString.create();
+		set.add("");
+		set.add("watch");
+
+		final boolean[] result = new boolean[3];
+
+		assertTrue(set.forEach(new JsRpcStringProcedure() {
+			public boolean execute(String value) {
+				if (value.equals("")) {
+					result[0] = true;
+				} else if (value.equals("watch")) {
+					result[1] = true;
+				} else {
+					result[2] = true;
+				}
+
+				return true;
+			}
+		}));
+
+		assertTrue(result[0]);
+		assertTrue(result[1]);
+		assertFalse(result[2]);
 	}
 
 	/**

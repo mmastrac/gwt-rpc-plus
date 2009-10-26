@@ -18,6 +18,15 @@ public final class JsRpcSetInt extends JavaScriptObject {
         return (idx in this);
     }-*/;
 
+    public native boolean forEach(JsRpcIntProcedure procedure) /*-{
+        for (x in this) { 
+            if (this.hasOwnProperty(x)) {
+                if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcIntProcedure::execute(I)(x.slice(1))) return false;
+            }
+        }
+        return true;
+    }-*/;
+
     /**
      * Counts the size of a collection through brute force (slow).
      */

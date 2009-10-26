@@ -188,7 +188,7 @@ public class CollectionGen {
 		String valueType = (value == null || value == Object.class) ? "E" : value.getSimpleName();
 		String keyType = (key == null || key == Object.class) ? "E" : key.getSimpleName();
 		String valueBinaryName = getBinaryName(value);
-		String keyBinaryName = getBinaryName(value);
+		String keyBinaryName = getBinaryName(key);
 		String indexer = (key == String.class) ? "['_' + idx]" : "[idx]";
 		String keyString = (key == String.class) ? "'_' + idx" : "idx";
 		String defaultValue = getDefault(value);
@@ -254,6 +254,7 @@ public class CollectionGen {
 					printWriter.println("        }");
 					printWriter.println("        return true;");
 					printWriter.println("    }-*/;");
+					printWriter.println();
 				}
 			} else {
 				if (type == Type.MAP && (value == Object.class || value == String.class)) {
@@ -262,10 +263,22 @@ public class CollectionGen {
 					printWriter.println("    }");
 					printWriter.println();
 				}
-				if (type == Type.SET && (key == Object.class || key == String.class)) {
-					printWriter.println("    public Iterable<" + keyType + "> iterable() {");
-					printWriter.println("        return RpcUtils.<" + keyType + ">getSetIterable(this);");
-					printWriter.println("    }");
+				if (type == Type.SET) {
+					if (key == Object.class || key == String.class) {
+						printWriter.println("    public Iterable<" + keyType + "> iterable() {");
+						printWriter.println("        return RpcUtils.<" + keyType + ">getSetIterable(this);");
+						printWriter.println("    }");
+						printWriter.println();
+					}
+					printWriter.println("    public native boolean forEach(" + getProcedureName(key, true) + " procedure) /*-{");
+					printWriter.println("        for (x in this) { ");
+					printWriter.println("            if (this.hasOwnProperty(x)) {");
+					printWriter.println("                if (!procedure.@" + packageName + "." + getProcedureName(key, false)
+							+ "::execute(" + keyBinaryName + ")(x.slice(1))) return false;");
+					printWriter.println("            }");
+					printWriter.println("        }");
+					printWriter.println("        return true;");
+					printWriter.println("    }-*/;");
 					printWriter.println();
 				}
 				printWriter.println("    /**");
@@ -282,8 +295,8 @@ public class CollectionGen {
 				printWriter.println("    public native void remove(" + key.getSimpleName() + " idx) /*-{");
 				printWriter.println("        delete this" + indexer + ";");
 				printWriter.println("    }-*/;");
+				printWriter.println();
 			}
-			printWriter.println();
 
 			if (getter) {
 				if (valueType.equals("long")) {

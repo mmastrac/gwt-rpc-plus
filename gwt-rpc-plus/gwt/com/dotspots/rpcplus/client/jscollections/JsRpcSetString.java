@@ -22,6 +22,15 @@ public final class JsRpcSetString extends JavaScriptObject {
         return RpcUtils.<String>getSetIterable(this);
     }
 
+    public native boolean forEach(JsRpcStringProcedure procedure) /*-{
+        for (x in this) { 
+            if (this.hasOwnProperty(x)) {
+                if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcStringProcedure::execute(Ljava/lang/String;)(x.slice(1))) return false;
+            }
+        }
+        return true;
+    }-*/;
+
     /**
      * Counts the size of a collection through brute force (slow).
      */
