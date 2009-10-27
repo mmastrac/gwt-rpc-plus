@@ -20,8 +20,8 @@ import org.svenson.tokenize.JSONTokenizer;
 import com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes;
 import com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds;
 import com.dotspots.rpcplus.example.torturetest.TortureTestApiJson;
-import com.dotspots.rpcplus.jsonrpc.thrift.TJSONNativeProtocol;
-import com.dotspots.rpcplus.jsonrpc.thrift.TJSONOrgProtocol;
+import com.dotspots.rpcplus.jsonrpc.thrift.TJSONProtocolReader;
+import com.dotspots.rpcplus.jsonrpc.thrift.TJSONProtocolWriter;
 
 public class TestJSONNativeProtocol extends Assert {
 	@Test
@@ -55,7 +55,7 @@ public class TestJSONNativeProtocol extends Assert {
 		final Set<String> set = new TreeSet<String>(Arrays.asList("a2", "b2"));
 		obj.setSetOfStrings(set);
 
-		roundTrip("{\"0\":{\"c\":\"d\",\"a\":\"b\"},\"1\":{\"_a2\":0,\"_b2\":0},\"2\":[\"a1\",\"b1\"]}", obj);
+		roundTrip("{\"0\":{\"_c\":\"d\",\"_a\":\"b\"},\"1\":{\"_a2\":0,\"_b2\":0},\"2\":[\"a1\",\"b1\"]}", obj);
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class TestJSONNativeProtocol extends Assert {
 		map.put("c", null);
 		obj.setMapStringToString(map);
 
-		roundTrip("{\"0\":{\"c\":null,\"a\":null},\"2\":[,]}", obj);
+		roundTrip("{\"0\":{\"_c\":null,\"_a\":null},\"2\":[null,null]}", obj);
 	}
 
 	@Test
@@ -83,7 +83,7 @@ public class TestJSONNativeProtocol extends Assert {
 	private void roundTrip(final String expected, TBase obj) throws TException, UnsupportedEncodingException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		TMemoryBuffer buffer = new TMemoryBuffer(10000);
-		TJSONNativeProtocol protocol = new TJSONNativeProtocol(buffer);
+		TJSONProtocolWriter protocol = new TJSONProtocolWriter(buffer);
 
 		// Write to the protocol
 		for (Method method : TortureTestApiJson.class.getDeclaredMethods()) {
@@ -99,7 +99,7 @@ public class TestJSONNativeProtocol extends Assert {
 		Assert.assertEquals(expected, str);
 
 		// Read from the buffer we just wrote
-		TJSONOrgProtocol readProtocol = new TJSONOrgProtocol(new JSONTokenizer(str, true));
+		TJSONProtocolReader readProtocol = new TJSONProtocolReader(new JSONTokenizer(str, true));
 
 		TBase obj2 = null;
 		for (Method method : TortureTestApiJson.class.getDeclaredMethods()) {
@@ -114,7 +114,7 @@ public class TestJSONNativeProtocol extends Assert {
 
 		// Now write it out again
 		buffer = new TMemoryBuffer(10000);
-		protocol = new TJSONNativeProtocol(buffer);
+		protocol = new TJSONProtocolWriter(buffer);
 
 		for (Method method : TortureTestApiJson.class.getDeclaredMethods()) {
 			if (method.getName().equalsIgnoreCase("write" + obj.getClass().getSimpleName())) {

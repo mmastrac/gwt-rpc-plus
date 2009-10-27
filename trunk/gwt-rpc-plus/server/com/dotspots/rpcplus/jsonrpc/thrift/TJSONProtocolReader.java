@@ -9,11 +9,11 @@ import org.svenson.tokenize.TokenType;
 
 import com.google.gwt.json.client.JSONException;
 
-public class TJSONOrgProtocol extends TBaseJSONProtocol {
+public class TJSONProtocolReader extends TBaseJSONProtocol {
 	private Stack<State> states = new Stack<State>();
 	private final JSONTokenizer tokener;
 
-	public TJSONOrgProtocol(JSONTokenizer tokener) {
+	public TJSONProtocolReader(JSONTokenizer tokener) {
 		this.tokener = tokener;
 		states.add(new DefaultState());
 	}
@@ -103,6 +103,8 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 
 		@Override
 		public Token readToken() throws TException {
+			boolean removePrefix = !expectColon;
+
 			try {
 				if (expectColon) {
 					tokener.expectNext(TokenType.COLON);
@@ -113,6 +115,17 @@ public class TJSONOrgProtocol extends TBaseJSONProtocol {
 				throw new TException(e);
 			}
 
+			if (removePrefix) {
+				Token token = super.readToken();
+				if (token.isType(TokenType.STRING)) {
+					final String value = (String) token.value();
+					if (value.startsWith("_")) {
+						return Token.getToken(TokenType.STRING, value.substring(1));
+					}
+				}
+
+				return token;
+			}
 			return super.readToken();
 		}
 	}

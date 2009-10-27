@@ -7,17 +7,16 @@ import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TField;
 import org.apache.thrift.protocol.TList;
 import org.apache.thrift.protocol.TMap;
-import org.apache.thrift.protocol.TMessage;
 import org.apache.thrift.protocol.TProtocolException;
 import org.apache.thrift.protocol.TSet;
 import org.apache.thrift.protocol.TStruct;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 
-public class TJSONNativeProtocol {
+public class TJSONProtocolWriter {
 	protected TTransport trans_;
 
-	public TJSONNativeProtocol(TTransport trans) {
+	public TJSONProtocolWriter(TTransport trans) {
 		trans_ = trans;
 	}
 
@@ -131,6 +130,10 @@ public class TJSONNativeProtocol {
 			return false;
 		}
 
+		protected boolean prefixStringWithUnderscore() {
+			return false;
+		}
+
 		protected boolean nullAsEmpty() {
 			return false;
 		}
@@ -182,6 +185,11 @@ public class TJSONNativeProtocol {
 		}
 
 		@Override
+		protected boolean prefixStringWithUnderscore() {
+			return first_ || !colon_;
+		}
+
+		@Override
 		protected boolean escapeNum() {
 			return colon_;
 		}
@@ -230,11 +238,15 @@ public class TJSONNativeProtocol {
 	}
 
 	// Write the bytes in array buf as a JSON characters, escaping as needed
-	protected void writeJSONString(char[] c) throws TException {
+	protected void writeJSONString(boolean underscorePrefix, char[] c) throws TException {
 		context_.write();
 		trans_.write(QUOTE);
 
 		context_.writeStartString();
+
+		if (underscorePrefix) {
+			trans_.write(UNDERSCORE);
+		}
 
 		int len = c.length;
 		for (int i = 0; i < len; i++) {
@@ -377,18 +389,6 @@ public class TJSONNativeProtocol {
 		trans_.write(RBRACKET);
 	}
 
-	public void writeMessageBegin(TMessage message) throws TException {
-		writeJSONArrayStart();
-		writeJSONInteger(VERSION);
-		writeJSONString(message.name.toCharArray());
-		writeJSONInteger(message.type);
-		writeJSONInteger(message.seqid);
-	}
-
-	public void writeMessageEnd() throws TException {
-		writeJSONArrayEnd();
-	}
-
 	public void writeStructBegin(TStruct struct) throws TException {
 		writeJSONObjectStart();
 	}
@@ -436,7 +436,7 @@ public class TJSONNativeProtocol {
 			writeJSONNull();
 		} else {
 			char[] c = str.toCharArray();
-			writeJSONString(c);
+			writeJSONString(context_.prefixStringWithUnderscore(), c);
 		}
 	}
 

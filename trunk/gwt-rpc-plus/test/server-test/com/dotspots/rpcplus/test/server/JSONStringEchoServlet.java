@@ -14,8 +14,8 @@ import org.apache.thrift.transport.TIOStreamTransport;
 import org.svenson.tokenize.InputStreamSource;
 import org.svenson.tokenize.JSONTokenizer;
 
-import com.dotspots.rpcplus.jsonrpc.thrift.TJSONNativeProtocol;
-import com.dotspots.rpcplus.jsonrpc.thrift.TJSONOrgProtocol;
+import com.dotspots.rpcplus.jsonrpc.thrift.TJSONProtocolWriter;
+import com.dotspots.rpcplus.jsonrpc.thrift.TJSONProtocolReader;
 import com.dotspots.rpcplus.test.client.EveryCharacterStringUtility;
 
 public class JSONStringEchoServlet extends HttpServlet {
@@ -36,7 +36,7 @@ public class JSONStringEchoServlet extends HttpServlet {
 		// System.out.println();
 
 		JSONTokenizer tokener = new JSONTokenizer(new InputStreamSource(req.getInputStream(), false), true);
-		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
+		TJSONProtocolReader protocol = new TJSONProtocolReader(tokener);
 
 		String input;
 		try {
@@ -55,7 +55,7 @@ public class JSONStringEchoServlet extends HttpServlet {
 		}
 
 		resp.setContentType("text/plain");
-		TJSONNativeProtocol outputProtocol = new TJSONNativeProtocol(new TIOStreamTransport(resp.getOutputStream()));
+		TJSONProtocolWriter outputProtocol = new TJSONProtocolWriter(new TIOStreamTransport(resp.getOutputStream()));
 		try {
 			outputProtocol.writeListBegin(null);
 			outputProtocol.writeString(input);

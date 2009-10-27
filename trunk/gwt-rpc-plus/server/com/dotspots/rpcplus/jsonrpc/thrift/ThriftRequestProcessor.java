@@ -50,9 +50,9 @@ public class ThriftRequestProcessor {
 		resp.setContentType("application/json");
 
 		JSONTokenizer tokener = new JSONTokenizer(new InputStreamSource(req.getInputStream(), false), true);
-		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
+		TJSONProtocolReader protocol = new TJSONProtocolReader(tokener);
 
-		TJSONNativeProtocol nativeProtocol = new TJSONNativeProtocol(new TIOStreamTransport(resp.getOutputStream()));
+		TJSONProtocolWriter nativeProtocol = new TJSONProtocolWriter(new TIOStreamTransport(resp.getOutputStream()));
 		servlet.processRequest(protocol, nativeProtocol);
 	}
 
@@ -67,8 +67,8 @@ public class ThriftRequestProcessor {
 
 		resp.getOutputStream().print("<html><body><script>window.name='wnr-" + serial);
 		JSONTokenizer tokener = new JSONTokenizer(new StringJSONSource(json), true);
-		TJSONOrgProtocol protocol = new TJSONOrgProtocol(tokener);
-		TJSONNativeProtocol nativeProtocol = new TJSONNativeProtocol(new EscapingStreamTransport(resp.getOutputStream()));
+		TJSONProtocolReader protocol = new TJSONProtocolReader(tokener);
+		TJSONProtocolWriter nativeProtocol = new TJSONProtocolWriter(new EscapingStreamTransport(resp.getOutputStream()));
 		servlet.processRequest(protocol, nativeProtocol);
 		resp.getOutputStream().print("';window.location.replace('" + redirect + "');</script></body></html>");
 	}
