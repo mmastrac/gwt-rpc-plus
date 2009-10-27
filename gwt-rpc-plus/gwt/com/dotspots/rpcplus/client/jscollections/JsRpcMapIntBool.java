@@ -18,6 +18,24 @@ public final class JsRpcMapIntBool extends JavaScriptObject {
         return (idx in this);
     }-*/;
 
+    public native boolean forEachKey(JsRpcIntProcedure procedure) /*-{
+        for (x in this) { 
+            if (this.hasOwnProperty(x)) {
+                if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcIntProcedure::execute(I)(x.slice(1))) return false;
+            }
+        }
+        return true;
+    }-*/;
+
+    public native boolean forEachValue(JsRpcBoolProcedure procedure) /*-{
+        for (x in this) { 
+            if (this.hasOwnProperty(x)) {
+                if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcBoolProcedure::execute(Z)(this[x])) return false;
+            }
+        }
+        return true;
+    }-*/;
+
     /**
      * Counts the size of a collection through brute force (slow).
      */
@@ -34,6 +52,7 @@ public final class JsRpcMapIntBool extends JavaScriptObject {
     }-*/;
 
     public native boolean get(int idx) /*-{
+        // Coerce to boolean in case underlying value is integer
         return !!this[idx];
     }-*/;
 

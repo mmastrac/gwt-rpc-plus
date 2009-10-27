@@ -257,41 +257,47 @@ public class CollectionGen {
 					printWriter.println();
 				}
 			} else {
-				if (type == Type.MAP && (value == Object.class || value == String.class)) {
-					printWriter.println("    public Iterable<" + valueType + "> keysIterable() {");
-					printWriter.println("        return RpcUtils.<" + valueType + ">getMapIterable(this);");
-					printWriter.println("    }");
-					printWriter.println();
-					printWriter.println("    public native boolean forEachEntry(" + getProcedureName(key, value, true) + " procedure) /*-{");
-					printWriter.println("        for (x in this) { ");
-					printWriter.println("            if (this.hasOwnProperty(x)) {");
-					printWriter.println("                if (!procedure.@" + packageName + "." + getProcedureName(key, value, false)
-							+ "::execute(" + keyBinaryName + valueBinaryName + ")(x.slice(1), this[x])) return false;");
-					printWriter.println("            }");
-					printWriter.println("        }");
-					printWriter.println("        return true;");
-					printWriter.println("    }-*/;");
-					printWriter.println();
-					printWriter.println("    public native boolean forEachKey(" + getProcedureName(key, true) + " procedure) /*-{");
-					printWriter.println("        for (x in this) { ");
-					printWriter.println("            if (this.hasOwnProperty(x)) {");
-					printWriter.println("                if (!procedure.@" + packageName + "." + getProcedureName(key, false)
-							+ "::execute(" + keyBinaryName + ")(x.slice(1))) return false;");
-					printWriter.println("            }");
-					printWriter.println("        }");
-					printWriter.println("        return true;");
-					printWriter.println("    }-*/;");
-					printWriter.println();
-					printWriter.println("    public native boolean forEachValue(" + getProcedureName(value, true) + " procedure) /*-{");
-					printWriter.println("        for (x in this) { ");
-					printWriter.println("            if (this.hasOwnProperty(x)) {");
-					printWriter.println("                if (!procedure.@" + packageName + "." + getProcedureName(value, false)
-							+ "::execute(" + valueBinaryName + ")(this[x])) return false;");
-					printWriter.println("            }");
-					printWriter.println("        }");
-					printWriter.println("        return true;");
-					printWriter.println("    }-*/;");
-					printWriter.println();
+				if (type == Type.MAP) {
+					if (value == Object.class || value == String.class) {
+						printWriter.println("    public Iterable<" + valueType + "> keysIterable() {");
+						printWriter.println("        return RpcUtils.<" + valueType + ">getMapIterable(this);");
+						printWriter.println("    }");
+						printWriter.println();
+						printWriter.println("    public native boolean forEachEntry(" + getProcedureName(key, value, true)
+								+ " procedure) /*-{");
+						printWriter.println("        for (x in this) { ");
+						printWriter.println("            if (this.hasOwnProperty(x)) {");
+						printWriter.println("                if (!procedure.@" + packageName + "." + getProcedureName(key, value, false)
+								+ "::execute(" + keyBinaryName + valueBinaryName + ")(x.slice(1), this[x])) return false;");
+						printWriter.println("            }");
+						printWriter.println("        }");
+						printWriter.println("        return true;");
+						printWriter.println("    }-*/;");
+						printWriter.println();
+					}
+
+					if (value != long.class) {
+						printWriter.println("    public native boolean forEachKey(" + getProcedureName(key, true) + " procedure) /*-{");
+						printWriter.println("        for (x in this) { ");
+						printWriter.println("            if (this.hasOwnProperty(x)) {");
+						printWriter.println("                if (!procedure.@" + packageName + "." + getProcedureName(key, false)
+								+ "::execute(" + keyBinaryName + ")(x.slice(1))) return false;");
+						printWriter.println("            }");
+						printWriter.println("        }");
+						printWriter.println("        return true;");
+						printWriter.println("    }-*/;");
+						printWriter.println();
+						printWriter.println("    public native boolean forEachValue(" + getProcedureName(value, true) + " procedure) /*-{");
+						printWriter.println("        for (x in this) { ");
+						printWriter.println("            if (this.hasOwnProperty(x)) {");
+						printWriter.println("                if (!procedure.@" + packageName + "." + getProcedureName(value, false)
+								+ "::execute(" + valueBinaryName + ")(this[x])) return false;");
+						printWriter.println("            }");
+						printWriter.println("        }");
+						printWriter.println("        return true;");
+						printWriter.println("    }-*/;");
+						printWriter.println();
+					}
 				}
 				if (type == Type.SET) {
 					if (key == Object.class || key == String.class) {
@@ -329,7 +335,7 @@ public class CollectionGen {
 			}
 
 			if (getter) {
-				if (valueType.equals("long")) {
+				if (value == long.class) {
 					printWriter.println("    public " + valueType + " get(" + key.getSimpleName() + " idx) {");
 					printWriter.println("        return RpcUtils.fromDoubles(get0(idx));");
 					printWriter.println("    };");
@@ -340,7 +346,8 @@ public class CollectionGen {
 					printWriter.println("    }-*/;");
 				} else {
 					printWriter.println("    public native " + valueType + " get(" + key.getSimpleName() + " idx) /*-{");
-					if (valueType.equals("boolean")) {
+					if (value == boolean.class) {
+						printWriter.println("        // Coerce to boolean in case underlying value is integer");
 						printWriter.println("        return !!this" + indexer + ";");
 					} else {
 						printWriter.println("        return this" + indexer + " || " + defaultValue + ";");
@@ -349,7 +356,7 @@ public class CollectionGen {
 				}
 				printWriter.println();
 
-				if (valueType.equals("long")) {
+				if (value == long.class) {
 					printWriter.println("    public void set(" + key.getSimpleName() + " idx, " + valueType + " value) {");
 					printWriter.println("        set0(idx, RpcUtils.toDoubles(value));");
 					printWriter.println("    }");
@@ -367,7 +374,7 @@ public class CollectionGen {
 			}
 
 			if (type == Type.LIST) {
-				if (valueType.equals("long")) {
+				if (value == long.class) {
 					printWriter.println("    public void add(" + valueType + " value) {");
 					printWriter.println("        add0(RpcUtils.toDoubles(value));");
 					printWriter.println("    }");
