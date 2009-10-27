@@ -18,6 +18,15 @@ public final class JsRpcMapIntInt extends JavaScriptObject {
         return (idx in this);
     }-*/;
 
+    public native boolean forEachEntry(JsRpcIntIntProcedure procedure) /*-{
+        for (x in this) { 
+            if (this.hasOwnProperty(x)) {
+                if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcIntIntProcedure::execute(II)(x.slice(1), this[x])) return false;
+            }
+        }
+        return true;
+    }-*/;
+
     public native boolean forEachKey(JsRpcIntProcedure procedure) /*-{
         for (x in this) { 
             if (this.hasOwnProperty(x)) {

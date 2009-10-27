@@ -18,6 +18,15 @@ public final class JsRpcMapIntBool extends JavaScriptObject {
         return (idx in this);
     }-*/;
 
+    public native boolean forEachEntry(JsRpcIntBoolProcedure procedure) /*-{
+        for (x in this) { 
+            if (this.hasOwnProperty(x)) {
+                if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcIntBoolProcedure::execute(IZ)(x.slice(1), this[x])) return false;
+            }
+        }
+        return true;
+    }-*/;
+
     public native boolean forEachKey(JsRpcIntProcedure procedure) /*-{
         for (x in this) { 
             if (this.hasOwnProperty(x)) {

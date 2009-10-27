@@ -263,6 +263,9 @@ public class CollectionGen {
 						printWriter.println("        return RpcUtils.<" + valueType + ">getMapIterable(this);");
 						printWriter.println("    }");
 						printWriter.println();
+					}
+
+					if (value != long.class) {
 						printWriter.println("    public native boolean forEachEntry(" + getProcedureName(key, value, true)
 								+ " procedure) /*-{");
 						printWriter.println("        for (x in this) { ");
@@ -274,9 +277,7 @@ public class CollectionGen {
 						printWriter.println("        return true;");
 						printWriter.println("    }-*/;");
 						printWriter.println();
-					}
 
-					if (value != long.class) {
 						printWriter.println("    public native boolean forEachKey(" + getProcedureName(key, true) + " procedure) /*-{");
 						printWriter.println("        for (x in this) { ");
 						printWriter.println("            if (this.hasOwnProperty(x)) {");
@@ -287,6 +288,7 @@ public class CollectionGen {
 						printWriter.println("        return true;");
 						printWriter.println("    }-*/;");
 						printWriter.println();
+
 						printWriter.println("    public native boolean forEachValue(" + getProcedureName(value, true) + " procedure) /*-{");
 						printWriter.println("        for (x in this) { ");
 						printWriter.println("            if (this.hasOwnProperty(x)) {");
