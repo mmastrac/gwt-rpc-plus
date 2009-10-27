@@ -380,7 +380,7 @@ public class CollectionGen {
 					printWriter.println("    }");
 					printWriter.println();
 
-					printWriter.println("    public native void add0(JavaScriptObject value) /*-{");
+					printWriter.println("    private native void add0(JavaScriptObject value) /*-{");
 					printWriter.println("        this.push(value);");
 					printWriter.println("    }-*/;");
 				} else {
