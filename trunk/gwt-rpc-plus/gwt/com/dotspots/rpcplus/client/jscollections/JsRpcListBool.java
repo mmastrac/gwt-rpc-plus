@@ -45,6 +45,7 @@ public final class JsRpcListBool extends JavaScriptObject {
     }-*/;
 
     public native boolean get(int idx) /*-{
+        // Coerce to boolean in case underlying value is integer
         return !!this[idx];
     }-*/;
 
