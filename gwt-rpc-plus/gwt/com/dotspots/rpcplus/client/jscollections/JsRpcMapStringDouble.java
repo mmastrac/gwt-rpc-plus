@@ -18,6 +18,15 @@ public final class JsRpcMapStringDouble extends JavaScriptObject {
         return ('_' + idx in this);
     }-*/;
 
+    public native boolean forEachEntry(JsRpcStringDoubleProcedure procedure) /*-{
+        for (x in this) { 
+            if (this.hasOwnProperty(x)) {
+                if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcStringDoubleProcedure::execute(Ljava/lang/String;D)(x.slice(1), this[x])) return false;
+            }
+        }
+        return true;
+    }-*/;
+
     public native boolean forEachKey(JsRpcStringProcedure procedure) /*-{
         for (x in this) { 
             if (this.hasOwnProperty(x)) {
