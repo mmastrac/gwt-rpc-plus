@@ -50,7 +50,7 @@ public final class JsRpcListLong extends JavaScriptObject {
         add0(RpcUtils.toDoubles(value));
     }
 
-    public native void add0(JavaScriptObject value) /*-{
+    private native void add0(JavaScriptObject value) /*-{
         this.push(value);
     }-*/;
 
