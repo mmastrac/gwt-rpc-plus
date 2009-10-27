@@ -23,7 +23,7 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 		printWriter.println("public final class " + iface.getClassName() + "Json implements JSONServlet {");
 		printWriter.println("    " + iface.getFullyQualifiedClassName() + ".Iface service;");
 		printWriter.println();
-		printWriter.println("    public void processRequest(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {");
+		printWriter.println("    public void processRequest(TBaseJSONProtocol in, TJSONProtocolWriter out) throws TException {");
 		printWriter.println("        in.readListBegin();");
 		printWriter.println("        in.hasNext();");
 		printWriter.println("        int version = in.readI32();");
@@ -84,7 +84,7 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 		}
 
 		printWriter.println("    private final void " + method.getName()
-				+ "(TBaseJSONProtocol in, TJSONNativeProtocol out) throws TException {");
+				+ "(TBaseJSONProtocol in, TJSONProtocolWriter out) throws TException {");
 		printWriter.println("        " + iface.getClassName() + "." + method.getName() + "_args args = read" + iface.getClassName() + "_"
 				+ method.getName() + "_args(in);");
 		printWriter.println("        " + iface.getClassName() + "." + method.getName() + "_result result = new " + iface.getClassName()
@@ -164,7 +164,7 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 		printWriter.println("    }");
 		printWriter.println();
 
-		printWriter.println("    private static final void write" + type.getClassName(false) + "(TJSONNativeProtocol protocol, "
+		printWriter.println("    private static final void write" + type.getClassName(false) + "(TJSONProtocolWriter protocol, "
 				+ type.getPackageName() + "." + type.getClassName(true) + " obj) throws TException {");
 
 		printWriter.println("        if (obj == null) {");
