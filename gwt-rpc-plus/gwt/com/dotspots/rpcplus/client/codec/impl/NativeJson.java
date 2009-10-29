@@ -20,13 +20,10 @@ public class NativeJson implements JsonDecoder, JsonEncoder {
 	}
 
 	public JavaScriptObject decode(String json) throws JsonParseException {
-		JavaScriptObject savedToJSON = saveToJSONMethods(wnd);
 		try {
 			return decodeNative(wnd, json);
 		} catch (Throwable t) {
 			throw new JsonParseException(t);
-		} finally {
-			restoreToJSONMethods(wnd, savedToJSON);
 		}
 	}
 
@@ -54,7 +51,12 @@ public class NativeJson implements JsonDecoder, JsonEncoder {
 	}-*/;
 
 	public String encode(JavaScriptObject jso) {
-		return TransportUnicodeCleaner.cleanUnicodeForTransport(encodeNative(wnd, jso));
+		JavaScriptObject savedToJSON = saveToJSONMethods(wnd);
+		try {
+			return TransportUnicodeCleaner.cleanUnicodeForTransport(encodeNative(wnd, jso));
+		} finally {
+			restoreToJSONMethods(wnd, savedToJSON);
+		}
 	}
 
 	private static native String encodeNative(JavaScriptObject wnd, JavaScriptObject jso) /*-{
