@@ -6,7 +6,7 @@ import com.dotspots.rpcplus.client.codec.JsonParseException;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * Encodes and decodes JSON using window.JSON methods.
+ * Encodes and decodes JSON using window.JSON methods. Requires a native window to hook into.
  */
 public class NativeJson implements JsonDecoder, JsonEncoder {
 	private final JavaScriptObject wnd;
@@ -20,18 +20,44 @@ public class NativeJson implements JsonDecoder, JsonEncoder {
 	}
 
 	public JavaScriptObject decode(String json) throws JsonParseException {
+		JavaScriptObject savedToJSON = saveToJSONMethods(wnd);
 		try {
 			return decodeNative(wnd, json);
 		} catch (Throwable t) {
 			throw new JsonParseException(t);
+		} finally {
+			restoreToJSONMethods(wnd, savedToJSON);
 		}
 	}
+
+	private native void restoreToJSONMethods(JavaScriptObject window, JavaScriptObject savedToJSON) /*-{
+		window.Object.prototype.toJSON = savedToJSON[0];
+		window.Array.prototype.toJSON = savedToJSON[1];
+		window.Number.prototype.toJSON = savedToJSON[2];
+		window.Boolean.prototype.toJSON = savedToJSON[3];
+		window.String.prototype.toJSON = savedToJSON[4];
+	}-*/;
+
+	/**
+	 * Workaround prototype.js' incompatible toJSON method on Array.
+	 * 
+	 * http://yuilibrary.com/projects/yui2/ticket/2528561
+	 */
+	private native JavaScriptObject saveToJSONMethods(JavaScriptObject window) /*-{
+		var saved = [window.Object.prototype.toJSON, window.Array.prototype.toJSON, window.Number.prototype.toJSON, window.Boolean.prototype.toJSON, window.String.prototype.toJSON];
+		delete window.Object.prototype.toJSON;
+		delete window.Array.prototype.toJSON;
+		delete window.Number.prototype.toJSON;
+		delete window.Boolean.prototype.toJSON;
+		delete window.String.prototype.toJSON;
+		return saved;
+	}-*/;
 
 	public String encode(JavaScriptObject jso) {
 		return TransportUnicodeCleaner.cleanUnicodeForTransport(encodeNative(wnd, jso));
 	}
 
-	public static native String encodeNative(JavaScriptObject wnd, JavaScriptObject jso) /*-{
+	private static native String encodeNative(JavaScriptObject wnd, JavaScriptObject jso) /*-{
 		return wnd.JSON.stringify(jso);
 	}-*/;
 

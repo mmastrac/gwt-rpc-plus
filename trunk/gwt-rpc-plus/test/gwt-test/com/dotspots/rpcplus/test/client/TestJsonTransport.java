@@ -20,6 +20,18 @@ import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class TestJsonTransport extends GWTTestCase {
+	@Override
+	protected void gwtSetUp() throws Exception {
+		super.gwtSetUp();
+		addObjectPrototypeBadness(getWindow());
+	}
+
+	@Override
+	protected void gwtTearDown() throws Exception {
+		super.gwtTearDown();
+		removeObjectPrototypeBadness(getWindow());
+	}
+
 	/**
 	 * Tests the standard encoder/decoder for every platform.
 	 */
@@ -195,4 +207,14 @@ public class TestJsonTransport extends GWTTestCase {
 	public String getModuleName() {
 		return "com.dotspots.rpcplus.test.Test";
 	}
+
+	private native void removeObjectPrototypeBadness(JavaScriptObject window) /*-{
+		delete window.Array.prototype.toJSON;
+		delete window.Object.prototype.toJSON;
+	}-*/;
+
+	private native void addObjectPrototypeBadness(JavaScriptObject window) /*-{
+		window.Array.prototype.toJSON = function() { return "bleh"; };
+		window.Object.prototype.toJSON = function() { return "bleh"; };
+	}-*/;
 }

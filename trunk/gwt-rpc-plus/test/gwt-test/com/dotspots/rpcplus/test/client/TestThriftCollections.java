@@ -280,14 +280,6 @@ public class TestThriftCollections extends GWTTestCase {
 		assertTrue(boolList.get(3));
 	}
 
-	private native void removeObjectPrototypeBadness() /*-{
-		delete Object.prototype.dontDoThis;
-	}-*/;
-
-	private native void addObjectPrototypeBadness() /*-{
-		Object.prototype.dontDoThis = true;
-	}-*/;
-
 	public void testIsEmpty() {
 		JsRpcList<JavaScriptObject> list1 = JsRpcList.create();
 		assertTrue(list1.isEmpty());
@@ -311,4 +303,12 @@ public class TestThriftCollections extends GWTTestCase {
 		assertTrue(set1.isEmpty());
 
 	}
+
+	private native void removeObjectPrototypeBadness() /*-{
+		delete Object.prototype.dontDoThis;
+	}-*/;
+
+	private native void addObjectPrototypeBadness() /*-{
+		Object.prototype.dontDoThis = true;
+	}-*/;
 }
