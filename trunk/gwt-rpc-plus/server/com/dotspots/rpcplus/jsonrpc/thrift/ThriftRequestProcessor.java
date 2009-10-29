@@ -14,8 +14,28 @@ import org.svenson.tokenize.JSONTokenizer;
 import org.svenson.tokenize.StringJSONSource;
 
 public class ThriftRequestProcessor {
+	private static final ThreadLocal<HttpServletRequest> request = new ThreadLocal<HttpServletRequest>();
+	private static final ThreadLocal<HttpServletResponse> response = new ThreadLocal<HttpServletResponse>();
+
+	/**
+	 * Gets the currently active HTTP request (only valid within a JSON request).
+	 */
+	public static HttpServletRequest getCurrentRequest() {
+		return request.get();
+	}
+
+	/**
+	 * Gets the currently active HTTP response (only valid within a JSON request).
+	 */
+	public static HttpServletResponse getCurrentResponse() {
+		return response.get();
+	}
+
 	public void handleRequest(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		try {
+			request.set(req);
+			response.set(resp);
+
 			if (req.getMethod().equals("POST")) {
 				final String contentType = req.getContentType();
 				if (contentType != null) {
@@ -34,6 +54,9 @@ public class ThriftRequestProcessor {
 			throw new ServletException(e);
 		} catch (JSONParseException e) {
 			throw new ServletException(e);
+		} finally {
+			request.set(null);
+			response.set(null);
 		}
 	}
 

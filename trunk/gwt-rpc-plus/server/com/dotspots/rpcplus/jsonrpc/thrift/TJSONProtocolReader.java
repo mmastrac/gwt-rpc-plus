@@ -3,11 +3,10 @@ package com.dotspots.rpcplus.jsonrpc.thrift;
 import java.util.Stack;
 
 import org.apache.thrift.TException;
+import org.svenson.JSONParseException;
 import org.svenson.tokenize.JSONTokenizer;
 import org.svenson.tokenize.Token;
 import org.svenson.tokenize.TokenType;
-
-import com.google.gwt.json.client.JSONException;
 
 public class TJSONProtocolReader extends TBaseJSONProtocol {
 	private Stack<State> states = new Stack<State>();
@@ -68,7 +67,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 				} else {
 					return (tokener.next().type() == TokenType.COMMA);
 				}
-			} catch (JSONException e) {
+			} catch (JSONParseException e) {
 				throw new TException(e);
 			}
 		}
@@ -96,7 +95,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 				} else {
 					return (tokener.next().type() == TokenType.COMMA);
 				}
-			} catch (JSONException e) {
+			} catch (JSONParseException e) {
 				throw new TException(e);
 			}
 		}
@@ -111,7 +110,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 				}
 
 				expectColon = !expectColon;
-			} catch (JSONException e) {
+			} catch (JSONParseException e) {
 				throw new TException(e);
 			}
 
@@ -153,7 +152,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 					tokener.expectNext(TokenType.INTEGER);
 					return (tokener.next().type() == TokenType.COMMA);
 				}
-			} catch (JSONException e) {
+			} catch (JSONParseException e) {
 				throw new TException(e);
 			}
 		}
@@ -212,7 +211,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 			}
 
 			throw new TException("Unexpected type: " + nextValue.toString());
-		} catch (JSONException e) {
+		} catch (JSONParseException e) {
 			throw new TException(e);
 		}
 	}
@@ -232,7 +231,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 			}
 
 			throw new TException("Unexpected type: " + nextValue.toString());
-		} catch (JSONException e) {
+		} catch (JSONParseException e) {
 			throw new TException(e);
 		} catch (NumberFormatException e) {
 			throw new TException(e);
@@ -272,7 +271,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 			}
 
 			throw new TException("Unexpected type: " + nextValue.toString());
-		} catch (JSONException e) {
+		} catch (JSONParseException e) {
 			throw new TException(e);
 		} catch (NumberFormatException e) {
 			throw new TException(e);
@@ -290,7 +289,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 			case NULL:
 				return false;
 			}
-		} catch (JSONException e) {
+		} catch (JSONParseException e) {
 			throw new TException(e);
 		}
 
@@ -307,7 +306,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 			case NULL:
 				return false;
 			}
-		} catch (JSONException e) {
+		} catch (JSONParseException e) {
 			throw new TException(e);
 		}
 
@@ -324,7 +323,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 			case NULL:
 				return false;
 			}
-		} catch (JSONException e) {
+		} catch (JSONParseException e) {
 			throw new TException(e);
 		}
 
@@ -335,7 +334,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 	public String readString() throws TException {
 		try {
 			return (String) getState().readToken().value();
-		} catch (JSONException e) {
+		} catch (JSONParseException e) {
 			throw new TException(e);
 		}
 	}
@@ -361,7 +360,7 @@ public class TJSONProtocolReader extends TBaseJSONProtocol {
 			case NULL:
 				return false;
 			}
-		} catch (JSONException e) {
+		} catch (JSONParseException e) {
 			throw new TException(e);
 		}
 
