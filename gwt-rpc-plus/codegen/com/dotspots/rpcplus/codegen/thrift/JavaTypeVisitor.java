@@ -90,6 +90,7 @@ public class JavaTypeVisitor implements TypeVisitor {
 	}
 
 	public void visitEnum(RpcTypeEnum struct) {
+		boolean boxed = this.boxed || level > 0;
 		builder.append(boxed ? "Integer" : "int");
 	}
 
