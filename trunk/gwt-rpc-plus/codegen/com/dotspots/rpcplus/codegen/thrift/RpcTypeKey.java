@@ -3,7 +3,7 @@ package com.dotspots.rpcplus.codegen.thrift;
 import org.apache.thrift.protocol.TType;
 
 public enum RpcTypeKey {
-	VOID, BINARY, BOOL, BYTE, DOUBLE, I16, I32, I64, LIST, MAP, SET, STRING, STRUCT;
+	VOID, BINARY, BOOL, BYTE, DOUBLE, I16, I32, I64, LIST, MAP, SET, STRING, STRUCT, ENUM;
 
 	public String getThriftTypeString() {
 		switch (this) {
@@ -33,6 +33,8 @@ public enum RpcTypeKey {
 			return "Set";
 		case LIST:
 			return "List";
+		case ENUM:
+			return "I32";
 		}
 
 		throw new RuntimeException("Unexpected type: " + this);
@@ -66,6 +68,8 @@ public enum RpcTypeKey {
 			return TType.SET;
 		case LIST:
 			return TType.LIST;
+		case ENUM:
+			return TType.I32;
 		}
 
 		throw new RuntimeException("Unexpected type: " + this);

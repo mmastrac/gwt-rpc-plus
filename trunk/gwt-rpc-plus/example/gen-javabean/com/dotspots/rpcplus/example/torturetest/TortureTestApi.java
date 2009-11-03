@@ -50,6 +50,8 @@ public class TortureTestApi {
 
     public ObjectWithComplexTypes methodReturningAnObject4() throws TException;
 
+    public ObjectWithEnum methodReturningAnObject5(ObjectWithEnum arg) throws TException;
+
     public byte[] testBinary(byte[] binaryValue) throws TException;
 
     public void __setContext(ContextIn context) throws TException;
@@ -552,6 +554,39 @@ public class TortureTestApi {
       throw new TApplicationException(TApplicationException.MISSING_RESULT, "methodReturningAnObject4 failed: unknown result");
     }
 
+    public ObjectWithEnum methodReturningAnObject5(ObjectWithEnum arg) throws TException
+    {
+      send_methodReturningAnObject5(arg);
+      return recv_methodReturningAnObject5();
+    }
+
+    public void send_methodReturningAnObject5(ObjectWithEnum arg) throws TException
+    {
+      oprot_.writeMessageBegin(new TMessage("methodReturningAnObject5", TMessageType.CALL, seqid_));
+      methodReturningAnObject5_args args = new methodReturningAnObject5_args();
+      args.arg = arg;
+      args.write(oprot_);
+      oprot_.writeMessageEnd();
+      oprot_.getTransport().flush();
+    }
+
+    public ObjectWithEnum recv_methodReturningAnObject5() throws TException
+    {
+      TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == TMessageType.EXCEPTION) {
+        TApplicationException x = TApplicationException.read(iprot_);
+        iprot_.readMessageEnd();
+        throw x;
+      }
+      methodReturningAnObject5_result result = new methodReturningAnObject5_result();
+      result.read(iprot_);
+      iprot_.readMessageEnd();
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new TApplicationException(TApplicationException.MISSING_RESULT, "methodReturningAnObject5 failed: unknown result");
+    }
+
     public byte[] testBinary(byte[] binaryValue) throws TException
     {
       send_testBinary(binaryValue);
@@ -666,6 +701,7 @@ public class TortureTestApi {
       processMap_.put("methodReturningAnObject2", new methodReturningAnObject2());
       processMap_.put("methodReturningAnObject3", new methodReturningAnObject3());
       processMap_.put("methodReturningAnObject4", new methodReturningAnObject4());
+      processMap_.put("methodReturningAnObject5", new methodReturningAnObject5());
       processMap_.put("testBinary", new testBinary());
       processMap_.put("__setContext", new __setContext());
       processMap_.put("__getContext", new __getContext());
@@ -931,6 +967,22 @@ public class TortureTestApi {
         methodReturningAnObject4_result result = new methodReturningAnObject4_result();
         result.success = iface_.methodReturningAnObject4();
         oprot.writeMessageBegin(new TMessage("methodReturningAnObject4", TMessageType.REPLY, seqid));
+        result.write(oprot);
+        oprot.writeMessageEnd();
+        oprot.getTransport().flush();
+      }
+
+    }
+
+    private class methodReturningAnObject5 implements ProcessFunction {
+      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      {
+        methodReturningAnObject5_args args = new methodReturningAnObject5_args();
+        args.read(iprot);
+        iprot.readMessageEnd();
+        methodReturningAnObject5_result result = new methodReturningAnObject5_result();
+        result.success = iface_.methodReturningAnObject5(args.arg);
+        oprot.writeMessageBegin(new TMessage("methodReturningAnObject5", TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -5977,6 +6029,389 @@ public class TortureTestApi {
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder("methodReturningAnObject4_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+      // check that fields of type enum have valid values
+    }
+
+  }
+
+  public static class methodReturningAnObject5_args implements TBase, java.io.Serializable, Cloneable   {
+    private static final TStruct STRUCT_DESC = new TStruct("methodReturningAnObject5_args");
+    private static final TField ARG_FIELD_DESC = new TField("arg", TType.STRUCT, (short)1);
+
+    private ObjectWithEnum arg;
+    public static final int ARG = 1;
+
+    private final Isset __isset = new Isset();
+    private static final class Isset implements java.io.Serializable {
+    }
+
+    public static final Map<Integer, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new HashMap<Integer, FieldMetaData>() {{
+      put(ARG, new FieldMetaData("arg", TFieldRequirementType.DEFAULT, 
+          new StructMetaData(TType.STRUCT, ObjectWithEnum.class)));
+    }});
+
+    static {
+      FieldMetaData.addStructMetaDataMap(methodReturningAnObject5_args.class, metaDataMap);
+    }
+
+    public methodReturningAnObject5_args() {
+    }
+
+    public methodReturningAnObject5_args(
+      ObjectWithEnum arg)
+    {
+      this();
+      this.arg = arg;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public methodReturningAnObject5_args(methodReturningAnObject5_args other) {
+      if (other.isSetArg()) {
+        this.arg = new ObjectWithEnum(other.arg);
+      }
+    }
+
+    @Override
+    public methodReturningAnObject5_args clone() {
+      return new methodReturningAnObject5_args(this);
+    }
+
+    public ObjectWithEnum getArg() {
+      return this.arg;
+    }
+
+    public void setArg(ObjectWithEnum arg) {
+      this.arg = arg;
+    }
+
+    public void unsetArg() {
+      this.arg = null;
+    }
+
+    // Returns true if field arg is set (has been asigned a value) and false otherwise
+    public boolean isSetArg() {
+      return this.arg != null;
+    }
+
+    public void setFieldValue(int fieldID, Object value) {
+      switch (fieldID) {
+      case ARG:
+        if (value == null) {
+          unsetArg();
+        } else {
+          setArg((ObjectWithEnum)value);
+        }
+        break;
+
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    public Object getFieldValue(int fieldID) {
+      switch (fieldID) {
+      case ARG:
+        return getArg();
+
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    // Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise
+    public boolean isSet(int fieldID) {
+      switch (fieldID) {
+      case ARG:
+        return isSetArg();
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof methodReturningAnObject5_args)
+        return this.equals((methodReturningAnObject5_args)that);
+      return false;
+    }
+
+    public boolean equals(methodReturningAnObject5_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_arg = true && this.isSetArg();
+      boolean that_present_arg = true && that.isSetArg();
+      if (this_present_arg || that_present_arg) {
+        if (!(this_present_arg && that_present_arg))
+          return false;
+        if (!this.arg.equals(that.arg))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public void read(TProtocol iprot) throws TException {
+      TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == TType.STOP) { 
+          break;
+        }
+        switch (field.id)
+        {
+          case ARG:
+            if (field.type == TType.STRUCT) {
+              this.arg = new ObjectWithEnum();
+              this.arg.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          default:
+            TProtocolUtil.skip(iprot, field.type);
+            break;
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      validate();
+    }
+
+    public void write(TProtocol oprot) throws TException {
+      validate();
+
+      oprot.writeStructBegin(STRUCT_DESC);
+      if (this.arg != null) {
+        oprot.writeFieldBegin(ARG_FIELD_DESC);
+        this.arg.write(oprot);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("methodReturningAnObject5_args(");
+      boolean first = true;
+
+      sb.append("arg:");
+      if (this.arg == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.arg);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+      // check that fields of type enum have valid values
+    }
+
+  }
+
+  public static class methodReturningAnObject5_result implements TBase, java.io.Serializable, Cloneable   {
+    private static final TStruct STRUCT_DESC = new TStruct("methodReturningAnObject5_result");
+    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+
+    private ObjectWithEnum success;
+    public static final int SUCCESS = 0;
+
+    private final Isset __isset = new Isset();
+    private static final class Isset implements java.io.Serializable {
+    }
+
+    public static final Map<Integer, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new HashMap<Integer, FieldMetaData>() {{
+      put(SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
+          new StructMetaData(TType.STRUCT, ObjectWithEnum.class)));
+    }});
+
+    static {
+      FieldMetaData.addStructMetaDataMap(methodReturningAnObject5_result.class, metaDataMap);
+    }
+
+    public methodReturningAnObject5_result() {
+    }
+
+    public methodReturningAnObject5_result(
+      ObjectWithEnum success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public methodReturningAnObject5_result(methodReturningAnObject5_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new ObjectWithEnum(other.success);
+      }
+    }
+
+    @Override
+    public methodReturningAnObject5_result clone() {
+      return new methodReturningAnObject5_result(this);
+    }
+
+    public ObjectWithEnum getSuccess() {
+      return this.success;
+    }
+
+    public void setSuccess(ObjectWithEnum success) {
+      this.success = success;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    // Returns true if field success is set (has been asigned a value) and false otherwise
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setFieldValue(int fieldID, Object value) {
+      switch (fieldID) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((ObjectWithEnum)value);
+        }
+        break;
+
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    public Object getFieldValue(int fieldID) {
+      switch (fieldID) {
+      case SUCCESS:
+        return getSuccess();
+
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    // Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise
+    public boolean isSet(int fieldID) {
+      switch (fieldID) {
+      case SUCCESS:
+        return isSetSuccess();
+      default:
+        throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
+      }
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof methodReturningAnObject5_result)
+        return this.equals((methodReturningAnObject5_result)that);
+      return false;
+    }
+
+    public boolean equals(methodReturningAnObject5_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      return 0;
+    }
+
+    public void read(TProtocol iprot) throws TException {
+      TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == TType.STOP) { 
+          break;
+        }
+        switch (field.id)
+        {
+          case SUCCESS:
+            if (field.type == TType.STRUCT) {
+              this.success = new ObjectWithEnum();
+              this.success.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          default:
+            TProtocolUtil.skip(iprot, field.type);
+            break;
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      validate();
+    }
+
+    public void write(TProtocol oprot) throws TException {
+      oprot.writeStructBegin(STRUCT_DESC);
+
+      if (this.isSetSuccess()) {
+        oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+        this.success.write(oprot);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("methodReturningAnObject5_result(");
       boolean first = true;
 
       sb.append("success:");

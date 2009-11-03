@@ -14,7 +14,7 @@ import org.apache.hadoop.hive.serde2.dynamic_type.DynamicSerDeXception;
 import org.apache.thrift.protocol.TType;
 
 public class RpcTypeFactory {
-	private final Map<DynamicSerDeStructBase, RpcTypeStruct> types = new HashMap<DynamicSerDeStructBase, RpcTypeStruct>();
+	private final Map<DynamicSerDeTypeBase, RpcTypeBase> types = new HashMap<DynamicSerDeTypeBase, RpcTypeBase>();
 	private final String suffixPackage;
 
 	public RpcTypeFactory() {
@@ -30,6 +30,10 @@ public class RpcTypeFactory {
 	}
 
 	public RpcTypeBase get(DynamicSerDeTypeBase type) throws RpcParseException {
+		if (types.containsKey(type)) {
+			return types.get(type);
+		}
+
 		if (type instanceof DynamicSerDeTypeSet) {
 			return new RpcTypeSet(get(((DynamicSerDeTypeSet) type).getElementType()));
 		}
@@ -43,10 +47,6 @@ public class RpcTypeFactory {
 		}
 
 		if (type instanceof DynamicSerDeStructBase) {
-			if (types.containsKey(type)) {
-				return types.get(type);
-			}
-
 			final DynamicSerDeStructBase structBase = (DynamicSerDeStructBase) type;
 			RpcStruct struct = new RpcStruct(this, structBase.getName(), structBase.getNamespace(),
 					structBase instanceof DynamicSerDeXception, structBase.getFieldList().getChildren());
@@ -57,8 +57,13 @@ public class RpcTypeFactory {
 		}
 
 		if (type instanceof DynamicSerDeEnum) {
-			// TODO: Real enums here?
-			return new RpcTypeNative(RpcTypeKey.I32);
+			DynamicSerDeEnum rawEnumType = (DynamicSerDeEnum) type;
+			RpcStruct struct = new RpcStruct(this, rawEnumType.getName(), rawEnumType.getNamespace(), rawEnumType.getFieldList()
+					.getChildren());
+			RpcTypeEnum enumType = new RpcTypeEnum(struct);
+
+			types.put(rawEnumType, enumType);
+			return enumType;
 		}
 
 		DynamicSerDeTypeBase typeBase = type;

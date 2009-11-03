@@ -100,6 +100,10 @@ public class GwtCodeGenBase {
 				throw new RuntimeException("Unavailable type: Set of " + elementType);
 			}
 
+			public void visitEnum(RpcTypeEnum rpcTypeEnum) {
+				builder.append(boxed ? "Integer" : "int");
+			}
+
 			public void visitStruct(RpcTypeStruct struct) {
 				builder.append(struct.getStruct().getFullyQualifiedClassName());
 			}

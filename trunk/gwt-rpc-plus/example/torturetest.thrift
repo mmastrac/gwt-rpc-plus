@@ -25,6 +25,15 @@ struct ObjectThatReferencesAnother {
 	1: ObjectThatIsReferenced reference;
 }
 
+enum SimpleEnum {
+	ONE = 1;
+	TWO = 2;
+}
+
+struct ObjectWithEnum {
+	1: SimpleEnum enumValue;
+}
+
 struct ContextIn {
 	1: optional string token;
 	2: optional string data;
@@ -70,6 +79,7 @@ service TortureTestApi {
 	SimpleObjectWithFieldIds methodReturningAnObject2();
 	SimpleObjectWithNoFieldIds methodReturningAnObject3();
 	ObjectWithComplexTypes methodReturningAnObject4();
+	ObjectWithEnum methodReturningAnObject5(1:ObjectWithEnum arg);
 
 	binary testBinary(1:binary binaryValue);
 

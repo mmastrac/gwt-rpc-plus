@@ -6,6 +6,7 @@ package com.dotspots.rpcplus.codegen.thrift;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.dotspots.rpcplus.client.jsonrpc.BaseJsRpcObject;
 
@@ -24,6 +25,13 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 		printWriter.println("@SuppressWarnings(\"unused\")");
 		printWriter.println("public final class " + className + " extends "
 				+ (type.isException() ? "Exception" : BaseJsRpcObject.class.getName()) + " {");
+
+		if (type.getConstants().size() > 0) {
+			for (Map.Entry<String, Integer> entry : type.getConstants().entrySet()) {
+				printWriter.println("    public static final int " + entry.getKey() + " = " + entry.getValue() + ";");
+			}
+			printWriter.println();
+		}
 
 		if (type.isException()) {
 			printWriter.println("    private JavaScriptObject e;");

@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.hadoop.hive.serde2.dynamic_type.DynamicSerDeEnumDef;
 import org.apache.hadoop.hive.serde2.dynamic_type.DynamicSerDeField;
 
 /**
@@ -17,6 +18,7 @@ import org.apache.hadoop.hive.serde2.dynamic_type.DynamicSerDeField;
 public class RpcStruct implements Comparable<RpcStruct> {
 	private HashSet<RpcStruct> types = new HashSet<RpcStruct>();
 	private HashMap<Integer, RpcField> fields = new HashMap<Integer, RpcField>();
+	private HashMap<String, Integer> constants = new HashMap<String, Integer>();
 	private boolean isList = true;
 	private final RpcTypeFactory typeFactory;
 	private boolean isException;
@@ -62,9 +64,22 @@ public class RpcStruct implements Comparable<RpcStruct> {
 					isList = false;
 				}
 			}
-
-			types.add(this);
 		}
+
+		types.add(this);
+	}
+
+	public RpcStruct(RpcTypeFactory typeFactory, String name, String namespace, DynamicSerDeEnumDef[] enumValues) {
+		this.typeFactory = typeFactory;
+		this.name = name;
+		this.namespace = namespace;
+		this.isException = false;
+
+		for (DynamicSerDeEnumDef enumValue : enumValues) {
+			constants.put(enumValue.getName(), enumValue.getValue());
+		}
+
+		types.add(this);
 	}
 
 	public RpcStruct(RpcTypeFactory typeFactory, String name, String namespace, boolean isException, RpcField[] fieldList)
@@ -100,6 +115,10 @@ public class RpcStruct implements Comparable<RpcStruct> {
 
 	public Map<Integer, RpcField> getFields() {
 		return fields;
+	}
+
+	public Map<String, Integer> getConstants() {
+		return constants;
 	}
 
 	public List<RpcField> getOrderedFields() {

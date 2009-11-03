@@ -89,6 +89,10 @@ public class JavaTypeVisitor implements TypeVisitor {
 		builder.append(struct.getStruct().getFullyQualifiedClassName());
 	}
 
+	public void visitEnum(RpcTypeEnum struct) {
+		builder.append(boxed ? "Integer" : "int");
+	}
+
 	@Override
 	public String toString() {
 		return builder.toString();
