@@ -5,6 +5,8 @@ public interface TypeVisitor {
 
 	void visitStruct(RpcTypeStruct rpcTypeStruct);
 
+	void visitEnum(RpcTypeEnum rpcTypeEnum);
+
 	boolean visitMap(RpcTypeMap map, RpcTypeBase keyType, RpcTypeBase valueType);
 
 	void endVisitMap(RpcTypeMap map, RpcTypeBase keyType, RpcTypeBase valueType);

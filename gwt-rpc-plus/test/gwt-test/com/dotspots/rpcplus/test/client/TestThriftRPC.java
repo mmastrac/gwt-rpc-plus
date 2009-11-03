@@ -4,6 +4,8 @@ import com.dotspots.rpcplus.client.jscollections.JsRpcSetString;
 import com.dotspots.rpcplus.client.jsonrpc.thrift.CallInterceptor;
 import com.dotspots.rpcplus.example.torturetest.client.ContextIn;
 import com.dotspots.rpcplus.example.torturetest.client.ContextOut;
+import com.dotspots.rpcplus.example.torturetest.client.ObjectWithEnum;
+import com.dotspots.rpcplus.example.torturetest.client.SimpleEnum;
 import com.dotspots.rpcplus.example.torturetest.client.SimpleException;
 import com.dotspots.rpcplus.example.torturetest.client.TortureTestApi;
 import com.google.gwt.core.client.GWT;
@@ -34,6 +36,24 @@ public class TestThriftRPC extends GWTTestCase {
 				assertTrue(result.contains("hi2"));
 				assertTrue(result.contains("hi3"));
 				assertFalse(result.contains("hi4"));
+
+				finishTest();
+			}
+		});
+	}
+
+	public void testEnum() {
+		delayTestFinish(15000);
+
+		ObjectWithEnum obj = ObjectWithEnum.create(SimpleEnum.TWO);
+
+		api.methodReturningAnObject5(obj, new AsyncCallback<ObjectWithEnum>() {
+			public void onFailure(Throwable caught) {
+				fail(caught.toString());
+			}
+
+			public void onSuccess(ObjectWithEnum result) {
+				assertEquals(SimpleEnum.ONE, result.getEnumValue());
 
 				finishTest();
 			}

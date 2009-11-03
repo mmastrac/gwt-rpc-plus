@@ -86,6 +86,10 @@ public final class TortureTestApiJson implements JSONServlet {
             methodReturningAnObject4(in, out);
             return;
         }
+        if (call.equals("methodReturningAnObject5")) {
+            methodReturningAnObject5(in, out);
+            return;
+        }
         if (call.equals("testBinary")) {
             testBinary(in, out);
             return;
@@ -434,6 +438,27 @@ public final class TortureTestApiJson implements JSONServlet {
             out.writeI32(0); // Version
             out.writeI32(0); // Success
             writeTortureTestApi_methodReturningAnObject4_result(out, result);
+            ContextOut responseContext = service.__getContext();
+            if (responseContext != null) {
+                writeContextOut(out, responseContext);
+            }
+            out.writeListEnd();
+        } catch (Throwable t) {
+            // Log unexpected exceptions
+            java.util.logging.Logger.getLogger("com.dotspots.rpcplus.example.torturetest.TortureTestApi").log(java.util.logging.Level.SEVERE, "Unexpected error", t);
+        }
+    };
+
+    private final void methodReturningAnObject5(TBaseJSONProtocol in, TJSONProtocolWriter out) throws TException {
+        TortureTestApi.methodReturningAnObject5_args args = readTortureTestApi_methodReturningAnObject5_args(in);
+        TortureTestApi.methodReturningAnObject5_result result = new TortureTestApi.methodReturningAnObject5_result();
+        try {
+            com.dotspots.rpcplus.example.torturetest.ObjectWithEnum methodResult = service.methodReturningAnObject5(args.getArg());
+            result.setSuccess(methodResult);
+            out.writeListBegin(null);
+            out.writeI32(0); // Version
+            out.writeI32(0); // Success
+            writeTortureTestApi_methodReturningAnObject5_result(out, result);
             ContextOut responseContext = service.__getContext();
             if (responseContext != null) {
                 writeContextOut(out, responseContext);
@@ -894,6 +919,39 @@ public final class TortureTestApiJson implements JSONServlet {
         protocol.writeStructEnd();
     }
 
+    public static final com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject5_args readTortureTestApi_methodReturningAnObject5_args(TBaseJSONProtocol protocol) throws TException {
+         com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject5_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject5_args();
+         if (protocol.readStructBegin()) {
+             int fieldId;
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
+                 case 0: {
+                 com.dotspots.rpcplus.example.torturetest.ObjectWithEnum value0 = readObjectWithEnum(protocol);
+                     obj.setArg(value0);
+                     break;
+                 }
+                 default:
+                     protocol.skip();
+                 }
+             }
+         }
+         return obj;
+    }
+
+    private static final void writeTortureTestApi_methodReturningAnObject5_args(TJSONProtocolWriter protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject5_args obj) throws TException {
+        if (obj == null) {
+            protocol.writeNull();
+            return;
+        }
+        protocol.writeStructBegin(null);
+        if (obj.isSetArg()) {
+            protocol.writeI32(0);
+            com.dotspots.rpcplus.example.torturetest.ObjectWithEnum value0 = obj.getArg();
+            writeObjectWithEnum(protocol, value0);
+        }
+        protocol.writeStructEnd();
+    }
+
     public static final com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetInt_args readTortureTestApi_testSetInt_args(TBaseJSONProtocol protocol) throws TException {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetInt_args obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.testSetInt_args();
          if (protocol.readStructBegin()) {
@@ -1344,6 +1402,39 @@ public final class TortureTestApiJson implements JSONServlet {
         protocol.writeStructEnd();
     }
 
+    public static final com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject5_result readTortureTestApi_methodReturningAnObject5_result(TBaseJSONProtocol protocol) throws TException {
+         com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject5_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject5_result();
+         if (protocol.readStructBegin()) {
+             int fieldId;
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
+                 case 0: {
+                 com.dotspots.rpcplus.example.torturetest.ObjectWithEnum value0 = readObjectWithEnum(protocol);
+                     obj.setSuccess(value0);
+                     break;
+                 }
+                 default:
+                     protocol.skip();
+                 }
+             }
+         }
+         return obj;
+    }
+
+    private static final void writeTortureTestApi_methodReturningAnObject5_result(TJSONProtocolWriter protocol, com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject5_result obj) throws TException {
+        if (obj == null) {
+            protocol.writeNull();
+            return;
+        }
+        protocol.writeStructBegin(null);
+        if (obj.isSetSuccess()) {
+            protocol.writeI32(0);
+            com.dotspots.rpcplus.example.torturetest.ObjectWithEnum value0 = obj.getSuccess();
+            writeObjectWithEnum(protocol, value0);
+        }
+        protocol.writeStructEnd();
+    }
+
     public static final com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject3_result readTortureTestApi_methodReturningAnObject3_result(TBaseJSONProtocol protocol) throws TException {
          com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject3_result obj = new com.dotspots.rpcplus.example.torturetest.TortureTestApi.methodReturningAnObject3_result();
          if (protocol.readStructBegin()) {
@@ -1397,6 +1488,39 @@ public final class TortureTestApiJson implements JSONServlet {
             return;
         }
         protocol.writeStructBegin(null);
+        protocol.writeStructEnd();
+    }
+
+    public static final com.dotspots.rpcplus.example.torturetest.ObjectWithEnum readObjectWithEnum(TBaseJSONProtocol protocol) throws TException {
+         com.dotspots.rpcplus.example.torturetest.ObjectWithEnum obj = new com.dotspots.rpcplus.example.torturetest.ObjectWithEnum();
+         if (protocol.readStructBegin()) {
+             int fieldId;
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
+                 case 0: {
+                 int value0 = protocol.readI32();
+                     obj.setEnumValue(value0);
+                     break;
+                 }
+                 default:
+                     protocol.skip();
+                 }
+             }
+         }
+         return obj;
+    }
+
+    private static final void writeObjectWithEnum(TJSONProtocolWriter protocol, com.dotspots.rpcplus.example.torturetest.ObjectWithEnum obj) throws TException {
+        if (obj == null) {
+            protocol.writeNull();
+            return;
+        }
+        protocol.writeStructBegin(null);
+        if (obj.isSetEnumValue()) {
+            protocol.writeI32(0);
+            int value0 = obj.getEnumValue();
+            protocol.writeI32(value0);
+        }
         protocol.writeStructEnd();
     }
 
@@ -1651,6 +1775,29 @@ public final class TortureTestApiJson implements JSONServlet {
             String value0 = obj.getArg();
             protocol.writeString(value0);
         }
+        protocol.writeStructEnd();
+    }
+
+    public static final com.dotspots.rpcplus.example.torturetest.SimpleEnum readSimpleEnum(TBaseJSONProtocol protocol) throws TException {
+         com.dotspots.rpcplus.example.torturetest.SimpleEnum obj = new com.dotspots.rpcplus.example.torturetest.SimpleEnum();
+         if (protocol.readStructBegin()) {
+             int fieldId;
+             while(protocol.hasNext()) {
+                 switch (protocol.readI32()) {
+                 default:
+                     protocol.skip();
+                 }
+             }
+         }
+         return obj;
+    }
+
+    private static final void writeSimpleEnum(TJSONProtocolWriter protocol, com.dotspots.rpcplus.example.torturetest.SimpleEnum obj) throws TException {
+        if (obj == null) {
+            protocol.writeNull();
+            return;
+        }
+        protocol.writeStructBegin(null);
         protocol.writeStructEnd();
     }
 

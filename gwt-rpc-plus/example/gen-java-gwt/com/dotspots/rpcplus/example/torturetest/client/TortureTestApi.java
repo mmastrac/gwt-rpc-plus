@@ -20,10 +20,7 @@ public final class TortureTestApi extends com.dotspots.rpcplus.client.jsonrpc.th
 
     public void onException(int methodId, AsyncCallback<?> asyncCallback, int responseCode, BaseJsRpcObject response) {
         // Process exceptions per method
-        switch (responseCode * 15 + methodId) {
-        case 16:
-            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
-            break;
+        switch (responseCode * 16 + methodId) {
         case 17:
             asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
             break;
@@ -33,7 +30,10 @@ public final class TortureTestApi extends com.dotspots.rpcplus.client.jsonrpc.th
         case 19:
             asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
             break;
-        case 34:
+        case 20:
+            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
+            break;
+        case 36:
             asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.MoreComplexException((JavaScriptObject)response.getFieldValue(2)));
             break;
         default:
@@ -98,8 +98,12 @@ public final class TortureTestApi extends com.dotspots.rpcplus.client.jsonrpc.th
         call(13, "methodReturningAnObject4", TortureTestApi_methodReturningAnObject4_args.create(), callback);
     };
 
+    public void methodReturningAnObject5(com.dotspots.rpcplus.example.torturetest.client.ObjectWithEnum arg, AsyncCallback<com.dotspots.rpcplus.example.torturetest.client.ObjectWithEnum> callback) {
+        call(14, "methodReturningAnObject5", TortureTestApi_methodReturningAnObject5_args.create(arg), callback);
+    };
+
     public void testBinary(String binaryValue, AsyncCallback<String> callback) {
-        call(14, "testBinary", TortureTestApi_testBinary_args.create(binaryValue), callback);
+        call(15, "testBinary", TortureTestApi_testBinary_args.create(binaryValue), callback);
     };
 
 }

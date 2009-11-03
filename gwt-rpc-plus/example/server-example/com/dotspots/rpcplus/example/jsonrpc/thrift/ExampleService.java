@@ -12,6 +12,8 @@ import com.dotspots.rpcplus.example.torturetest.ContextOut;
 import com.dotspots.rpcplus.example.torturetest.MoreComplexException;
 import com.dotspots.rpcplus.example.torturetest.ObjectThatReferencesAnother;
 import com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes;
+import com.dotspots.rpcplus.example.torturetest.ObjectWithEnum;
+import com.dotspots.rpcplus.example.torturetest.SimpleEnum;
 import com.dotspots.rpcplus.example.torturetest.SimpleException;
 import com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds;
 import com.dotspots.rpcplus.example.torturetest.SimpleObjectWithNoFieldIds;
@@ -62,6 +64,10 @@ public class ExampleService extends BaseServlet<TortureTestApi.Iface> implements
 	public ObjectWithComplexTypes methodReturningAnObject4() throws TException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public ObjectWithEnum methodReturningAnObject5(ObjectWithEnum arg) throws TException {
+		return new ObjectWithEnum(SimpleEnum.ONE);
 	}
 
 	public String testDeclaresAnException() throws SimpleException, TException {

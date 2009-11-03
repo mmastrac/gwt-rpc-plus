@@ -27,4 +27,7 @@ public class TypeVisitorAdapter implements TypeVisitor {
 
 	public void visitStruct(RpcTypeStruct rpcTypeStruct) {
 	}
+
+	public void visitEnum(RpcTypeEnum rpcTypeEnum) {
+	}
 }

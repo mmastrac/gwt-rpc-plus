@@ -8,6 +8,11 @@ public abstract class RpcTypeBase {
 		final HashSet<RpcStruct> types = new HashSet<RpcStruct>();
 		visit(new TypeVisitorAdapter() {
 			@Override
+			public void visitEnum(RpcTypeEnum rpcTypeEnum) {
+				types.addAll(rpcTypeEnum.getStruct().getSerializationTypes());
+			}
+
+			@Override
 			public void visitStruct(RpcTypeStruct rpcTypeStruct) {
 				types.addAll(rpcTypeStruct.getStruct().getSerializationTypes());
 			}
