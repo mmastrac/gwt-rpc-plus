@@ -32,6 +32,9 @@ enum SimpleEnum {
 
 struct ObjectWithEnum {
 	1: SimpleEnum enumValue;
+	2: set<SimpleEnum> enumSet;
+	3: map<SimpleEnum, SimpleEnum> enumMap;
+	4: list<SimpleEnum> enumList;
 }
 
 struct ContextIn {

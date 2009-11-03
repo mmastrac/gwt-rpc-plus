@@ -21,9 +21,18 @@ import org.apache.thrift.transport.*;
 public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
   private static final TStruct STRUCT_DESC = new TStruct("ObjectWithEnum");
   private static final TField ENUM_VALUE_FIELD_DESC = new TField("enumValue", TType.I32, (short)1);
+  private static final TField ENUM_SET_FIELD_DESC = new TField("enumSet", TType.SET, (short)2);
+  private static final TField ENUM_MAP_FIELD_DESC = new TField("enumMap", TType.MAP, (short)3);
+  private static final TField ENUM_LIST_FIELD_DESC = new TField("enumList", TType.LIST, (short)4);
 
   private int enumValue;
   public static final int ENUMVALUE = 1;
+  private Set<Integer> enumSet;
+  public static final int ENUMSET = 2;
+  private Map<Integer,Integer> enumMap;
+  public static final int ENUMMAP = 3;
+  private List<Integer> enumList;
+  public static final int ENUMLIST = 4;
 
   private final Isset __isset = new Isset();
   private static final class Isset implements java.io.Serializable {
@@ -33,6 +42,16 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
   public static final Map<Integer, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new HashMap<Integer, FieldMetaData>() {{
     put(ENUMVALUE, new FieldMetaData("enumValue", TFieldRequirementType.DEFAULT, 
         new FieldValueMetaData(TType.I32)));
+    put(ENUMSET, new FieldMetaData("enumSet", TFieldRequirementType.DEFAULT, 
+        new SetMetaData(TType.SET, 
+            new FieldValueMetaData(TType.I32))));
+    put(ENUMMAP, new FieldMetaData("enumMap", TFieldRequirementType.DEFAULT, 
+        new MapMetaData(TType.MAP, 
+            new FieldValueMetaData(TType.I32), 
+            new FieldValueMetaData(TType.I32))));
+    put(ENUMLIST, new FieldMetaData("enumList", TFieldRequirementType.DEFAULT, 
+        new ListMetaData(TType.LIST, 
+            new FieldValueMetaData(TType.I32))));
   }});
 
   static {
@@ -43,11 +62,17 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
   }
 
   public ObjectWithEnum(
-    int enumValue)
+    int enumValue,
+    Set<Integer> enumSet,
+    Map<Integer,Integer> enumMap,
+    List<Integer> enumList)
   {
     this();
     this.enumValue = enumValue;
     this.__isset.enumValue = true;
+    this.enumSet = enumSet;
+    this.enumMap = enumMap;
+    this.enumList = enumList;
   }
 
   /**
@@ -56,6 +81,35 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
   public ObjectWithEnum(ObjectWithEnum other) {
     __isset.enumValue = other.__isset.enumValue;
     this.enumValue = other.enumValue;
+    if (other.isSetEnumSet()) {
+      Set<Integer> __this__enumSet = new HashSet<Integer>();
+      for (Integer other_element : other.enumSet) {
+        __this__enumSet.add(other_element);
+      }
+      this.enumSet = __this__enumSet;
+    }
+    if (other.isSetEnumMap()) {
+      Map<Integer,Integer> __this__enumMap = new HashMap<Integer,Integer>();
+      for (Map.Entry<Integer, Integer> other_element : other.enumMap.entrySet()) {
+
+        Integer other_element_key = other_element.getKey();
+        Integer other_element_value = other_element.getValue();
+
+        Integer __this__enumMap_copy_key = other_element_key;
+
+        Integer __this__enumMap_copy_value = other_element_value;
+
+        __this__enumMap.put(__this__enumMap_copy_key, __this__enumMap_copy_value);
+      }
+      this.enumMap = __this__enumMap;
+    }
+    if (other.isSetEnumList()) {
+      List<Integer> __this__enumList = new ArrayList<Integer>();
+      for (Integer other_element : other.enumList) {
+        __this__enumList.add(other_element);
+      }
+      this.enumList = __this__enumList;
+    }
   }
 
   @Override
@@ -81,6 +135,98 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
     return this.__isset.enumValue;
   }
 
+  public int getEnumSetSize() {
+    return (this.enumSet == null) ? 0 : this.enumSet.size();
+  }
+
+  public java.util.Iterator<Integer> getEnumSetIterator() {
+    return (this.enumSet == null) ? null : this.enumSet.iterator();
+  }
+
+  public void addToEnumSet(int elem) {
+    if (this.enumSet == null) {
+      this.enumSet = new HashSet<Integer>();
+    }
+    this.enumSet.add(elem);
+  }
+
+  public Set<Integer> getEnumSet() {
+    return this.enumSet;
+  }
+
+  public void setEnumSet(Set<Integer> enumSet) {
+    this.enumSet = enumSet;
+  }
+
+  public void unsetEnumSet() {
+    this.enumSet = null;
+  }
+
+  // Returns true if field enumSet is set (has been asigned a value) and false otherwise
+  public boolean isSetEnumSet() {
+    return this.enumSet != null;
+  }
+
+  public int getEnumMapSize() {
+    return (this.enumMap == null) ? 0 : this.enumMap.size();
+  }
+
+  public void putToEnumMap(int key, int val) {
+    if (this.enumMap == null) {
+      this.enumMap = new HashMap<Integer,Integer>();
+    }
+    this.enumMap.put(key, val);
+  }
+
+  public Map<Integer,Integer> getEnumMap() {
+    return this.enumMap;
+  }
+
+  public void setEnumMap(Map<Integer,Integer> enumMap) {
+    this.enumMap = enumMap;
+  }
+
+  public void unsetEnumMap() {
+    this.enumMap = null;
+  }
+
+  // Returns true if field enumMap is set (has been asigned a value) and false otherwise
+  public boolean isSetEnumMap() {
+    return this.enumMap != null;
+  }
+
+  public int getEnumListSize() {
+    return (this.enumList == null) ? 0 : this.enumList.size();
+  }
+
+  public java.util.Iterator<Integer> getEnumListIterator() {
+    return (this.enumList == null) ? null : this.enumList.iterator();
+  }
+
+  public void addToEnumList(int elem) {
+    if (this.enumList == null) {
+      this.enumList = new ArrayList<Integer>();
+    }
+    this.enumList.add(elem);
+  }
+
+  public List<Integer> getEnumList() {
+    return this.enumList;
+  }
+
+  public void setEnumList(List<Integer> enumList) {
+    this.enumList = enumList;
+  }
+
+  public void unsetEnumList() {
+    this.enumList = null;
+  }
+
+  // Returns true if field enumList is set (has been asigned a value) and false otherwise
+  public boolean isSetEnumList() {
+    return this.enumList != null;
+  }
+
   public void setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
     case ENUMVALUE:
@@ -88,6 +234,30 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
         unsetEnumValue();
       } else {
         setEnumValue((Integer)value);
+      }
+      break;
+
+    case ENUMSET:
+      if (value == null) {
+        unsetEnumSet();
+      } else {
+        setEnumSet((Set<Integer>)value);
+      }
+      break;
+
+    case ENUMMAP:
+      if (value == null) {
+        unsetEnumMap();
+      } else {
+        setEnumMap((Map<Integer,Integer>)value);
+      }
+      break;
+
+    case ENUMLIST:
+      if (value == null) {
+        unsetEnumList();
+      } else {
+        setEnumList((List<Integer>)value);
       }
       break;
 
@@ -101,6 +271,15 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
     case ENUMVALUE:
       return getEnumValue();
 
+    case ENUMSET:
+      return getEnumSet();
+
+    case ENUMMAP:
+      return getEnumMap();
+
+    case ENUMLIST:
+      return getEnumList();
+
     default:
       throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
     }
@@ -111,6 +290,12 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
     switch (fieldID) {
     case ENUMVALUE:
       return isSetEnumValue();
+    case ENUMSET:
+      return isSetEnumSet();
+    case ENUMMAP:
+      return isSetEnumMap();
+    case ENUMLIST:
+      return isSetEnumList();
     default:
       throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
     }
@@ -135,6 +320,33 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
       if (!(this_present_enumValue && that_present_enumValue))
         return false;
       if (this.enumValue != that.enumValue)
+        return false;
+    }
+
+    boolean this_present_enumSet = true && this.isSetEnumSet();
+    boolean that_present_enumSet = true && that.isSetEnumSet();
+    if (this_present_enumSet || that_present_enumSet) {
+      if (!(this_present_enumSet && that_present_enumSet))
+        return false;
+      if (!this.enumSet.equals(that.enumSet))
+        return false;
+    }
+
+    boolean this_present_enumMap = true && this.isSetEnumMap();
+    boolean that_present_enumMap = true && that.isSetEnumMap();
+    if (this_present_enumMap || that_present_enumMap) {
+      if (!(this_present_enumMap && that_present_enumMap))
+        return false;
+      if (!this.enumMap.equals(that.enumMap))
+        return false;
+    }
+
+    boolean this_present_enumList = true && this.isSetEnumList();
+    boolean that_present_enumList = true && that.isSetEnumList();
+    if (this_present_enumList || that_present_enumList) {
+      if (!(this_present_enumList && that_present_enumList))
+        return false;
+      if (!this.enumList.equals(that.enumList))
         return false;
     }
 
@@ -165,6 +377,59 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
             TProtocolUtil.skip(iprot, field.type);
           }
           break;
+        case ENUMSET:
+          if (field.type == TType.SET) {
+            {
+              TSet _set18 = iprot.readSetBegin();
+              this.enumSet = new HashSet<Integer>(2*_set18.size);
+              for (int _i19 = 0; _i19 < _set18.size; ++_i19)
+              {
+                int _elem20;
+                _elem20 = iprot.readI32();
+                this.enumSet.add(_elem20);
+              }
+              iprot.readSetEnd();
+            }
+          } else { 
+            TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case ENUMMAP:
+          if (field.type == TType.MAP) {
+            {
+              TMap _map21 = iprot.readMapBegin();
+              this.enumMap = new HashMap<Integer,Integer>(2*_map21.size);
+              for (int _i22 = 0; _i22 < _map21.size; ++_i22)
+              {
+                int _key23;
+                int _val24;
+                _key23 = iprot.readI32();
+                _val24 = iprot.readI32();
+                this.enumMap.put(_key23, _val24);
+              }
+              iprot.readMapEnd();
+            }
+          } else { 
+            TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case ENUMLIST:
+          if (field.type == TType.LIST) {
+            {
+              TList _list25 = iprot.readListBegin();
+              this.enumList = new ArrayList<Integer>(_list25.size);
+              for (int _i26 = 0; _i26 < _list25.size; ++_i26)
+              {
+                int _elem27;
+                _elem27 = iprot.readI32();
+                this.enumList.add(_elem27);
+              }
+              iprot.readListEnd();
+            }
+          } else { 
+            TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
         default:
           TProtocolUtil.skip(iprot, field.type);
           break;
@@ -183,6 +448,40 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
     oprot.writeFieldBegin(ENUM_VALUE_FIELD_DESC);
     oprot.writeI32(this.enumValue);
     oprot.writeFieldEnd();
+    if (this.enumSet != null) {
+      oprot.writeFieldBegin(ENUM_SET_FIELD_DESC);
+      {
+        oprot.writeSetBegin(new TSet(TType.I32, this.enumSet.size()));
+        for (int _iter28 : this.enumSet)        {
+          oprot.writeI32(_iter28);
+        }
+        oprot.writeSetEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+    if (this.enumMap != null) {
+      oprot.writeFieldBegin(ENUM_MAP_FIELD_DESC);
+      {
+        oprot.writeMapBegin(new TMap(TType.I32, TType.I32, this.enumMap.size()));
+        for (Map.Entry<Integer, Integer> _iter29 : this.enumMap.entrySet())        {
+          oprot.writeI32(_iter29.getKey());
+          oprot.writeI32(_iter29.getValue());
+        }
+        oprot.writeMapEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+    if (this.enumList != null) {
+      oprot.writeFieldBegin(ENUM_LIST_FIELD_DESC);
+      {
+        oprot.writeListBegin(new TList(TType.I32, this.enumList.size()));
+        for (int _iter30 : this.enumList)        {
+          oprot.writeI32(_iter30);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
     oprot.writeFieldStop();
     oprot.writeStructEnd();
   }
@@ -194,6 +493,30 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
 
     sb.append("enumValue:");
     sb.append(this.enumValue);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("enumSet:");
+    if (this.enumSet == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.enumSet);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("enumMap:");
+    if (this.enumMap == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.enumMap);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("enumList:");
+    if (this.enumList == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.enumList);
+    }
     first = false;
     sb.append(")");
     return sb.toString();

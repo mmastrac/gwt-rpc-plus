@@ -67,7 +67,7 @@ public class ExampleService extends BaseServlet<TortureTestApi.Iface> implements
 	}
 
 	public ObjectWithEnum methodReturningAnObject5(ObjectWithEnum arg) throws TException {
-		return new ObjectWithEnum(SimpleEnum.ONE);
+		return new ObjectWithEnum(SimpleEnum.ONE, null, null, null);
 	}
 
 	public String testDeclaresAnException() throws SimpleException, TException {

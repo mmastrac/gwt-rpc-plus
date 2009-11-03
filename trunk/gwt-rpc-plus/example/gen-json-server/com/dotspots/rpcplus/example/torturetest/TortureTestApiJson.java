@@ -1502,6 +1502,37 @@ public final class TortureTestApiJson implements JSONServlet {
                      obj.setEnumValue(value0);
                      break;
                  }
+                 case 1: {
+                 Set<Integer> value0 = new HashSet<Integer>();
+                 protocol.readSetBegin();
+                 while (protocol.hasNext()) {
+                     int value1 = protocol.readI32();
+                     value0.add(value1);
+                 }
+                     obj.setEnumSet(value0);
+                     break;
+                 }
+                 case 2: {
+                 Map<Integer, Integer> value0 = new HashMap<Integer, Integer>();
+                 protocol.readMapBegin();
+                 while (protocol.hasNext()) {
+                     int key1 = protocol.readI32();
+                     int value1 = protocol.readI32();
+                     value0.put(key1, value1);
+                 }
+                     obj.setEnumMap(value0);
+                     break;
+                 }
+                 case 3: {
+                 List<Integer> value0 = new ArrayList<Integer>();
+                 protocol.readListBegin();
+                 while (protocol.hasNext()) {
+                     int value1 = protocol.readI32();
+                     value0.add(value1);
+                 }
+                     obj.setEnumList(value0);
+                     break;
+                 }
                  default:
                      protocol.skip();
                  }
@@ -1520,6 +1551,36 @@ public final class TortureTestApiJson implements JSONServlet {
             protocol.writeI32(0);
             int value0 = obj.getEnumValue();
             protocol.writeI32(value0);
+        }
+        if (obj.isSetEnumSet()) {
+            protocol.writeI32(1);
+            Set<Integer> value0 = obj.getEnumSet();
+            protocol.writeSetBegin(null);
+            for (int value1 : value0) {
+                protocol.writeI32(value1);
+            }
+            protocol.writeSetEnd();
+        }
+        if (obj.isSetEnumMap()) {
+            protocol.writeI32(2);
+            Map<Integer, Integer> value0 = obj.getEnumMap();
+            protocol.writeMapBegin(null);
+            for (Map.Entry<Integer, Integer> entry0 : value0.entrySet()) {
+                int key1 = entry0.getKey();
+                int value1 = entry0.getValue();
+                protocol.writeI32(key1);
+                protocol.writeI32(value1);
+            }
+            protocol.writeMapEnd();
+        }
+        if (obj.isSetEnumList()) {
+            protocol.writeI32(3);
+            List<Integer> value0 = obj.getEnumList();
+            protocol.writeListBegin(null);
+            for (int value1 : value0) {
+                protocol.writeI32(value1);
+            }
+            protocol.writeListEnd();
         }
         protocol.writeStructEnd();
     }

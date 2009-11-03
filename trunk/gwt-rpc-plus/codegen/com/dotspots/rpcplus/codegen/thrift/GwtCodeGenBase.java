@@ -14,9 +14,11 @@ public class GwtCodeGenBase {
 		typeMap.put(RpcTypeKey.BOOL, "Bool");
 		typeMap.put(RpcTypeKey.DOUBLE, "Double");
 		typeMap.put(RpcTypeKey.I64, "Long");
+		typeMap.put(RpcTypeKey.ENUM, "Int");
 
 		final Map<RpcTypeKey, String> keyTypeMap = new HashMap<RpcTypeKey, String>();
 		keyTypeMap.put(RpcTypeKey.I32, "Int");
+		keyTypeMap.put(RpcTypeKey.ENUM, "Int");
 		keyTypeMap.put(RpcTypeKey.STRING, "String");
 
 		final StringBuilder builder = new StringBuilder();

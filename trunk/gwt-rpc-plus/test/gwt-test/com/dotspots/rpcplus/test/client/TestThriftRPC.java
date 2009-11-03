@@ -45,7 +45,7 @@ public class TestThriftRPC extends GWTTestCase {
 	public void testEnum() {
 		delayTestFinish(15000);
 
-		ObjectWithEnum obj = ObjectWithEnum.create(SimpleEnum.TWO);
+		ObjectWithEnum obj = ObjectWithEnum.create(SimpleEnum.TWO, null, null, null);
 
 		api.methodReturningAnObject5(obj, new AsyncCallback<ObjectWithEnum>() {
 			public void onFailure(Throwable caught) {
