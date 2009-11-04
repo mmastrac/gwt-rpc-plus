@@ -262,7 +262,11 @@
 			<formatter type="xml" />
 			<formatter type="plain" usefile="false" />
 
-			<test todir="${output.dir}/tests" name="com.dotspots.rpcplus.test.RpcTestSuite" />
+			<test todir="${output.dir}/tests" name="com.dotspots.rpcplus.test.client.TestFlexibleRPC" />
+			<test todir="${output.dir}/tests" name="com.dotspots.rpcplus.test.client.TestFlexibleRPCCrossDomain" />
+			<test todir="${output.dir}/tests" name="com.dotspots.rpcplus.test.client.TestJsonTransport" />
+			<test todir="${output.dir}/tests" name="com.dotspots.rpcplus.test.client.TestThriftRPC" />
+			<test todir="${output.dir}/tests" name="com.dotspots.rpcplus.test.client.TestThriftCollections" />
 		</junit>
 	</target>
 </project>
