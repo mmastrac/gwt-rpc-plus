@@ -10,7 +10,6 @@ import com.google.gwt.dom.client.IFrameElement;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel;
 
@@ -24,6 +23,7 @@ public class WindowNameTransportRequest {
 
 	private static final String SEND_PREFIX = "wnt-";
 	private static final String RECEIVE_PREFIX = "wnr-";
+	private static final int NO_TIMER = -1;
 
 	private final int timeout;
 	private final Document document;
@@ -48,7 +48,7 @@ public class WindowNameTransportRequest {
 	/**
 	 * A timer that tracks when we should consider this request timed out.
 	 */
-	private Timer timeoutTimer;
+	private int timeoutTimerId = NO_TIMER;
 
 	private String serial;
 	private String iframeName;
@@ -70,9 +70,9 @@ public class WindowNameTransportRequest {
 	public void cancel() {
 		running = false;
 
-		if (timeoutTimer != null) {
-			timeoutTimer.cancel();
-			timeoutTimer = null;
+		if (timeoutTimerId != NO_TIMER) {
+			clearTimeout(timeoutTimerId);
+			timeoutTimerId = NO_TIMER;
 		}
 
 		if (iframe != null) {
@@ -100,7 +100,7 @@ public class WindowNameTransportRequest {
 		responseName = RECEIVE_PREFIX + serial;
 
 		try {
-			createTimeoutTimer();
+			timeoutTimerId = createTimeoutTimer(timeout, this);
 
 			// Create the attached iframe
 			createAttachedIFrame();
@@ -121,7 +121,8 @@ public class WindowNameTransportRequest {
 		}
 	}
 
-	public void check() {
+	@SuppressWarnings("unused")
+	private void check() {
 		if (!running) {
 			return;
 		}
@@ -151,7 +152,8 @@ public class WindowNameTransportRequest {
 		}
 	}
 
-	public void error() {
+	@SuppressWarnings("unused")
+	private void error() {
 		if (!running) {
 			return;
 		}
@@ -160,16 +162,22 @@ public class WindowNameTransportRequest {
 		callback.onFailure(new RpcException("RPC failed"));
 	}
 
-	private void createTimeoutTimer() {
-		timeoutTimer = new Timer() {
-			@Override
-			public void run() {
-				cancel();
-				callback.onFailure(new RpcException("RPC timed out"));
-			}
-		};
-		timeoutTimer.schedule(timeout);
+	@SuppressWarnings("unused")
+	private void timeout() {
+		cancel();
+		callback.onFailure(new RpcException("RPC timed out"));
 	}
+
+	private native void clearTimeout(int timeoutId) /*-{
+		$wnd.clearTimeout(timeoutId);
+	}-*/;
+
+	/**
+	 * Creates a raw timeout on the window to avoid issues with the GWT Timer class.
+	 */
+	private native int createTimeoutTimer(int timeout, WindowNameTransportRequest self) /*-{
+		return $wnd.setTimeout(function() { self.@com.dotspots.rpcplus.client.transport.impl.WindowNameTransportRequest::timeout()() }, timeout);
+	}-*/;
 
 	private void removeFromParent(Element elem) {
 		elem.getParentElement().removeChild(elem);
