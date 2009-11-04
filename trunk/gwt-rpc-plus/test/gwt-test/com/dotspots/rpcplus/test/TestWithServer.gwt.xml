@@ -5,9 +5,11 @@
 	
 	<servlet path="/api" class="com.dotspots.rpcplus.example.jsonrpc.thrift.ExampleService" />
 	
+	<!--
 	<replace-with class="com.dotspots.rpcplus.client.transport.impl.DebuggingTransportLogger">
 		<when-type-is class="com.dotspots.rpcplus.client.transport.TransportLogger" />
 	</replace-with>
-	
+	-->
+			
 	<source path="client" />
 </module>
