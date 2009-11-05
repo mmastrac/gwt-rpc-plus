@@ -186,52 +186,59 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 	}
 
 	private void writeReader(RpcTypeFactory typeFactory, RpcTypeBase fieldType, String name, int level) {
-		String indent = "                 ";
+		String indent = "                     ";
 		for (int i = 0; i < level; i++) {
 			indent += "    ";
 		}
 
-		final String prefix = indent + getType(fieldType, false) + " " + name + level + " = ";
+		final String declaration = indent + getType(fieldType, false) + " " + name + level + " = ";
+		final String assignment = indent + "    " + name + level + " = ";
 
 		switch (fieldType.getTypeKey()) {
 		case STRUCT:
 			RpcStruct structType = ((RpcTypeStruct) fieldType).getStruct();
-			printWriter.println(prefix + "read" + structType.getClassName(false) + "(protocol);");
+			printWriter.println(declaration + "read" + structType.getClassName(false) + "(protocol);");
 			break;
-			
+
 		case SET:
-			printWriter.println(prefix + "new Hash" + getType(fieldType, true) + "();");
+			printWriter.println(declaration + "null;");
+			printWriter.println(indent + "if (protocol.readSetBegin()) {");
+			printWriter.println(assignment + "new Hash" + getType(fieldType, true) + "();");
 			RpcTypeSet setMetaData = (RpcTypeSet) fieldType;
-			printWriter.println(indent + "protocol.readSetBegin();");
-			printWriter.println(indent + "while (protocol.hasNext()) {");
+			printWriter.println(indent + "    while (protocol.hasNext()) {");
 			writeReader(typeFactory, setMetaData.getElementType(), name, level + 1);
-			printWriter.println(indent + "    " + name + level + ".add(" + name + (level + 1) + ");");
+			printWriter.println(indent + "        " + name + level + ".add(" + name + (level + 1) + ");");
+			printWriter.println(indent + "    }");
 			printWriter.println(indent + "}");
 			break;
-			
+
 		case MAP:
-			printWriter.println(prefix + "new Hash" + getType(fieldType, true) + "();");
+			printWriter.println(declaration + "null;");
+			printWriter.println(indent + "if (protocol.readMapBegin()) {");
+			printWriter.println(assignment + "new Hash" + getType(fieldType, true) + "();");
 			RpcTypeMap mapMetaData = (RpcTypeMap) fieldType;
-			printWriter.println(indent + "protocol.readMapBegin();");
-			printWriter.println(indent + "while (protocol.hasNext()) {");
+			printWriter.println(indent + "    while (protocol.hasNext()) {");
 			writeReader(typeFactory, mapMetaData.getKeyType(), "key", level + 1);
 			writeReader(typeFactory, mapMetaData.getValueType(), "value", level + 1);
-			printWriter.println(indent + "    " + name + level + ".put(key" + (level + 1) + ", value" + (level + 1) + ");");
+			printWriter.println(indent + "        " + name + level + ".put(key" + (level + 1) + ", value" + (level + 1) + ");");
+			printWriter.println(indent + "    }");
 			printWriter.println(indent + "}");
 			break;
-			
+
 		case LIST:
-			printWriter.println(prefix + "new Array" + getType(fieldType, true) + "();");
+			printWriter.println(declaration + "null;");
+			printWriter.println(indent + "if (protocol.readListBegin()) {");
+			printWriter.println(assignment + "new Array" + getType(fieldType, true) + "();");
 			RpcTypeList listMetaData = (RpcTypeList) fieldType;
-			printWriter.println(indent + "protocol.readListBegin();");
-			printWriter.println(indent + "while (protocol.hasNext()) {");
+			printWriter.println(indent + "    while (protocol.hasNext()) {");
 			writeReader(typeFactory, listMetaData.getElementType(), name, level + 1);
-			printWriter.println(indent + "    " + name + level + ".add(" + name + (level + 1) + ");");
+			printWriter.println(indent + "        " + name + level + ".add(" + name + (level + 1) + ");");
+			printWriter.println(indent + "    }");
 			printWriter.println(indent + "}");
 			break;
-			
+
 		default:
-			printWriter.println(prefix + "protocol.read" + fieldType.getTypeKey().getThriftTypeString() + "();");
+			printWriter.println(declaration + "protocol.read" + fieldType.getTypeKey().getThriftTypeString() + "();");
 		}
 	}
 
@@ -246,7 +253,7 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 			RpcStruct structType = ((RpcTypeStruct) fieldType).getStruct();
 			printWriter.println(indent + "write" + structType.getClassName(false) + "(protocol, " + name + level + ");");
 			break;
-			
+
 		case SET:
 			RpcTypeSet setMetaData = (RpcTypeSet) fieldType;
 			printWriter.println(indent + "protocol.writeSetBegin(null);");
@@ -256,7 +263,7 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 			printWriter.println(indent + "}");
 			printWriter.println(indent + "protocol.writeSetEnd();");
 			break;
-			
+
 		case MAP:
 			RpcTypeMap mapMetaData = (RpcTypeMap) fieldType;
 			printWriter.println(indent + "protocol.writeMapBegin(null);");
@@ -271,7 +278,7 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 			printWriter.println(indent + "}");
 			printWriter.println(indent + "protocol.writeMapEnd();");
 			break;
-			
+
 		case LIST:
 			RpcTypeList listMetaData = (RpcTypeList) fieldType;
 			printWriter.println(indent + "protocol.writeListBegin(null);");
@@ -281,7 +288,7 @@ final class ServerCodeGenRpcInterfaceWriter implements RpcInterfaceWriter {
 			printWriter.println(indent + "}");
 			printWriter.println(indent + "protocol.writeListEnd();");
 			break;
-			
+
 		default:
 			printWriter.println(indent + "protocol.write" + fieldType.getTypeKey().getThriftTypeString() + "(" + name + level + ");");
 		}

@@ -134,6 +134,7 @@ public class WindowNameTransport implements TextTransport, HasUrlEndpoint, HasDo
 				callback.onSuccess(result);
 			}
 		}, document, url, timeout, redirect);
+
 		request.start();
 	}
 }
