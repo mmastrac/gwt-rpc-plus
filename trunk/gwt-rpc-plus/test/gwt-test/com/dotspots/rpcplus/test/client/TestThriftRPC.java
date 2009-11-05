@@ -61,7 +61,7 @@ public class TestThriftRPC extends GWTTestCase {
 	}
 
 	public void testPositionalArguments() {
-		delayTestFinish(1500000);
+		delayTestFinish(15000);
 		api.testPositionalArguments(123, "somestring", new AsyncCallback<String>() {
 			public void onFailure(Throwable caught) {
 				fail(caught.toString());

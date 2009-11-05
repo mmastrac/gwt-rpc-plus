@@ -498,12 +498,12 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setToken(value0);
                      break;
                  }
                  case 1: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setData(value0);
                      break;
                  }
@@ -541,12 +541,12 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setMessage(value0);
                      break;
                  }
                  case 1: {
-                 com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes value0 = readObjectWithComplexTypes(protocol);
+                     com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes value0 = readObjectWithComplexTypes(protocol);
                      obj.setData(value0);
                      break;
                  }
@@ -584,7 +584,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 int value0 = protocol.readI32();
+                     int value0 = protocol.readI32();
                      obj.setId(value0);
                      break;
                  }
@@ -617,7 +617,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setSuccess(value0);
                      break;
                  }
@@ -650,7 +650,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 com.dotspots.rpcplus.example.torturetest.SimpleException value0 = readSimpleException(protocol);
+                     com.dotspots.rpcplus.example.torturetest.SimpleException value0 = readSimpleException(protocol);
                      obj.setEx(value0);
                      break;
                  }
@@ -683,12 +683,14 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 Set<String> value0 = new HashSet<String>();
-                 protocol.readSetBegin();
-                 while (protocol.hasNext()) {
-                     String value1 = protocol.readString();
-                     value0.add(value1);
-                 }
+                     Set<String> value0 = null;
+                     if (protocol.readSetBegin()) {
+                         value0 = new HashSet<String>();
+                         while (protocol.hasNext()) {
+                         String value1 = protocol.readString();
+                             value0.add(value1);
+                         }
+                     }
                      obj.setSuccess(value0);
                      break;
                  }
@@ -748,7 +750,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 com.dotspots.rpcplus.example.torturetest.ObjectThatIsReferenced value0 = readObjectThatIsReferenced(protocol);
+                     com.dotspots.rpcplus.example.torturetest.ObjectThatIsReferenced value0 = readObjectThatIsReferenced(protocol);
                      obj.setReference(value0);
                      break;
                  }
@@ -781,7 +783,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 com.dotspots.rpcplus.example.torturetest.SimpleException value0 = readSimpleException(protocol);
+                     com.dotspots.rpcplus.example.torturetest.SimpleException value0 = readSimpleException(protocol);
                      obj.setSuccess(value0);
                      break;
                  }
@@ -814,7 +816,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 com.dotspots.rpcplus.example.torturetest.ObjectThatReferencesAnother value0 = readObjectThatReferencesAnother(protocol);
+                     com.dotspots.rpcplus.example.torturetest.ObjectThatReferencesAnother value0 = readObjectThatReferencesAnother(protocol);
                      obj.setSuccess(value0);
                      break;
                  }
@@ -893,7 +895,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setSuccess(value0);
                      break;
                  }
@@ -926,7 +928,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 com.dotspots.rpcplus.example.torturetest.ObjectWithEnum value0 = readObjectWithEnum(protocol);
+                     com.dotspots.rpcplus.example.torturetest.ObjectWithEnum value0 = readObjectWithEnum(protocol);
                      obj.setArg(value0);
                      break;
                  }
@@ -982,12 +984,12 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case -2: {
-                 int value0 = protocol.readI32();
+                     int value0 = protocol.readI32();
                      obj.setUserId(value0);
                      break;
                  }
                  case -1: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setToken(value0);
                      break;
                  }
@@ -1048,13 +1050,15 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 Map<String, String> value0 = new HashMap<String, String>();
-                 protocol.readMapBegin();
-                 while (protocol.hasNext()) {
-                     String key1 = protocol.readString();
-                     String value1 = protocol.readString();
-                     value0.put(key1, value1);
-                 }
+                     Map<String, String> value0 = null;
+                     if (protocol.readMapBegin()) {
+                         value0 = new HashMap<String, String>();
+                         while (protocol.hasNext()) {
+                         String key1 = protocol.readString();
+                         String value1 = protocol.readString();
+                             value0.put(key1, value1);
+                         }
+                     }
                      obj.setSuccess(value0);
                      break;
                  }
@@ -1094,12 +1098,12 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 int value0 = protocol.readI32();
+                     int value0 = protocol.readI32();
                      obj.setInt32(value0);
                      break;
                  }
                  case 1: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setStr(value0);
                      break;
                  }
@@ -1137,7 +1141,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setMessage(value0);
                      break;
                  }
@@ -1170,7 +1174,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setSuccess(value0);
                      break;
                  }
@@ -1203,7 +1207,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 byte[] value0 = protocol.readBinary();
+                     byte[] value0 = protocol.readBinary();
                      obj.setBinaryValue(value0);
                      break;
                  }
@@ -1236,7 +1240,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setSuccess(value0);
                      break;
                  }
@@ -1269,44 +1273,52 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 Map<String, String> value0 = new HashMap<String, String>();
-                 protocol.readMapBegin();
-                 while (protocol.hasNext()) {
-                     String key1 = protocol.readString();
-                     String value1 = protocol.readString();
-                     value0.put(key1, value1);
-                 }
+                     Map<String, String> value0 = null;
+                     if (protocol.readMapBegin()) {
+                         value0 = new HashMap<String, String>();
+                         while (protocol.hasNext()) {
+                         String key1 = protocol.readString();
+                         String value1 = protocol.readString();
+                             value0.put(key1, value1);
+                         }
+                     }
                      obj.setMapStringToString(value0);
                      break;
                  }
                  case 1: {
-                 Set<String> value0 = new HashSet<String>();
-                 protocol.readSetBegin();
-                 while (protocol.hasNext()) {
-                     String value1 = protocol.readString();
-                     value0.add(value1);
-                 }
+                     Set<String> value0 = null;
+                     if (protocol.readSetBegin()) {
+                         value0 = new HashSet<String>();
+                         while (protocol.hasNext()) {
+                         String value1 = protocol.readString();
+                             value0.add(value1);
+                         }
+                     }
                      obj.setSetOfStrings(value0);
                      break;
                  }
                  case 2: {
-                 List<String> value0 = new ArrayList<String>();
-                 protocol.readListBegin();
-                 while (protocol.hasNext()) {
-                     String value1 = protocol.readString();
-                     value0.add(value1);
-                 }
+                     List<String> value0 = null;
+                     if (protocol.readListBegin()) {
+                         value0 = new ArrayList<String>();
+                         while (protocol.hasNext()) {
+                         String value1 = protocol.readString();
+                             value0.add(value1);
+                         }
+                     }
                      obj.setListOfStrings(value0);
                      break;
                  }
                  case 3: {
-                 Map<Integer, Integer> value0 = new HashMap<Integer, Integer>();
-                 protocol.readMapBegin();
-                 while (protocol.hasNext()) {
-                     int key1 = protocol.readI32();
-                     int value1 = protocol.readI32();
-                     value0.put(key1, value1);
-                 }
+                     Map<Integer, Integer> value0 = null;
+                     if (protocol.readMapBegin()) {
+                         value0 = new HashMap<Integer, Integer>();
+                         while (protocol.hasNext()) {
+                         int key1 = protocol.readI32();
+                         int value1 = protocol.readI32();
+                             value0.put(key1, value1);
+                         }
+                     }
                      obj.setMapOfIntToInt(value0);
                      break;
                  }
@@ -1376,7 +1388,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 byte[] value0 = protocol.readBinary();
+                     byte[] value0 = protocol.readBinary();
                      obj.setSuccess(value0);
                      break;
                  }
@@ -1409,7 +1421,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 com.dotspots.rpcplus.example.torturetest.ObjectWithEnum value0 = readObjectWithEnum(protocol);
+                     com.dotspots.rpcplus.example.torturetest.ObjectWithEnum value0 = readObjectWithEnum(protocol);
                      obj.setSuccess(value0);
                      break;
                  }
@@ -1442,7 +1454,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 com.dotspots.rpcplus.example.torturetest.SimpleObjectWithNoFieldIds value0 = readSimpleObjectWithNoFieldIds(protocol);
+                     com.dotspots.rpcplus.example.torturetest.SimpleObjectWithNoFieldIds value0 = readSimpleObjectWithNoFieldIds(protocol);
                      obj.setSuccess(value0);
                      break;
                  }
@@ -1498,38 +1510,44 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 int value0 = protocol.readI32();
+                     int value0 = protocol.readI32();
                      obj.setEnumValue(value0);
                      break;
                  }
                  case 1: {
-                 Set<Integer> value0 = new HashSet<Integer>();
-                 protocol.readSetBegin();
-                 while (protocol.hasNext()) {
-                     int value1 = protocol.readI32();
-                     value0.add(value1);
-                 }
+                     Set<Integer> value0 = null;
+                     if (protocol.readSetBegin()) {
+                         value0 = new HashSet<Integer>();
+                         while (protocol.hasNext()) {
+                         int value1 = protocol.readI32();
+                             value0.add(value1);
+                         }
+                     }
                      obj.setEnumSet(value0);
                      break;
                  }
                  case 2: {
-                 Map<Integer, Integer> value0 = new HashMap<Integer, Integer>();
-                 protocol.readMapBegin();
-                 while (protocol.hasNext()) {
-                     int key1 = protocol.readI32();
-                     int value1 = protocol.readI32();
-                     value0.put(key1, value1);
-                 }
+                     Map<Integer, Integer> value0 = null;
+                     if (protocol.readMapBegin()) {
+                         value0 = new HashMap<Integer, Integer>();
+                         while (protocol.hasNext()) {
+                         int key1 = protocol.readI32();
+                         int value1 = protocol.readI32();
+                             value0.put(key1, value1);
+                         }
+                     }
                      obj.setEnumMap(value0);
                      break;
                  }
                  case 3: {
-                 List<Integer> value0 = new ArrayList<Integer>();
-                 protocol.readListBegin();
-                 while (protocol.hasNext()) {
-                     int value1 = protocol.readI32();
-                     value0.add(value1);
-                 }
+                     List<Integer> value0 = null;
+                     if (protocol.readListBegin()) {
+                         value0 = new ArrayList<Integer>();
+                         while (protocol.hasNext()) {
+                         int value1 = protocol.readI32();
+                             value0.add(value1);
+                         }
+                     }
                      obj.setEnumList(value0);
                      break;
                  }
@@ -1592,7 +1610,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds value0 = readSimpleObjectWithFieldIds(protocol);
+                     com.dotspots.rpcplus.example.torturetest.SimpleObjectWithFieldIds value0 = readSimpleObjectWithFieldIds(protocol);
                      obj.setSuccess(value0);
                      break;
                  }
@@ -1648,7 +1666,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes value0 = readObjectWithComplexTypes(protocol);
+                     com.dotspots.rpcplus.example.torturetest.ObjectWithComplexTypes value0 = readObjectWithComplexTypes(protocol);
                      obj.setSuccess(value0);
                      break;
                  }
@@ -1681,12 +1699,12 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 int value0 = protocol.readI32();
+                     int value0 = protocol.readI32();
                      obj.setTiming(value0);
                      break;
                  }
                  case 1: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setData(value0);
                      break;
                  }
@@ -1747,12 +1765,12 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setToken(value0);
                      break;
                  }
                  case 1: {
-                 int value0 = protocol.readI32();
+                     int value0 = protocol.readI32();
                      obj.setUserId(value0);
                      break;
                  }
@@ -1813,7 +1831,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setArg(value0);
                      break;
                  }
@@ -1892,7 +1910,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setSuccess(value0);
                      break;
                  }
@@ -1948,7 +1966,7 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 String value0 = protocol.readString();
+                     String value0 = protocol.readString();
                      obj.setSuccess(value0);
                      break;
                  }
@@ -1981,12 +1999,14 @@ public final class TortureTestApiJson implements JSONServlet {
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
                  case 0: {
-                 Set<Integer> value0 = new HashSet<Integer>();
-                 protocol.readSetBegin();
-                 while (protocol.hasNext()) {
-                     int value1 = protocol.readI32();
-                     value0.add(value1);
-                 }
+                     Set<Integer> value0 = null;
+                     if (protocol.readSetBegin()) {
+                         value0 = new HashSet<Integer>();
+                         while (protocol.hasNext()) {
+                         int value1 = protocol.readI32();
+                             value0.add(value1);
+                         }
+                     }
                      obj.setSuccess(value0);
                      break;
                  }
