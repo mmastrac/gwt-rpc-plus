@@ -29,7 +29,7 @@ public class ChromePortTransport implements JsonTransport, HasName {
 	}
 
 	private static final class Port extends JavaScriptObject {
-		private Port() {
+		protected Port() {
 		}
 
 		public native void postMessage(JavaScriptObject msg) /*-{
@@ -52,6 +52,13 @@ public class ChromePortTransport implements JsonTransport, HasName {
 	}
 
 	private native Port connect0(String extensionId, String name) /*-{
-		return chrome.extension.connect(extensionId, name ? {name:name} : null)
+		var args = [];
+		if (extensionId) {
+		args.push(extensionId);
+		}
+		if (name) {
+		args.push({name:name});
+		}
+		return chrome.extension.connect.apply(null, args);
 	}-*/;
 }
