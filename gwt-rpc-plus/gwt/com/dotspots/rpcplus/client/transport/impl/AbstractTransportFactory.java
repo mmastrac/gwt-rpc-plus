@@ -5,6 +5,7 @@ import com.dotspots.rpcplus.client.common.RPCPlusService;
 import com.dotspots.rpcplus.client.transport.HasContentType;
 import com.dotspots.rpcplus.client.transport.HasDocument;
 import com.dotspots.rpcplus.client.transport.HasJsonTransport;
+import com.dotspots.rpcplus.client.transport.HasName;
 import com.dotspots.rpcplus.client.transport.HasTextTransport;
 import com.dotspots.rpcplus.client.transport.HasTransport;
 import com.dotspots.rpcplus.client.transport.HasUrlEndpoint;
@@ -32,6 +33,10 @@ public abstract class AbstractTransportFactory implements TransportFactory {
 
 	protected String getUrl(RPCPlusService service, HasTransport<?> hasTransport) {
 		return service.getServiceEntryPoint();
+	}
+
+	protected String getName(RPCPlusService service, HasTransport<?> hasTransport) {
+		return null;
 	}
 
 	protected JSONFactory getJSONFactory() {
@@ -70,6 +75,14 @@ public abstract class AbstractTransportFactory implements TransportFactory {
 			final String url = getUrl(service, hasTransport);
 			if (url != null) {
 				((HasUrlEndpoint) transport).setUrl(url);
+			}
+		}
+
+		// Transport has a name?
+		if (transport instanceof HasName) {
+			String name = getName(service, hasTransport);
+			if (name != null) {
+				((HasName) transport).setName(name);
 			}
 		}
 
