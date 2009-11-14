@@ -391,6 +391,11 @@ public class CollectionGen {
 					printWriter.println("    }-*/;");
 				}
 				printWriter.println();
+
+				printWriter.println("    public native void pop() /*-{");
+				printWriter.println("        this.pop();");
+				printWriter.println("    }-*/;");
+				printWriter.println();
 			}
 			if (type == Type.SET) {
 				printWriter.println("    public native void add(" + key.getSimpleName() + " idx) /*-{");
