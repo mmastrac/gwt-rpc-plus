@@ -396,6 +396,31 @@ public class CollectionGen {
 				printWriter.println("        this.pop();");
 				printWriter.println("    }-*/;");
 				printWriter.println();
+
+				printWriter.println("    public " + valueType + " peek() {");
+				printWriter.println("        return this.get(this.size() - 1);");
+				printWriter.println("    };");
+				printWriter.println();
+
+				printWriter.println("    public native String join(String separator) /*-{");
+				printWriter.println("        return this.join(separator);");
+				printWriter.println("    }-*/;");
+				printWriter.println();
+
+				printWriter.println("    public native " + fullName + genericsShort + " slice(int index) /*-{");
+				printWriter.println("        return this.slice(index);");
+				printWriter.println("    }-*/;");
+				printWriter.println();
+
+				printWriter.println("    public native " + fullName + genericsShort + " splice(int index) /*-{");
+				printWriter.println("        return this.splice(index);");
+				printWriter.println("    }-*/;");
+				printWriter.println();
+
+				printWriter.println("    public native " + fullName + genericsShort + " splice(int index, int howMany) /*-{");
+				printWriter.println("        return this.splice(index, howMany);");
+				printWriter.println("    }-*/;");
+				printWriter.println();
 			}
 			if (type == Type.SET) {
 				printWriter.println("    public native void add(" + key.getSimpleName() + " idx) /*-{");

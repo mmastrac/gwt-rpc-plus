@@ -56,4 +56,28 @@ public final class JsRpcListInt extends JavaScriptObject {
         this.push(value);
     }-*/;
 
+    public native void pop() /*-{
+        this.pop();
+    }-*/;
+
+    public int peek() {
+        return this.get(this.size() - 1);
+    };
+
+    public native String join(String separator) /*-{
+        return this.join(separator);
+    }-*/;
+
+    public native JsRpcListInt slice(int index) /*-{
+        return this.slice(index);
+    }-*/;
+
+    public native JsRpcListInt splice(int index) /*-{
+        return this.splice(index);
+    }-*/;
+
+    public native JsRpcListInt splice(int index, int howMany) /*-{
+        return this.splice(index, howMany);
+    }-*/;
+
 }

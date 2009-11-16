@@ -57,4 +57,28 @@ public final class JsRpcListBool extends JavaScriptObject {
         this.push(value);
     }-*/;
 
+    public native void pop() /*-{
+        this.pop();
+    }-*/;
+
+    public boolean peek() {
+        return this.get(this.size() - 1);
+    };
+
+    public native String join(String separator) /*-{
+        return this.join(separator);
+    }-*/;
+
+    public native JsRpcListBool slice(int index) /*-{
+        return this.slice(index);
+    }-*/;
+
+    public native JsRpcListBool splice(int index) /*-{
+        return this.splice(index);
+    }-*/;
+
+    public native JsRpcListBool splice(int index, int howMany) /*-{
+        return this.splice(index, howMany);
+    }-*/;
+
 }
