@@ -54,4 +54,28 @@ public final class JsRpcListLong extends JavaScriptObject {
         this.push(value);
     }-*/;
 
+    public native void pop() /*-{
+        this.pop();
+    }-*/;
+
+    public long peek() {
+        return this.get(this.size() - 1);
+    };
+
+    public native String join(String separator) /*-{
+        return this.join(separator);
+    }-*/;
+
+    public native JsRpcListLong slice(int index) /*-{
+        return this.slice(index);
+    }-*/;
+
+    public native JsRpcListLong splice(int index) /*-{
+        return this.splice(index);
+    }-*/;
+
+    public native JsRpcListLong splice(int index, int howMany) /*-{
+        return this.splice(index, howMany);
+    }-*/;
+
 }

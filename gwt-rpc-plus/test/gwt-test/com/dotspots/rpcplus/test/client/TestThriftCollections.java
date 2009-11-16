@@ -5,6 +5,7 @@ import com.dotspots.rpcplus.client.jscollections.JsRpcList;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListBool;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListInt;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListLong;
+import com.dotspots.rpcplus.client.jscollections.JsRpcListString;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapInt;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapIntLong;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapStringLong;
@@ -45,6 +46,23 @@ public class TestThriftCollections extends GWTTestCase {
 		list.add(JavaScriptObject.createArray());
 
 		assertEquals(2, list.size());
+	}
+
+	public void testListJoin() {
+		JsRpcListString list = JsRpcListString.create();
+		list.add("a");
+		list.add("b");
+
+		assertEquals("axb", list.join("x"));
+	}
+
+	public void testListSlice() {
+		JsRpcListString list = JsRpcListString.create();
+		list.add("a");
+		list.add("b");
+		list.add("c");
+
+		assertEquals("bxc", list.slice(1).join("x"));
 	}
 
 	public void testListForEach() {
