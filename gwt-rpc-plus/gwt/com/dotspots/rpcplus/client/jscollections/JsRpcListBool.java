@@ -77,8 +77,12 @@ public final class JsRpcListBool extends JavaScriptObject {
         return this.slice(from, to);
     }-*/;
 
+    public native JsRpcListBool clear() /*-{
+        this.splice(0, this.length);
+    }-*/;
+
     public native JsRpcListBool splice(int index) /*-{
-        return this.splice(index);
+        return this.splice(index, this.length);
     }-*/;
 
     public native JsRpcListBool splice(int index, int howMany) /*-{

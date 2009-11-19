@@ -66,6 +66,16 @@ public class TestThriftCollections extends GWTTestCase {
 		assertEquals("bxc", list.slice(2, 3).join("x"));
 	}
 
+	public void testListSplice() {
+		JsRpcListString list = JsRpcListString.create();
+		list.add("a");
+		list.add("b");
+		list.add("c");
+
+		assertEquals("a", list.splice(1).join("x"));
+		assertEquals("bxc", list.join("x"));
+	}
+
 	public void testListForEach() {
 		JsRpcList<JavaScriptObject> list = JsRpcList.create();
 		list.add(JavaScriptObject.createArray());
