@@ -72,6 +72,10 @@ public final class JsRpcListInt extends JavaScriptObject {
         return this.slice(index);
     }-*/;
 
+    public native JsRpcListInt slice(int from, int to) /*-{
+        return this.slice(from, to);
+    }-*/;
+
     public native JsRpcListInt splice(int index) /*-{
         return this.splice(index);
     }-*/;

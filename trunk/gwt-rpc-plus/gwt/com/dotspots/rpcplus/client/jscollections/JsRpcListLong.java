@@ -70,6 +70,10 @@ public final class JsRpcListLong extends JavaScriptObject {
         return this.slice(index);
     }-*/;
 
+    public native JsRpcListLong slice(int from, int to) /*-{
+        return this.slice(from, to);
+    }-*/;
+
     public native JsRpcListLong splice(int index) /*-{
         return this.splice(index);
     }-*/;

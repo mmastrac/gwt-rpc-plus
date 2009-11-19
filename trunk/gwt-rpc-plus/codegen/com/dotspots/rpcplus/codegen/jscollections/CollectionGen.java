@@ -412,6 +412,11 @@ public class CollectionGen {
 				printWriter.println("    }-*/;");
 				printWriter.println();
 
+				printWriter.println("    public native " + fullName + genericsShort + " slice(int from, int to) /*-{");
+				printWriter.println("        return this.slice(from, to);");
+				printWriter.println("    }-*/;");
+				printWriter.println();
+
 				printWriter.println("    public native " + fullName + genericsShort + " splice(int index) /*-{");
 				printWriter.println("        return this.splice(index);");
 				printWriter.println("    }-*/;");
