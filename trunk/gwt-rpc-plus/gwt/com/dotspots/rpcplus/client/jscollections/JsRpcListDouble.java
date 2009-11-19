@@ -76,8 +76,12 @@ public final class JsRpcListDouble extends JavaScriptObject {
         return this.slice(from, to);
     }-*/;
 
+    public native JsRpcListDouble clear() /*-{
+        this.splice(0, this.length);
+    }-*/;
+
     public native JsRpcListDouble splice(int index) /*-{
-        return this.splice(index);
+        return this.splice(index, this.length);
     }-*/;
 
     public native JsRpcListDouble splice(int index, int howMany) /*-{
