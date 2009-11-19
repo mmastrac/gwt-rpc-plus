@@ -62,8 +62,9 @@ public class TestThriftCollections extends GWTTestCase {
 		list.add("b");
 		list.add("c");
 
-		assertEquals("bxc", list.slice(1).join("x"));
-		assertEquals("bxc", list.slice(2, 3).join("x"));
+		assertEquals("", list.slice(1).join("x"));
+		assertEquals("bxc", list.slice(1, 3).join("x"));
+		assertEquals("c", list.slice(2, 3).join("x"));
 	}
 
 	public void testListSplice() {
@@ -72,8 +73,8 @@ public class TestThriftCollections extends GWTTestCase {
 		list.add("b");
 		list.add("c");
 
-		assertEquals("a", list.splice(1).join("x"));
-		assertEquals("bxc", list.join("x"));
+		assertEquals("bxc", list.splice(1).join("x"));
+		assertEquals("a", list.join("x"));
 	}
 
 	public void testListForEach() {

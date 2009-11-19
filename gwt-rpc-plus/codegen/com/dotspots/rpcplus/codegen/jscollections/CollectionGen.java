@@ -219,7 +219,7 @@ public class CollectionGen {
 			printWriter.println();
 
 			printWriter.println("    public native boolean contains(" + key.getSimpleName() + " idx) /*-{");
-			printWriter.println("        return (" + keyString + " in this);");
+			printWriter.println("        return this.hasOwnProperty(" + keyString + ");");
 			printWriter.println("    }-*/;");
 			printWriter.println();
 

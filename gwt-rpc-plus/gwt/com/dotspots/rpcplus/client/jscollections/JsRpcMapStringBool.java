@@ -15,7 +15,7 @@ public final class JsRpcMapStringBool extends JavaScriptObject {
     }
 
     public native boolean contains(String idx) /*-{
-        return ('_' + idx in this);
+        return this.hasOwnProperty('_' + idx);
     }-*/;
 
     public native boolean forEachEntry(JsRpcStringBoolProcedure procedure) /*-{
