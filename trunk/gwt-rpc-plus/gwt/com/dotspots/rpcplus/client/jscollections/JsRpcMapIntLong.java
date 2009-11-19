@@ -15,7 +15,7 @@ public final class JsRpcMapIntLong extends JavaScriptObject {
     }
 
     public native boolean contains(int idx) /*-{
-        return (idx in this);
+        return this.hasOwnProperty(idx);
     }-*/;
 
     /**

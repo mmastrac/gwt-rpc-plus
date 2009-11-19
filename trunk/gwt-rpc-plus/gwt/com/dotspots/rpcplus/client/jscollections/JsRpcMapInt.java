@@ -15,7 +15,7 @@ public final class JsRpcMapInt<E> extends JavaScriptObject {
     }
 
     public native boolean contains(int idx) /*-{
-        return (idx in this);
+        return this.hasOwnProperty(idx);
     }-*/;
 
     public Iterable<E> keysIterable() {

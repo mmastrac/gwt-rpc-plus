@@ -15,7 +15,7 @@ public final class JsRpcMapStringInt extends JavaScriptObject {
     }
 
     public native boolean contains(String idx) /*-{
-        return ('_' + idx in this);
+        return this.hasOwnProperty('_' + idx);
     }-*/;
 
     public native boolean forEachEntry(JsRpcStringIntProcedure procedure) /*-{
