@@ -63,6 +63,7 @@ public class TestThriftCollections extends GWTTestCase {
 		list.add("c");
 
 		assertEquals("bxc", list.slice(1).join("x"));
+		assertEquals("bxc", list.slice(2, 3).join("x"));
 	}
 
 	public void testListForEach() {
