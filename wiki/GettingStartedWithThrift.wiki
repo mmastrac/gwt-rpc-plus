@@ -1,0 +1,37 @@
+= Getting Started With Thrift =
+
+gwt-rpc-plus includes an optimized compiler for thrift files that can output JSNI stubs for client-side use, as well as the corresponding server-side stubs.
+
+The current approach in gwt-rpc-plus trades portability of client/server source for low code footprint on the client. 
+
+== Compiling IDL ==
+
+For each .thrift IDL, you'll need to perform three compilation passes
+
+ # Compile the IDL with the native Thrift client (statically-linked executables for Linux/x86 and OSX are available in SVN)
+ # Generate the client-side JSNI stubs with gwt-rpc-plus
+ # Generate the server-side RPC stub with gwt-rpc-plus
+
+=== Generating the server-side beans ===
+
+The following command will generate the server-side Java beans:
+
+{{{
+thrift --gen java:beans -o example example.thrift
+}}}
+
+=== Generate the client-side JSNI objects and RPC stubs ===
+
+The following command will generate the client-side JSNI objects, as well as the RPC stubs:
+
+{{{
+java -cp gwt-rpc-plus.jar com.dotspots.rpcplus.codegen.thrift.CodeGen --client --output example/gen-java-gwt example.thrift
+}}}
+
+=== Generate the server-side RPC handler ===
+
+The following command will generate the server-side RPC handler:
+
+{{{
+java -cp gwt-rpc-plus.jar com.dotspots.rpcplus.codegen.thrift.CodeGen --server --output example/gen-json-server example.thrift
+}}}
