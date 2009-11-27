@@ -6,7 +6,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 class JsSetIterator<T> implements Iterator<String> {
 	private JsRpcListString keys;
-	private int index = -1;
+	private int index = 0;
 	private final JavaScriptObject jso;
 
 	public JsSetIterator(JavaScriptObject jso) {
@@ -15,11 +15,11 @@ class JsSetIterator<T> implements Iterator<String> {
 	}
 
 	public boolean hasNext() {
-		return ++index < keys.size();
+		return index < keys.size();
 	}
 
 	public String next() {
-		return keys.get(index).substring(1);
+		return keys.get(index++).substring(1);
 	}
 
 	public void remove() {
@@ -29,8 +29,8 @@ class JsSetIterator<T> implements Iterator<String> {
 	private native JsRpcListString getKeys(JavaScriptObject jso) /*-{
 		var keys = [];
 		for (x in jso)
-			if (jso.hasOwnProperty(x))
-				keys.push(x);
+		if (jso.hasOwnProperty(x))
+		keys.push(x);
 
 		return keys;
 	}-*/;

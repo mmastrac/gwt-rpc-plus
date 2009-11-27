@@ -1,5 +1,7 @@
 package com.dotspots.rpcplus.test.client;
 
+import java.util.Iterator;
+
 import com.dotspots.rpcplus.client.jscollections.JsRpcIntObjectProcedure;
 import com.dotspots.rpcplus.client.jscollections.JsRpcList;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListBool;
@@ -233,6 +235,24 @@ public class TestThriftCollections extends GWTTestCase {
 		assertTrue(result[1]);
 	}
 
+	public void testMapIterable() {
+		JsRpcMapStringString map = JsRpcMapStringString.create();
+		map.set("a", "A");
+		map.set("b", "B");
+		map.set("c", "C");
+
+		Iterator<String> it = map.keysIterable().iterator();
+
+		assertTrue(it.hasNext());
+		assertTrue(it.hasNext());
+		it.next();
+		assertTrue(it.hasNext());
+		it.next();
+		assertTrue(it.hasNext());
+		it.next();
+		assertFalse(it.hasNext());
+	}
+
 	public void testSetStringIterable() {
 		JsRpcSetString set = JsRpcSetString.create();
 		set.add("");
@@ -274,6 +294,77 @@ public class TestThriftCollections extends GWTTestCase {
 		assertFalse(set.contains(""));
 		assertTrue(set.contains("watch"));
 		assertFalse(set.contains("_"));
+	}
+
+	/**
+	 * Test normal iteration.
+	 */
+	public void testSetIterator() {
+		JsRpcSetString set = JsRpcSetString.create();
+		set.add("a");
+		set.add("b");
+		set.add("c");
+
+		boolean[] results = new boolean[3];
+		for (String value : set.iterable()) {
+			results[value.charAt(0) - 'a'] = true;
+		}
+
+		assertTrue(results[0]);
+		assertTrue(results[1]);
+		assertTrue(results[2]);
+	}
+
+	/**
+	 * Test multiple/out of order calls to hasNext.
+	 */
+	public void testSetIterator2() {
+		JsRpcSetString set = JsRpcSetString.create();
+		set.add("a");
+		set.add("b");
+		set.add("c");
+
+		boolean[] results = new boolean[3];
+		final Iterator<String> it = set.iterable().iterator();
+		assertTrue(it.hasNext());
+		assertTrue(it.hasNext());
+		results[it.next().charAt(0) - 'a'] = true;
+		assertTrue(it.hasNext());
+		results[it.next().charAt(0) - 'a'] = true;
+		assertTrue(it.hasNext());
+		results[it.next().charAt(0) - 'a'] = true;
+		assertFalse(it.hasNext());
+
+		assertTrue(results[0]);
+		assertTrue(results[1]);
+		assertTrue(results[2]);
+	}
+
+	/**
+	 * Remove an element while iterating.
+	 */
+	public void testSetIterator3() {
+		JsRpcSetString set = JsRpcSetString.create();
+		set.add("a");
+		set.add("b");
+		set.add("c");
+
+		boolean[] results = new boolean[3];
+		final Iterator<String> it = set.iterable().iterator();
+		assertTrue(it.hasNext());
+		assertTrue(it.hasNext());
+		results[it.next().charAt(0) - 'a'] = true;
+		assertTrue(it.hasNext());
+		results[it.next().charAt(0) - 'a'] = true;
+		it.remove();
+		assertTrue(it.hasNext());
+		results[it.next().charAt(0) - 'a'] = true;
+		assertFalse(it.hasNext());
+
+		assertTrue(results[0]);
+		assertTrue(results[1]);
+		assertTrue(results[2]);
+		assertEquals(2, set.countSize());
 	}
 
 	/**
