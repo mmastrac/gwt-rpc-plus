@@ -9,6 +9,9 @@
 	<property name="classes.dir" value="${output.dir}/bin/src" />
 	<property name="classes.test.dir" value="${output.dir}/bin/test" />
 
+	<!-- Use jarjar to hide some dependencies -->
+	<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="lib/jarjar-1.0.jar"/>
+
 	<!-- Determine platform for GWT (gwt-dev-*.jar) -->
 	<condition property="gwt.platform" value="-windows">
 		<os family="windows" />
@@ -173,7 +176,13 @@
 	</target>
 
 	<target name="jar" depends="compile">
-		<jar destfile="build/gwt-rpc-plus.jar">
+		<delete>
+			<fileset dir="build">
+				<include name="gwt-rpc-plus*.jar" />
+			</fileset>
+		</delete>
+		
+		<jar destfile="build/gwt-rpc-plus-nodeps.jar">
 			<fileset dir="${classes.dir}">
 				<include name="**/*.class" />
 			</fileset>
@@ -181,6 +190,18 @@
 				<include name="**/*" />
 			</fileset>
 		</jar>
+
+		<!-- Include commons libs, renamed -->
+		<jarjar jarfile="build/gwt-rpc-plus.jar" manifest="MANIFEST.MF">
+		    <zipfileset src="build/gwt-rpc-plus-nodeps.jar"/>
+		    <zipfileset src="lib/commons-lang-2.4.jar">
+		    	<exclude name="META-INF/**" />
+		    </zipfileset>
+		    <zipfileset src="lib/commons-cli-2.0-SNAPSHOT.jar">
+		    	<exclude name="META-INF/**" />
+			</zipfileset>
+		    <rule pattern="org.apache.**" result="com.dotspots.rpcplus.apache.@1"/>
+		</jarjar>
 	</target>
 
 	<target name="thrift" depends="compile,jar" description="Generate Java bindings for .thrift files">
