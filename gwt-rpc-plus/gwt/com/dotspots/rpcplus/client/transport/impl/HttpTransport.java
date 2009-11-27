@@ -1,7 +1,9 @@
 package com.dotspots.rpcplus.client.transport.impl;
 
+import com.dotspots.rpcplus.client.transport.CommonMimeTypes;
 import com.dotspots.rpcplus.client.transport.HasContentType;
 import com.dotspots.rpcplus.client.transport.HasUrlEndpoint;
+import com.dotspots.rpcplus.client.transport.HttpStatus;
 import com.dotspots.rpcplus.client.transport.TextTransport;
 import com.dotspots.rpcplus.client.transport.TransportLogger;
 import com.google.gwt.http.client.Request;
@@ -14,11 +16,7 @@ import com.google.gwt.user.client.rpc.StatusCodeException;
 
 public class HttpTransport implements TextTransport, HasContentType, HasUrlEndpoint {
 	private String url;
-	private String mimeType = DEFAULT_MIME_TYPE;
-
-	public static final String GWT_MIME_TYPE = "text/x-gwt-rpc; charset=utf-8";
-	public static final String JSON_MIME_TYPE = "application/json; charset=utf-8";
-	public static final String DEFAULT_MIME_TYPE = "text/plain; charset=utf-8";
+	private String mimeType = CommonMimeTypes.DEFAULT_MIME_TYPE;
 
 	public void setUrl(String url) {
 		this.url = url;
@@ -53,7 +51,7 @@ public class HttpTransport implements TextTransport, HasContentType, HasUrlEndpo
 			}
 
 			public void onResponseReceived(Request request, Response response) {
-				if (response.getStatusCode() == 200) {
+				if (response.getStatusCode() == HttpStatus.SC_OK) {
 					TransportLogger.INSTANCE.logReceive(response.getText());
 					callback.onSuccess(response.getText());
 				} else {

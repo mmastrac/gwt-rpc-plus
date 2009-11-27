@@ -2,9 +2,9 @@ package com.dotspots.rpcplus.client.flexiblerpc.impl;
 
 import com.dotspots.rpcplus.client.common.RPCPlusService;
 import com.dotspots.rpcplus.client.flexiblerpc.FlexibleRPCRequest;
+import com.dotspots.rpcplus.client.transport.CommonMimeTypes;
 import com.dotspots.rpcplus.client.transport.TextTransport;
 import com.dotspots.rpcplus.client.transport.TransportFactory;
-import com.dotspots.rpcplus.client.transport.impl.HttpTransport;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.impl.RemoteServiceProxy;
@@ -30,7 +30,7 @@ public class TextTransportRPC extends AbstractFlexibleRPC {
 		super.initialize(proxy, serializer);
 
 		TransportFactory transportFactory = GWT.create(TransportFactory.class);
-		transportFactory.initialize(HttpTransport.GWT_MIME_TYPE, (RPCPlusService) proxy, this);
+		transportFactory.initialize(CommonMimeTypes.GWT_MIME_TYPE, (RPCPlusService) proxy, this);
 	}
 
 	@Override
