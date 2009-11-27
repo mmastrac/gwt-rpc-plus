@@ -10,13 +10,13 @@
 	<property name="classes.test.dir" value="${output.dir}/bin/test" />
 
 	<!-- Determine platform for GWT (gwt-dev-*.jar) -->
-	<condition property="gwt.platform" value="windows">
+	<condition property="gwt.platform" value="-windows">
 		<os family="windows" />
 	</condition>
-	<condition property="gwt.platform" value="mac">
+	<condition property="gwt.platform" value="-mac">
 		<os family="mac" />
 	</condition>
-	<condition property="gwt.platform" value="linux">
+	<condition property="gwt.platform" value="-linux">
 		<os family="unix" />
 	</condition>
 
@@ -50,6 +50,14 @@
 
 	<fail unless="gwt.sdk.dir">Property gwt.sdk.dir must be set</fail>
 
+	<fileset id="gwt.dev.jar" dir="${gwt.sdk.dir}">
+		<include name="gwt-dev${gwt.platform}.jar" />
+	</fileset>
+
+	<fileset id="gwt.user.jar" dir="${gwt.sdk.dir}">
+		<include name="gwt-user.jar" />
+	</fileset>
+
 	<tstamp />
 
 	<target name="clean">
@@ -71,8 +79,8 @@
 				<fileset dir="lib">
 					<include name="*.jar" />
 				</fileset>
-				<pathelement path="${gwt.sdk.dir}/gwt-user.jar" />
-				<pathelement path="${gwt.sdk.dir}/gwt-dev-${gwt.platform}.jar" />
+				<fileset refid="gwt.user.jar" />
+				<fileset refid="gwt.dev.jar" />
 			</classpath>
 		</javac>
 
@@ -105,8 +113,8 @@
 				<fileset dir="lib">
 					<include name="*.jar" />
 				</fileset>
-				<pathelement path="${gwt.sdk.dir}/gwt-user.jar" />
-				<pathelement path="${gwt.sdk.dir}/gwt-dev-${gwt.platform}.jar" />
+				<fileset refid="gwt.user.jar" />
+				<fileset refid="gwt.dev.jar" />
 			</classpath>
 		</javac>
 		
@@ -205,8 +213,8 @@
 				<fileset dir="lib">
 					<include name="*.jar" />
 				</fileset>
-				<pathelement path="${gwt.sdk.dir}/gwt-user.jar" />
-				<pathelement path="${gwt.sdk.dir}/gwt-dev-${gwt.platform}.jar" />
+				<fileset refid="gwt.user.jar" />
+				<fileset refid="gwt.dev.jar" />
 			</classpath>
 		</java>
 
@@ -223,8 +231,8 @@
 				<fileset dir="lib">
 					<include name="*.jar" />
 				</fileset>
-				<pathelement path="${gwt.sdk.dir}/gwt-user.jar" />
-				<pathelement path="${gwt.sdk.dir}/gwt-dev-${gwt.platform}.jar" />
+				<fileset refid="gwt.user.jar" />
+				<fileset refid="gwt.dev.jar" />
 			</classpath>
 		</java>
 	</target>
@@ -253,8 +261,8 @@
 				<fileset dir="lib">
 					<include name="*.jar" />
 				</fileset>
-				<pathelement path="${gwt.sdk.dir}/gwt-user.jar" />
-				<pathelement path="${gwt.sdk.dir}/gwt-dev-${gwt.platform}.jar" />
+				<fileset refid="gwt.user.jar" />
+				<fileset refid="gwt.dev.jar" />
 				<path location="${classes.dir}" />
 				<path location="${classes.test.dir}" />
 			</classpath>
