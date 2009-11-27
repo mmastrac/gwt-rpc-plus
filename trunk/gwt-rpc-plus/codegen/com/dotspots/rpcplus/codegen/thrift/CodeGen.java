@@ -34,7 +34,6 @@ public class CodeGen {
 				final PrintWriter printWriter = new PrintWriter(fileOutputStream);
 
 				type.write(new GwtCodeGenRpcObjectWriter(printWriter));
-				System.out.println(output.getAbsolutePath());
 
 				printWriter.flush();
 			} finally {
@@ -50,7 +49,7 @@ public class CodeGen {
 			final PrintWriter printWriter = new PrintWriter(fileOutputStream);
 
 			iface.write(new GwtCodeGenRpcInterfaceWriter(printWriter));
-			System.out.println(output.getAbsolutePath());
+			System.out.println(output.getName());
 
 			printWriter.flush();
 		} finally {
@@ -71,7 +70,7 @@ public class CodeGen {
 			final PrintWriter printWriter = new PrintWriter(fileOutputStream);
 
 			iface.write(new ServerCodeGenRpcInterfaceWriter(printWriter));
-			System.out.println(output.getAbsolutePath());
+			System.out.println(output.getName());
 
 			printWriter.flush();
 		} finally {
