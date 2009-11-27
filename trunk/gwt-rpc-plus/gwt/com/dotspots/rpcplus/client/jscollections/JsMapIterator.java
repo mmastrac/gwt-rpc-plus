@@ -6,7 +6,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 class JsMapIterator<T> implements Iterator<T> {
 	private JsRpcListString keys;
-	private int index;
+	private int index = 0;
 	private final JavaScriptObject jso;
 
 	public JsMapIterator(JavaScriptObject jso) {
@@ -15,11 +15,11 @@ class JsMapIterator<T> implements Iterator<T> {
 	}
 
 	public boolean hasNext() {
-		return index++ < keys.size();
+		return index < keys.size();
 	}
 
 	public T next() {
-		return get(jso, keys.get(index));
+		return get(jso, keys.get(index++));
 	}
 
 	public void remove() {
@@ -29,8 +29,8 @@ class JsMapIterator<T> implements Iterator<T> {
 	private native JsRpcListString getKeys(JavaScriptObject jso) /*-{
 		var keys = [];
 		for (x in jso)
-			if (jso.hasOwnProperty(x))
-				keys.push(x);
+		if (jso.hasOwnProperty(x))
+		keys.push(x);
 
 		return keys;
 	}-*/;
