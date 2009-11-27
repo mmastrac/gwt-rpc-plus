@@ -79,6 +79,9 @@ public class CodeGen {
 	}
 
 	public static void main(String[] args) throws RpcParseException, ClassNotFoundException, FileNotFoundException {
+		System.out.println("gwt-rpc-plus Thrift Compiler: http://code.google.com/p/gwt-rpc-plus/");
+		System.out.println();
+
 		Options options = new Options();
 		options.addOption("server", false, "Generate server code");
 		options.addOption("client", false, "Generate client code");
@@ -95,8 +98,12 @@ public class CodeGen {
 			line = parser.parse(options, args);
 		} catch (ParseException exp) {
 			System.out.println(exp);
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp(CodeGen.class.getName(), options, true);
+			doHelp(options);
+			return;
+		}
+
+		if (!line.hasOption("client") && !line.hasOption("server")) {
+			doHelp(options);
 			return;
 		}
 
@@ -118,6 +125,11 @@ public class CodeGen {
 		}
 	}
 
+	private static void doHelp(Options options) {
+		HelpFormatter formatter = new HelpFormatter();
+		formatter.printHelp(CodeGen.class.getName(), options, true);
+	}
+
 	private static void compile(CommandLine line, final String idl) throws RpcParseException, FileNotFoundException, ClassNotFoundException {
 		CodeGen codeGen = new CodeGen();
 		RpcTypeFactory typeFactory1 = new RpcTypeFactory(line.getOptionValue("suffix"));
@@ -127,12 +139,14 @@ public class CodeGen {
 				line.getOptionValues("include") == null ? Collections.<String> emptyList() : Arrays.asList(line.getOptionValues("include")));
 
 		File output = new File(line.getOptionValue("output"));
+		final boolean client = line.hasOption("client");
+		final boolean server = line.hasOption("server");
 
 		for (RpcInterface iface1 : thriftParser.computeInterfaces(typeFactory1)) {
-			if (line.hasOption("client")) {
+			if (client) {
 				codeGen.generateGwtCode(output, iface1);
 			}
-			if (line.hasOption("server")) {
+			if (server) {
 				codeGen.generateServerCode(output, iface1);
 			}
 		}
