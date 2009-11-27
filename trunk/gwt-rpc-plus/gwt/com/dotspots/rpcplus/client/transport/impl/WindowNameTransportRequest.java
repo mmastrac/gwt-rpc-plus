@@ -2,7 +2,6 @@ package com.dotspots.rpcplus.client.transport.impl;
 
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.transport.TransportLogger;
-import com.google.gwt.core.client.Duration;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
@@ -17,9 +16,6 @@ public class WindowNameTransportRequest {
 	private final String arguments;
 	private final AsyncCallback<String> callback;
 	private boolean running;
-
-	// Globally unique ID
-	private static int nameSerial;
 
 	private static final String SEND_PREFIX = "wnt-";
 	private static final String RECEIVE_PREFIX = "wnr-";
@@ -95,7 +91,7 @@ public class WindowNameTransportRequest {
 	}
 
 	public void start() {
-		serial = nameSerial++ + "-" + Duration.currentTimeMillis();
+		serial = UniqueRequestGenerator.createUniqueId();
 		iframeName = SEND_PREFIX + serial;
 		responseName = RECEIVE_PREFIX + serial;
 

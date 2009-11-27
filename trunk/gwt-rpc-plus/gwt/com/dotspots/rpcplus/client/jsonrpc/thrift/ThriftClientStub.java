@@ -9,10 +9,10 @@ import com.dotspots.rpcplus.client.jsonrpc.CallEncoder;
 import com.dotspots.rpcplus.client.jsonrpc.CallResponse;
 import com.dotspots.rpcplus.client.jsonrpc.impl.StandardCallDecoder;
 import com.dotspots.rpcplus.client.jsonrpc.impl.StandardCallEncoder;
+import com.dotspots.rpcplus.client.transport.CommonMimeTypes;
 import com.dotspots.rpcplus.client.transport.HasJsonTransport;
 import com.dotspots.rpcplus.client.transport.JsonTransport;
 import com.dotspots.rpcplus.client.transport.TransportFactory;
-import com.dotspots.rpcplus.client.transport.impl.HttpTransport;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -41,7 +41,7 @@ public abstract class ThriftClientStub<T extends ThriftClientStub<T>> implements
 		serviceEntryPoint = address;
 
 		TransportFactory factory = GWT.create(TransportFactory.class);
-		factory.initialize(HttpTransport.JSON_MIME_TYPE, this, this);
+		factory.initialize(CommonMimeTypes.JSON_MIME_TYPE, this, this);
 	}
 
 	public String getServiceEntryPoint() {
