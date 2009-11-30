@@ -1,6 +1,5 @@
 package com.dotspots.rpcplus.example.torturetest.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.dotspots.rpcplus.client.transport.*;
 import com.dotspots.rpcplus.client.jsonrpc.*;
 import com.dotspots.rpcplus.client.jscollections.*;
@@ -13,7 +12,7 @@ public final class SimpleObjectWithNoFieldIds extends com.dotspots.rpcplus.clien
 
     /* Factory method */
     public static SimpleObjectWithNoFieldIds create() {
-        return JavaScriptObject.createObject().cast();
+        return com.google.gwt.core.client.JavaScriptObject.createObject().cast();
     }
 
     /* Factory method, strongly dependent on order of fields */

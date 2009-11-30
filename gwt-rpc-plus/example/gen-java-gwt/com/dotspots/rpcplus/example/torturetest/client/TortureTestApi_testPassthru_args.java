@@ -1,6 +1,5 @@
 package com.dotspots.rpcplus.example.torturetest.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.dotspots.rpcplus.client.transport.*;
 import com.dotspots.rpcplus.client.jsonrpc.*;
 import com.dotspots.rpcplus.client.jscollections.*;
@@ -13,7 +12,7 @@ public final class TortureTestApi_testPassthru_args extends com.dotspots.rpcplus
 
     /* Factory method */
     public static TortureTestApi_testPassthru_args create() {
-        return JavaScriptObject.createArray().cast();
+        return com.google.gwt.core.client.JavaScriptObject.createArray().cast();
     }
 
     /* Factory method, strongly dependent on order of fields */

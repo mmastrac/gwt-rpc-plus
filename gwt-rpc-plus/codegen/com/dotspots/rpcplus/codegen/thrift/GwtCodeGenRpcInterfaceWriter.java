@@ -58,8 +58,8 @@ final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcIn
 			int index = 1;
 			for (RpcStruct exceptionType : method.getExceptionTypes()) {
 				printWriter.println("        case " + (index * methodCount + method.getMethodId()) + ":");
-				printWriter.println("            asyncCallback.onFailure(new " + exceptionType.getFullyQualifiedClassName()
-						+ "((JavaScriptObject)response.getFieldValue(" + index + ")));");
+				printWriter.println("            asyncCallback.onFailure(new " + exceptionType.getFullyQualifiedClassName() + "(("
+						+ ClassNames.JAVASCRIPTOBJECT_CLASSNAME + ")response.getFieldValue(" + index + ")));");
 				printWriter.println("            break;");
 				index++;
 			}
@@ -76,7 +76,6 @@ final class GwtCodeGenRpcInterfaceWriter extends GwtCodeGenBase implements RpcIn
 	public void writePackage(String packageName) {
 		printWriter.println("package " + packageName + ";");
 		printWriter.println();
-		printWriter.println("import com.google.gwt.core.client.JavaScriptObject;");
 		printWriter.println("import com.google.gwt.user.client.rpc.AsyncCallback;");
 		printWriter.println("import com.dotspots.rpcplus.client.transport.*;");
 		printWriter.println("import com.dotspots.rpcplus.client.jsonrpc.*;");

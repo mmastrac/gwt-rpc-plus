@@ -1,6 +1,5 @@
 package com.dotspots.rpcplus.example.torturetest.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.dotspots.rpcplus.client.transport.*;
 import com.dotspots.rpcplus.client.jsonrpc.*;
@@ -22,19 +21,19 @@ public final class TortureTestApi extends com.dotspots.rpcplus.client.jsonrpc.th
         // Process exceptions per method
         switch (responseCode * 16 + methodId) {
         case 17:
-            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
+            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((com.google.gwt.core.client.JavaScriptObject)response.getFieldValue(1)));
             break;
         case 18:
-            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
+            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((com.google.gwt.core.client.JavaScriptObject)response.getFieldValue(1)));
             break;
         case 19:
-            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
+            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((com.google.gwt.core.client.JavaScriptObject)response.getFieldValue(1)));
             break;
         case 20:
-            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((JavaScriptObject)response.getFieldValue(1)));
+            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.SimpleException((com.google.gwt.core.client.JavaScriptObject)response.getFieldValue(1)));
             break;
         case 36:
-            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.MoreComplexException((JavaScriptObject)response.getFieldValue(2)));
+            asyncCallback.onFailure(new com.dotspots.rpcplus.example.torturetest.client.MoreComplexException((com.google.gwt.core.client.JavaScriptObject)response.getFieldValue(2)));
             break;
         default:
             asyncCallback.onFailure(new com.dotspots.rpcplus.client.jsonrpc.RpcException("Unknown exception"));
