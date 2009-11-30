@@ -1,6 +1,5 @@
 package com.dotspots.rpcplus.example.torturetest.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.dotspots.rpcplus.client.transport.*;
 import com.dotspots.rpcplus.client.jsonrpc.*;
 import com.dotspots.rpcplus.client.jscollections.*;
@@ -13,7 +12,7 @@ public final class ObjectThatIsReferenced extends com.dotspots.rpcplus.client.js
 
     /* Factory method */
     public static ObjectThatIsReferenced create() {
-        return JavaScriptObject.createArray().cast();
+        return com.google.gwt.core.client.JavaScriptObject.createArray().cast();
     }
 
     /* Factory method, strongly dependent on order of fields */

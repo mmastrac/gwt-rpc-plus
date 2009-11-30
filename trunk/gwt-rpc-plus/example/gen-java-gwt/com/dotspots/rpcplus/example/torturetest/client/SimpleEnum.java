@@ -1,6 +1,5 @@
 package com.dotspots.rpcplus.example.torturetest.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.dotspots.rpcplus.client.transport.*;
 import com.dotspots.rpcplus.client.jsonrpc.*;
 import com.dotspots.rpcplus.client.jscollections.*;
@@ -16,7 +15,7 @@ public final class SimpleEnum extends com.dotspots.rpcplus.client.jsonrpc.BaseJs
 
     /* Factory method */
     public static SimpleEnum create() {
-        return JavaScriptObject.createArray().cast();
+        return com.google.gwt.core.client.JavaScriptObject.createArray().cast();
     }
 
 }

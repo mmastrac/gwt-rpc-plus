@@ -1,16 +1,15 @@
 package com.dotspots.rpcplus.example.torturetest.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.dotspots.rpcplus.client.transport.*;
 import com.dotspots.rpcplus.client.jsonrpc.*;
 import com.dotspots.rpcplus.client.jscollections.*;
 
 @SuppressWarnings("unused")
 public final class MoreComplexException extends Exception {
-    private JavaScriptObject e;
+    private com.google.gwt.core.client.JavaScriptObject e;
 
     // GWT requires a protected constructor
-    public MoreComplexException(JavaScriptObject e) {
+    public MoreComplexException(com.google.gwt.core.client.JavaScriptObject e) {
         this.e = e;
     }
 

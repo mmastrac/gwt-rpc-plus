@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.dotspots.rpcplus.client.jsonrpc.BaseJsRpcObject;
-
 final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjectWriter {
 	private final PrintWriter printWriter;
 
@@ -24,7 +22,7 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 	public void startClass(RpcStruct type, String className) {
 		printWriter.println("@SuppressWarnings(\"unused\")");
 		printWriter.println("public final class " + className + " extends "
-				+ (type.isException() ? "Exception" : BaseJsRpcObject.class.getName()) + " {");
+				+ (type.isException() ? "Exception" : ClassNames.BASEJSRPCOBJECT_CLASSNAME) + " {");
 
 		if (type.getConstants().size() > 0) {
 			for (Map.Entry<String, Integer> entry : type.getConstants().entrySet()) {
@@ -34,10 +32,10 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 		}
 
 		if (type.isException()) {
-			printWriter.println("    private JavaScriptObject e;");
+			printWriter.println("    private " + ClassNames.JAVASCRIPTOBJECT_CLASSNAME + " e;");
 			printWriter.println();
 			printWriter.println("    // GWT requires a protected constructor");
-			printWriter.println("    public " + className + "(JavaScriptObject e) {");
+			printWriter.println("    public " + className + "(" + ClassNames.JAVASCRIPTOBJECT_CLASSNAME + " e) {");
 			printWriter.println("        this.e = e;");
 			printWriter.println("    }");
 		} else {
@@ -53,9 +51,9 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 			printWriter.println("    /* Factory method */");
 			printWriter.println("    public static " + type.getClassName(false) + " create() {");
 			if (type.isList()) {
-				printWriter.println("        return JavaScriptObject.createArray().cast();");
+				printWriter.println("        return " + ClassNames.JAVASCRIPTOBJECT_CLASSNAME + ".createArray().cast();");
 			} else {
-				printWriter.println("        return JavaScriptObject.createObject().cast();");
+				printWriter.println("        return " + ClassNames.JAVASCRIPTOBJECT_CLASSNAME + ".createObject().cast();");
 			}
 			printWriter.println("    }");
 			printWriter.println();
@@ -124,7 +122,6 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 	public void writePackage(String packageName) {
 		printWriter.println("package " + packageName + ";");
 		printWriter.println();
-		printWriter.println("import com.google.gwt.core.client.JavaScriptObject;");
 		printWriter.println("import com.dotspots.rpcplus.client.transport.*;");
 		printWriter.println("import com.dotspots.rpcplus.client.jsonrpc.*;");
 		printWriter.println("import com.dotspots.rpcplus.client.jscollections.*;");
@@ -138,7 +135,7 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 			printWriter.println("    }");
 			printWriter.println();
 
-			printWriter.println("    private native JavaScriptObject " + field.getGetterName() + "0() /*-{");
+			printWriter.println("    private native " + ClassNames.JAVASCRIPTOBJECT_CLASSNAME + " " + field.getGetterName() + "0() /*-{");
 			printWriter.println("         return " + getJavaScriptInstance(type) + "[" + field.getKey() + "];");
 			printWriter.println("    }-*/;");
 		} else {
@@ -161,7 +158,8 @@ final class GwtCodeGenRpcObjectWriter extends GwtCodeGenBase implements RpcObjec
 			printWriter.println("    }");
 			printWriter.println();
 
-			printWriter.println("    private native void " + field.getSetterName() + "0(JavaScriptObject " + field.getName() + ") /*-{");
+			printWriter.println("    private native void " + field.getSetterName() + "0(" + ClassNames.JAVASCRIPTOBJECT_CLASSNAME + " "
+					+ field.getName() + ") /*-{");
 			printWriter.println("         " + getJavaScriptInstance(type) + "[" + field.getKey() + "] = " + field.getName() + ";");
 			printWriter.println("    }-*/;");
 		} else {

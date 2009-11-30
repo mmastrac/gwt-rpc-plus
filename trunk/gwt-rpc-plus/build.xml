@@ -158,10 +158,13 @@
 
 		<zip destfile="${dist.dir}/gwt-rpc-plus-snapshot-${DSTAMP}.zip">
 			<fileset dir="lib">
-				<include name="*.jar" />
+				<include name="libthrift.jar" />
 			</fileset>
 			<fileset dir="build">
-				<include name="*.jar" />
+				<include name="gwt-rpc-plus.jar" />
+			</fileset>
+			<fileset dir="tools">
+				<include name="**/thrift/*" />
 			</fileset>
 		</zip>
 		<zip destfile="${dist.dir}/gwt-rpc-plus-src-snapshot-${DSTAMP}.zip">
@@ -200,7 +203,7 @@
 		    <zipfileset src="lib/commons-cli-2.0-SNAPSHOT.jar">
 		    	<exclude name="META-INF/**" />
 			</zipfileset>
-		    <rule pattern="org.apache.**" result="com.dotspots.rpcplus.apache.@1"/>
+		    <rule pattern="org.apache.commons.**" result="com.dotspots.rpcplus.apache.commons.@1"/>
 		</jarjar>
 	</target>
 
@@ -219,7 +222,7 @@
 			<arg value="example/torturetest.thrift" />
 		</exec>
 
-		<java classname="com.dotspots.rpcplus.codegen.thrift.CodeGen" fork="true">
+		<java jar="build/gwt-rpc-plus.jar" fork="true">
 			<arg value="--client" />
 			<arg value="--suffix" />
 			<arg value=".client" />
@@ -227,34 +230,14 @@
 			<arg value="example/gen-java-gwt" />
 			<arg value="--idl" />
 			<arg value="example/torturetest.thrift" />
-			<classpath>
-				<fileset dir="build">
-					<include name="*.jar" />
-				</fileset>
-				<fileset dir="lib">
-					<include name="*.jar" />
-				</fileset>
-				<fileset refid="gwt.user.jar" />
-				<fileset refid="gwt.dev.jar" />
-			</classpath>
 		</java>
 
-		<java classname="com.dotspots.rpcplus.codegen.thrift.CodeGen" fork="true">
+		<java jar="build/gwt-rpc-plus.jar" fork="true">
 			<arg value="--server" />
 			<arg value="--output" />
 			<arg value="example/gen-json-server" />
 			<arg value="--idl" />
 			<arg value="example/torturetest.thrift" />
-			<classpath>
-				<fileset dir="build">
-					<include name="*.jar" />
-				</fileset>
-				<fileset dir="lib">
-					<include name="*.jar" />
-				</fileset>
-				<fileset refid="gwt.user.jar" />
-				<fileset refid="gwt.dev.jar" />
-			</classpath>
 		</java>
 	</target>
 
