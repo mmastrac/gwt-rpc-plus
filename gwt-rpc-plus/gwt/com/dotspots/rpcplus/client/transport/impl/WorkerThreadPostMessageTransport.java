@@ -24,6 +24,7 @@ public class WorkerThreadPostMessageTransport implements TextTransport {
 	 * Creates a transport against a given worker.
 	 */
 	public WorkerThreadPostMessageTransport(JavaScriptObject worker) {
+		this.worker = worker;
 	}
 
 	public void call(String arguments, AsyncCallback<String> callback) {
