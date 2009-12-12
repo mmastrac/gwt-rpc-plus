@@ -13,8 +13,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 class WindowNameTransportRequest extends CrossDomainFrameTransportRequest {
 	private final String redirect;
 
-	private String responseName;
-
 	public WindowNameTransportRequest(String arguments, final AsyncCallback<String> callback, Document document, String url, int timeout,
 			String redirect) {
 		super(arguments, callback, document, url, timeout);
@@ -23,7 +21,7 @@ class WindowNameTransportRequest extends CrossDomainFrameTransportRequest {
 
 	@Override
 	protected String getRequestType() {
-		return "crossdomainframe";
+		return "window.name";
 	}
 
 	@Override

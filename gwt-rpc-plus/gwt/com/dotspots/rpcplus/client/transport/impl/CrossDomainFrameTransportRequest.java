@@ -50,6 +50,7 @@ abstract class CrossDomainFrameTransportRequest {
 
 	protected String serial;
 	protected String iframeName;
+	protected String responseName;
 
 	public CrossDomainFrameTransportRequest(String arguments, final AsyncCallback<String> callback, Document document, String url,
 			int timeout) {
@@ -93,6 +94,7 @@ abstract class CrossDomainFrameTransportRequest {
 	public void start() {
 		serial = UniqueRequestGenerator.createUniqueId();
 		iframeName = SEND_PREFIX + serial;
+		responseName = RECEIVE_PREFIX + serial;
 
 		try {
 			timeoutTimerId = createTimeoutTimer(timeout, this);
