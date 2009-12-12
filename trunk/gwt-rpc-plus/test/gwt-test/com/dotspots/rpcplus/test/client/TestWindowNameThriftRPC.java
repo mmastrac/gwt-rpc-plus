@@ -6,7 +6,7 @@ import com.dotspots.rpcplus.client.jscollections.JsRpcSetString;
 import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.transport.HasWrappedTransport;
 import com.dotspots.rpcplus.client.transport.impl.JsonOverTextTransport;
-import com.dotspots.rpcplus.client.transport.impl.WindowNameTransport;
+import com.dotspots.rpcplus.client.transport.impl.CrossDomainFrameTransport;
 import com.dotspots.rpcplus.example.torturetest.client.ContextIn;
 import com.dotspots.rpcplus.example.torturetest.client.ContextOut;
 import com.dotspots.rpcplus.example.torturetest.client.TortureTestApi;
@@ -54,7 +54,7 @@ public class TestWindowNameThriftRPC extends GWTTestCase {
 	public void testWindowNameTransportWithFaviconRedirect() {
 		delayTestFinish(15000);
 
-		WindowNameTransport transport = (WindowNameTransport) ((HasWrappedTransport) api.getJsonTransport()).getWrappedTransport();
+		CrossDomainFrameTransport transport = (CrossDomainFrameTransport) ((HasWrappedTransport) api.getJsonTransport()).getWrappedTransport();
 		transport.setRedirectFavicon();
 
 		api.setJsonTransport(new JsonOverTextTransport(transport, new EvalJsonDecoder(), new JSONObjectJsonEncoder()));
@@ -124,7 +124,7 @@ public class TestWindowNameThriftRPC extends GWTTestCase {
 	public void testWindowNameTransportError() {
 		delayTestFinish(15000);
 
-		WindowNameTransport transport = (WindowNameTransport) ((HasWrappedTransport) api.getJsonTransport()).getWrappedTransport();
+		CrossDomainFrameTransport transport = (CrossDomainFrameTransport) ((HasWrappedTransport) api.getJsonTransport()).getWrappedTransport();
 		transport.setUrl(getCrossSiteModuleBaseUrl() + "/apidoesntexist");
 		transport.setTimeout(2000);
 
