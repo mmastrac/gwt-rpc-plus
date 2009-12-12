@@ -34,6 +34,11 @@ public class PostMessageFrameTransportRequest extends CrossDomainFrameTransportR
 		removeReceivePostMessageHandler(receiveWindow, handler);
 	}
 
+	@Override
+	protected boolean isActiveXSupported() {
+		return false;
+	}
+
 	protected void onMessage(PostMessageEvent e) {
 		this.sendWindow = RpcWindow.fromIFrame(iframe);
 		if (equals0(e.getSource(), sendWindow)) {
