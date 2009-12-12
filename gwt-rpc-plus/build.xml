@@ -244,7 +244,7 @@
 	<target name="test" depends="compile-test">
 		<mkdir dir="${output.dir}/tests" />
 
-		<property name="gwt.test.args" value="-notHeadless -whiteList ^" />
+		<property name="gwt.test.args" value="-notHeadless -whitelist ^" />
 		<echo>Running tests (${gwt.test.args})</echo>
 		
 		<junit printsummary="yes" showoutput="true" fork="true" timeout="600000" jvm="${gwt.hosted.java.command}">
