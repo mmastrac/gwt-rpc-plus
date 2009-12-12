@@ -31,12 +31,21 @@ public class ExampleService extends FlexibleRemoteServiceServlet implements Simp
 
 			ServletOutputStream output = response.getOutputStream();
 
-			output.print("<html><body><script>window.name='wnr-");
-			output.print(request.getParameter("serial"));
-			String result = StringEscapeUtils.escapeJavaScript(responsePayload);
-			output.write(result.getBytes("UTF-8"));
-			output.print("';window.location.replace('" + StringEscapeUtils.escapeJavaScript(request.getParameter("redirect"))
-					+ "');</script></body></html>");
+			String type = request.getParameter("type");
+
+			if (type == null || type.equals("window.name")) {
+				output.print("<html><body><script>window.name='wnr-");
+				output.print(request.getParameter("serial"));
+				String result = StringEscapeUtils.escapeJavaScript(responsePayload);
+				output.write(result.getBytes("UTF-8"));
+				output.print("';window.location.replace('" + StringEscapeUtils.escapeJavaScript(request.getParameter("redirect"))
+						+ "');</script></body></html>");
+			} else if (type.equals("postmessage")) {
+				output.print("<html><body><script>window.parent.postMessage('");
+				String result = StringEscapeUtils.escapeJavaScript(responsePayload);
+				output.write(result.getBytes("UTF-8"));
+				output.print("', '*');</script></body></html>");
+			}
 		}
 	}
 

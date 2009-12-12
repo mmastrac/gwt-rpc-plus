@@ -29,6 +29,7 @@
  
 	<source path="client/codec" />
 	<source path="client/common" />
+	<source path="client/dom" />
 	<source path="client/transport" />
 	<source path="client/jscollections" />
 	<source path="client/jsonrpc" />

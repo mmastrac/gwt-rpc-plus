@@ -87,12 +87,22 @@ public class ThriftRequestProcessor {
 		String json = req.getParameter("data");
 		String redirect = req.getParameter("redirect");
 		String serial = req.getParameter("serial");
+		String type = req.getParameter("type");
 
-		resp.getOutputStream().print("<html><body><script>window.name='wnr-" + serial);
-		JSONTokenizer tokener = new JSONTokenizer(new StringJSONSource(json), true);
-		TJSONProtocolReader protocol = new TJSONProtocolReader(tokener);
-		TJSONProtocolWriter nativeProtocol = new TJSONProtocolWriter(new EscapingStreamTransport(resp.getOutputStream()));
-		servlet.processRequest(protocol, nativeProtocol);
-		resp.getOutputStream().print("';window.location.replace('" + redirect + "');</script></body></html>");
+		if (type == null || type.equals("window.name")) {
+			resp.getOutputStream().print("<html><body><script>window.name='wnr-" + serial);
+			JSONTokenizer tokener = new JSONTokenizer(new StringJSONSource(json), true);
+			TJSONProtocolReader protocol = new TJSONProtocolReader(tokener);
+			TJSONProtocolWriter nativeProtocol = new TJSONProtocolWriter(new EscapingStreamTransport(resp.getOutputStream()));
+			servlet.processRequest(protocol, nativeProtocol);
+			resp.getOutputStream().print("';window.location.replace('" + redirect + "');</script></body></html>");
+		} else if (type.equals("postmessage")) {
+			resp.getOutputStream().print("<html><body><script>window.parent.postMessage('");
+			JSONTokenizer tokener = new JSONTokenizer(new StringJSONSource(json), true);
+			TJSONProtocolReader protocol = new TJSONProtocolReader(tokener);
+			TJSONProtocolWriter nativeProtocol = new TJSONProtocolWriter(new EscapingStreamTransport(resp.getOutputStream()));
+			servlet.processRequest(protocol, nativeProtocol);
+			resp.getOutputStream().print("', '*');</script></body></html>");
+		}
 	}
 }

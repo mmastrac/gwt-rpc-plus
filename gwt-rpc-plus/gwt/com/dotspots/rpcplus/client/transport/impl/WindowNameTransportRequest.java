@@ -1,120 +1,45 @@
 package com.dotspots.rpcplus.client.transport.impl;
 
-import com.dotspots.rpcplus.client.jsonrpc.RpcException;
 import com.dotspots.rpcplus.client.transport.TransportLogger;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.IFrameElement;
-import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.FormPanel;
 
-public class WindowNameTransportRequest {
-	private final String arguments;
-	private final AsyncCallback<String> callback;
-	private boolean running;
-
-	private static final String SEND_PREFIX = "wnt-";
-	private static final String RECEIVE_PREFIX = "wnr-";
-	private static final int NO_TIMER = -1;
-
-	private final int timeout;
-	private final Document document;
-	private final String url;
+/**
+ * Provides the window.name transport part of cross-domain frame requests.
+ */
+class WindowNameTransportRequest extends CrossDomainFrameTransportRequest {
 	private final String redirect;
 
-	/**
-	 * The document holding the iframe. Pinned here so IE doesn't GC it.
-	 */
-	private Document iframeDocument;
-
-	/**
-	 * The iframe that we're posting into.
-	 */
-	private IFrameElement iframe;
-
-	/**
-	 * The form that we're posting to the iframe.
-	 */
-	private FormElement form;
-
-	/**
-	 * A timer that tracks when we should consider this request timed out.
-	 */
-	private int timeoutTimerId = NO_TIMER;
-
-	private String serial;
-	private String iframeName;
 	private String responseName;
 
 	public WindowNameTransportRequest(String arguments, final AsyncCallback<String> callback, Document document, String url, int timeout,
 			String redirect) {
-		this.arguments = arguments;
-		this.callback = callback;
-		this.document = document;
-		this.url = url;
-		this.timeout = timeout;
+		super(arguments, callback, document, url, timeout);
 		this.redirect = redirect;
 	}
 
-	/**
-	 * Cancels a running request. Safe to call more than once.
-	 */
-	public void cancel() {
-		running = false;
-
-		if (timeoutTimerId != NO_TIMER) {
-			clearTimeout(timeoutTimerId);
-			timeoutTimerId = NO_TIMER;
-		}
-
-		if (iframe != null) {
-			detachIFrameListener(iframe);
-
-			// TODO: GWT 2.0
-			// iframe.removeFromParent();
-			// form.removeFromParent();
-
-			removeFromParent(iframe);
-			removeFromParent(form);
-
-			iframeDocument = null;
-			iframe = null;
-			form = null;
-
-			// Allow IE to reclaim the htmlfile document
-			collectGarbage();
-		}
+	@Override
+	protected String getRequestType() {
+		return "crossdomainframe";
 	}
 
-	public void start() {
-		serial = UniqueRequestGenerator.createUniqueId();
-		iframeName = SEND_PREFIX + serial;
-		responseName = RECEIVE_PREFIX + serial;
+	@Override
+	protected void populateForm() {
+		super.populateForm();
+		appendHiddenInput("redirect", redirect);
+	}
 
-		try {
-			timeoutTimerId = createTimeoutTimer(timeout, this);
+	@Override
+	protected void attachIFrameListeners() {
+		attachIFrameListener(iframe, this);
+	}
 
-			// Create the attached iframe
-			createAttachedIFrame();
-			setIFrameContentWindowName(iframe, iframeName);
-			attachIFrameListener(iframe, this);
-
-			// Create and populate the form
-			createForm();
-			populateForm();
-
-			TransportLogger.INSTANCE.logSend(arguments);
-
-			form.submit();
-			running = true;
-		} catch (Throwable t) {
-			callback.onFailure(new RpcException("Unexpected error while submitting request", t));
-			cancel();
-		}
+	@Override
+	protected void detachIFrameListeners() {
+		detachIFrameListener(iframe);
 	}
 
 	@SuppressWarnings("unused")
@@ -148,119 +73,6 @@ public class WindowNameTransportRequest {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private void error() {
-		if (!running) {
-			return;
-		}
-
-		cancel();
-		callback.onFailure(new RpcException("RPC failed"));
-	}
-
-	@SuppressWarnings("unused")
-	private void timeout() {
-		cancel();
-		callback.onFailure(new RpcException("RPC timed out"));
-	}
-
-	private native void clearTimeout(int timeoutId) /*-{
-		$wnd.clearTimeout(timeoutId);
-	}-*/;
-
-	/**
-	 * Creates a raw timeout on the window to avoid issues with the GWT Timer class.
-	 */
-	private native int createTimeoutTimer(int timeout, WindowNameTransportRequest self) /*-{
-		return $wnd.setTimeout(function() { self.@com.dotspots.rpcplus.client.transport.impl.WindowNameTransportRequest::timeout()() }, timeout);
-	}-*/;
-
-	private void removeFromParent(Element elem) {
-		elem.getParentElement().removeChild(elem);
-	}
-
-	private void makeInvisible(final Element elem) {
-		// TODO: GWT 2.0
-		// elem.getStyle().setVisibility(Visibility.HIDDEN);
-		// elem.getStyle().setHeight(10, Unit.PX);
-		// elem.getStyle().setWidth(10, Unit.PX);
-		// elem.getStyle().setPosition(Position.ABSOLUTE);
-
-		elem.getStyle().setProperty("visibility", "hidden");
-		elem.getStyle().setPropertyPx("height", 10);
-		elem.getStyle().setPropertyPx("width", 10);
-		elem.getStyle().setProperty("position", "absolute");
-	}
-
-	private void createAttachedIFrame() {
-		if (isActiveXSupported()) {
-			iframeDocument = createHtmlFile();
-			iframe = iframeDocument.getElementById("iframe").cast();
-		} else {
-			// Create and attach the iframe
-			iframe = document.createIFrameElement();
-			makeInvisible(iframe);
-			document.getBody().appendChild(iframe);
-			iframeDocument = iframe.getOwnerDocument();
-		}
-	}
-
-	private native Document createHtmlFile() /*-{
-		var htmlfile = new ActiveXObject("htmlfile");
-		htmlfile.open();
-		htmlfile.write("<html><body><iframe id='iframe'></iframe></body></html>");
-		htmlfile.close();
-		return htmlfile;
-	}-*/;
-
-	private void createForm() {
-		form = iframeDocument.createFormElement();
-		iframeDocument.getBody().appendChild(form);
-		form.setAction(url);
-		form.setMethod(FormPanel.METHOD_POST);
-		form.setTarget(iframeName);
-		form.setEnctype(FormPanel.ENCODING_URLENCODED);
-
-		// If we are using IE, we don't need to hide the form (it's running under the already-invisible ActiveX
-		// htmlfile)
-		if (!isActiveXSupported()) {
-			makeInvisible(form);
-		}
-	}
-
-	private void populateForm() {
-		InputElement input;
-
-		input = iframeDocument.createHiddenInputElement();
-		input.setName("serial");
-		input.setValue(serial);
-		form.appendChild(input);
-
-		input = iframeDocument.createHiddenInputElement();
-		input.setName("data");
-		input.setValue(arguments);
-		form.appendChild(input);
-
-		input = iframeDocument.createHiddenInputElement();
-		input.setName("type");
-		input.setValue("window.name");
-		form.appendChild(input);
-
-		input = iframeDocument.createHiddenInputElement();
-		input.setName("redirect");
-		input.setValue(redirect);
-		form.appendChild(input);
-	}
-
-	private static native boolean isActiveXSupported() /*-{
-		return ("ActiveXObject" in $wnd);
-	}-*/;
-
-	private static native void collectGarbage() /*-{
-		if ("CollectGarbage" in $wnd)
-		CollectGarbage();
-	}-*/;
-
 	private static native void attachIFrameListener(IFrameElement iframe, WindowNameTransportRequest self) /*-{
 		iframe.onload = function() { self.@com.dotspots.rpcplus.client.transport.impl.WindowNameTransportRequest::check()(); };
 		iframe.onerror = function() { self.@com.dotspots.rpcplus.client.transport.impl.WindowNameTransportRequest::error()(); };
@@ -271,14 +83,6 @@ public class WindowNameTransportRequest {
 		iframe.onload = function() {};
 		iframe.onerror = function() {};
 		iframe.onreadystatechange = function() {};
-	}-*/;
-
-	private static native void setIFrameContentWindowName(IFrameElement iframe, String name) /*-{
-		// For IE
-		iframe.contentWindow.name = name;
-
-		// For safari
-		iframe.setAttribute('name', name);
 	}-*/;
 
 	private static native String getIFrameContentWindowName(IFrameElement iframe) /*-{

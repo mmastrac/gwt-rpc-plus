@@ -1,5 +1,6 @@
 package com.dotspots.rpcplus.client.transport.impl;
 
+import com.dotspots.rpcplus.client.dom.PostMessageEvent;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -61,7 +62,7 @@ public class PostMessageTransportRequest {
 
 	protected native JavaScriptObject addReceivePostMessageHandler(JavaScriptObject receiveWindow) /*-{
 		var self = this;
-		var handler = function(e) { self.@com.dotspots.rpcplus.client.transport.impl.PostMessageTransportRequest::onPostMessage(Lcom/dotspots/rpcplus/client/transport/impl/PostMessageEvent;)(e); };
+		var handler = function(e) { self.@com.dotspots.rpcplus.client.transport.impl.PostMessageTransportRequest::onPostMessage(Lcom/dotspots/rpcplus/client/dom/PostMessageEvent;)(e); };
 
 		if (receiveWindow.addEventHandler)
 		receiveWindow.addEventHandler('postmessage', handler, true);
