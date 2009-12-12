@@ -10,7 +10,7 @@ import com.dotspots.rpcplus.client.transport.TextTransport;
 public class CrossDomainTransportFactory extends AbstractTransportFactory {
 	@Override
 	protected TextTransport createTransport(RPCPlusService service, HasTransport<?> hasTransport) {
-		WindowNameTransport transport = new WindowNameTransport();
+		CrossDomainFrameTransport transport = new CrossDomainFrameTransport();
 		return transport;
 	}
 }
