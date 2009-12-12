@@ -211,7 +211,7 @@ abstract class CrossDomainFrameTransportRequest {
 		form.appendChild(input);
 	}
 
-	private static native boolean isActiveXSupported() /*-{
+	protected native boolean isActiveXSupported() /*-{
 		return ("ActiveXObject" in $wnd);
 	}-*/;
 
