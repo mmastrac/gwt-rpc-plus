@@ -13,6 +13,8 @@ import org.svenson.tokenize.InputStreamSource;
 import org.svenson.tokenize.JSONTokenizer;
 import org.svenson.tokenize.StringJSONSource;
 
+import com.dotspots.rpcplus.client.transport.CommonMimeTypes;
+
 public class ThriftRequestProcessor {
 	private static final ThreadLocal<HttpServletRequest> request = new ThreadLocal<HttpServletRequest>();
 	private static final ThreadLocal<HttpServletResponse> response = new ThreadLocal<HttpServletResponse>();
@@ -62,7 +64,7 @@ public class ThriftRequestProcessor {
 
 	public void handleExplainUsage(JSONServlet servlet, HttpServletResponse resp) throws IOException {
 		resp.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
-		resp.setContentType("text/html");
+		resp.setContentType(CommonMimeTypes.HTML_MIME_TYPE);
 		resp.getOutputStream().print("<html><body>This is a thrift JSON endpoint which requires a POST</body></html>");
 		return;
 	}
@@ -70,7 +72,7 @@ public class ThriftRequestProcessor {
 	public void handleJSONPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException,
 			JSONParseException, TException {
 		resp.setStatus(HttpServletResponse.SC_OK);
-		resp.setContentType("application/json");
+		resp.setContentType(CommonMimeTypes.JSON_MIME_TYPE);
 
 		JSONTokenizer tokener = new JSONTokenizer(new InputStreamSource(req.getInputStream(), false), true);
 		TJSONProtocolReader protocol = new TJSONProtocolReader(tokener);
@@ -82,23 +84,24 @@ public class ThriftRequestProcessor {
 	public void handleFormPost(JSONServlet servlet, HttpServletRequest req, HttpServletResponse resp) throws IOException,
 			JSONParseException, TException {
 		resp.setStatus(HttpServletResponse.SC_OK);
-		resp.setContentType("text/html; charset=utf-8");
+		resp.setContentType(CommonMimeTypes.HTML_MIME_TYPE);
+		resp.setCharacterEncoding("UTF-8");
 
-		String json = req.getParameter("data");
+		String data = req.getParameter("data");
 		String redirect = req.getParameter("redirect");
 		String serial = req.getParameter("serial");
 		String type = req.getParameter("type");
 
 		if (type == null || type.equals("window.name")) {
 			resp.getOutputStream().print("<html><body><script>window.name='wnr-" + serial);
-			JSONTokenizer tokener = new JSONTokenizer(new StringJSONSource(json), true);
+			JSONTokenizer tokener = new JSONTokenizer(new StringJSONSource(data), true);
 			TJSONProtocolReader protocol = new TJSONProtocolReader(tokener);
 			TJSONProtocolWriter nativeProtocol = new TJSONProtocolWriter(new EscapingStreamTransport(resp.getOutputStream()));
 			servlet.processRequest(protocol, nativeProtocol);
 			resp.getOutputStream().print("';window.location.replace('" + redirect + "');</script></body></html>");
 		} else if (type.equals("postmessage")) {
 			resp.getOutputStream().print("<html><body><script>window.parent.postMessage('");
-			JSONTokenizer tokener = new JSONTokenizer(new StringJSONSource(json), true);
+			JSONTokenizer tokener = new JSONTokenizer(new StringJSONSource(data), true);
 			TJSONProtocolReader protocol = new TJSONProtocolReader(tokener);
 			TJSONProtocolWriter nativeProtocol = new TJSONProtocolWriter(new EscapingStreamTransport(resp.getOutputStream()));
 			servlet.processRequest(protocol, nativeProtocol);
