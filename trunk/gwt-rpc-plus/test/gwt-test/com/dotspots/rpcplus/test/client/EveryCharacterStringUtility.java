@@ -7,10 +7,9 @@ public class EveryCharacterStringUtility {
 	private static final int START_CHAR = Character.MIN_VALUE;
 	private static final int END_CHAR = Character.MAX_VALUE;
 
-	/**
-	 * Gets a string composed of every valid character (not codepoints, however).
-	 */
-	public static String getAllCharacterString() {
+	private static final String ALL_CHARACTER_STRING;
+
+	static {
 		final StringBuilder stringBuilder = new StringBuilder();
 		for (int i = START_CHAR; i <= END_CHAR; i++) {
 			if (i < Character.MIN_SURROGATE || i > Character.MAX_SURROGATE) {
@@ -18,28 +17,40 @@ public class EveryCharacterStringUtility {
 			}
 		}
 
-		return stringBuilder.toString();
+		ALL_CHARACTER_STRING = stringBuilder.toString();
+	}
+
+	/**
+	 * Gets a string composed of every valid character (not codepoints, however).
+	 */
+	public static String getAllCharacterString() {
+		return ALL_CHARACTER_STRING;
 	}
 
 	public static void checkString(String comparison) {
 		int index = 0;
-		for (int i = 0; i < comparison.length(); i++) {
-			final int expected = i + START_CHAR;
+		for (int i = START_CHAR; i <= END_CHAR; i++) {
 			if (i < Character.MIN_SURROGATE || i > Character.MAX_SURROGATE) {
-				final int actual = comparison.charAt(index++);
-				if (actual != expected) {
-					Assert.fail("Comparison failed at index " + i + ": character " + charToHex(expected) + " was " + charToHex(actual)
+				final int actual = comparison.charAt(index);
+				if (actual != i) {
+					Assert.fail("Comparison failed at index " + index + ": character " + charToHex(i) + " was " + charToHex(actual)
 							+ " instead.  Length of comparsion was " + comparison.length());
 				}
+
+				index++;
 			}
 		}
 
-		if (comparison.length() != END_CHAR - START_CHAR + 1 - (Character.MAX_SURROGATE - Character.MIN_SURROGATE + 1)) {
+		if (comparison.length() != ALL_CHARACTER_STRING.length()) {
 			Assert.fail("Comparison was truncated at index " + comparison.length());
 		}
 	}
 
 	private static String charToHex(int val) {
 		return val + " (0x" + Integer.toString(val, 16) + " '" + (char) val + "')";
+	}
+
+	public static void main(String[] args) {
+		checkString(getAllCharacterString());
 	}
 }
