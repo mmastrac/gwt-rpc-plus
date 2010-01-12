@@ -1,10 +1,7 @@
 package com.dotspots.rpcplus.client.transport.impl;
 
-import com.dotspots.rpcplus.client.transport.TransportLogger;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.IFrameElement;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -48,26 +45,8 @@ class WindowNameTransportRequest extends CrossDomainFrameTransportRequest {
 
 		String currentIframeName = getIFrameContentWindowName(iframe);
 		if (currentIframeName != null && !currentIframeName.equals(iframeName) && currentIframeName.startsWith(responseName)) {
-			/*
-			 * Defer removing the iframe - works around a Firefox bug where the throbber keeps spinning, similar to this
-			 * GWT bug: (http://code.google.com/p/google-web-toolkit/issues/detail?id=916). The running flag is set to
-			 * false to make sure we don't try to re-send the response.
-			 */
-			running = false;
-			DeferredCommand.addCommand(new Command() {
-				public void execute() {
-					cancel();
-				}
-			});
-
 			currentIframeName = currentIframeName.substring(responseName.length());
-			TransportLogger.INSTANCE.logReceive(currentIframeName);
-
-			try {
-				callback.onSuccess(currentIframeName);
-			} catch (Throwable t) {
-				callback.onFailure(t);
-			}
+			receive(currentIframeName);
 		}
 	}
 
