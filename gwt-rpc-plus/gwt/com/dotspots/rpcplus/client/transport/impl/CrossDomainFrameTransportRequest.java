@@ -7,6 +7,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.dom.client.IFrameElement;
 import com.google.gwt.dom.client.InputElement;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FormPanel;
 
@@ -227,6 +229,28 @@ abstract class CrossDomainFrameTransportRequest {
 		// For safari
 		iframe.setAttribute('name', name);
 	}-*/;
+
+	protected void receive(String response) {
+		TransportLogger.INSTANCE.logReceive(response);
+
+		/*
+		 * Defer removing the iframe - works around a Firefox bug where the throbber keeps spinning, similar to this GWT
+		 * bug: (http://code.google.com/p/google-web-toolkit/issues/detail?id=916). The running flag is set to false to
+		 * make sure we don't try to re-send the response.
+		 */
+		running = false;
+		DeferredCommand.addCommand(new Command() {
+			public void execute() {
+				cancel();
+			}
+		});
+
+		try {
+			callback.onSuccess(response);
+		} catch (Throwable t) {
+			callback.onFailure(t);
+		}
+	}
 
 	protected abstract String getRequestType();
 

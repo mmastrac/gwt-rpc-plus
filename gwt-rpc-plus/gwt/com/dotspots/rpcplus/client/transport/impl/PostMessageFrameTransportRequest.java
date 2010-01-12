@@ -43,7 +43,7 @@ public class PostMessageFrameTransportRequest extends CrossDomainFrameTransportR
 		this.sendWindow = RpcWindow.fromIFrame(iframe);
 		if (equals0(e.getSource(), sendWindow)) {
 			final String data = e.getData();
-			callback.onSuccess(data);
+			receive(data);
 		}
 	}
 
