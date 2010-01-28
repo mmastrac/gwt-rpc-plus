@@ -69,9 +69,9 @@ public class TestThriftCollections extends GWTTestCase {
 		list.add("b");
 		list.add(null);
 
-		assertEquals(1, JsRpcListUtils.linearSearch(list, "a"));
-		assertEquals(2, JsRpcListUtils.linearSearch(list, "b"));
-		assertEquals(3, JsRpcListUtils.linearSearch(list, null));
+		assertEquals(0, JsRpcListUtils.linearSearch(list, "a"));
+		assertEquals(1, JsRpcListUtils.linearSearch(list, "b"));
+		assertEquals(2, JsRpcListUtils.linearSearch(list, null));
 		assertEquals(-1, JsRpcListUtils.linearSearch(list, "c"));
 	}
 
