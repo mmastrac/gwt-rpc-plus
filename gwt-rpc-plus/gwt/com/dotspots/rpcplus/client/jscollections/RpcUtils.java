@@ -61,4 +61,8 @@ public class RpcUtils {
 			};
 		};
 	}
+
+	static native boolean fastStringEquals(String s1, String s2) /*-{
+		return s1 == s2;
+	}-*/;
 }

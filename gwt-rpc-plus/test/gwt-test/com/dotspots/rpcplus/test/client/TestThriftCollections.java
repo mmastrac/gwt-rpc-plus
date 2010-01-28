@@ -8,6 +8,7 @@ import com.dotspots.rpcplus.client.jscollections.JsRpcListBool;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListInt;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListLong;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListString;
+import com.dotspots.rpcplus.client.jscollections.JsRpcListUtils;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapInt;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapIntLong;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapStringLong;
@@ -48,6 +49,26 @@ public class TestThriftCollections extends GWTTestCase {
 		list.add(JavaScriptObject.createArray());
 
 		assertEquals(2, list.size());
+	}
+
+	public void testListSearch() {
+		JsRpcList<JavaScriptObject> list = JsRpcList.create();
+		JavaScriptObject o;
+		list.add(JavaScriptObject.createArray());
+		list.add(o = JavaScriptObject.createArray());
+
+		assertEquals(1, JsRpcListUtils.linearSearch(list, o));
+		assertEquals(-1, JsRpcListUtils.linearSearch(list, JavaScriptObject.createArray()));
+	}
+
+	public void testListStringSearch() {
+		JsRpcListString list = JsRpcListString.create();
+		list.add("a");
+		list.add("b");
+
+		assertEquals(1, JsRpcListUtils.linearSearch(list, "a"));
+		assertEquals(1, JsRpcListUtils.linearSearch(list, "b"));
+		assertEquals(-1, JsRpcListUtils.linearSearch(list, "c"));
 	}
 
 	public void testListJoin() {
