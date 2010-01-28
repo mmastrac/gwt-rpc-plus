@@ -15,6 +15,13 @@ public class JsRpcListUtils {
 	}
 
 	/**
+	 * Performs a brute-force, O(n), linear search of an unsorted list for an object reference.
+	 */
+	public static <E> boolean linearContains(JsRpcList<E> list, E value) {
+		return linearSearch(list, value) != -1;
+	}
+
+	/**
 	 * Performs a brute-force, O(n), linear search of an unsorted list.
 	 */
 	public static <E> int linearSearch(JsRpcListString list, String value) {
@@ -25,5 +32,12 @@ public class JsRpcListUtils {
 		}
 
 		return -1;
+	}
+
+	/**
+	 * Performs a brute-force, O(n), linear search of an unsorted list for an object reference.
+	 */
+	public static boolean linearContains(JsRpcListString list, String value) {
+		return linearSearch(list, value) != -1;
 	}
 }
