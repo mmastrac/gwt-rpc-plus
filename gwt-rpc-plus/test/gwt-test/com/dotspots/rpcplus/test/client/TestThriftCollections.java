@@ -56,18 +56,22 @@ public class TestThriftCollections extends GWTTestCase {
 		JavaScriptObject o;
 		list.add(JavaScriptObject.createArray());
 		list.add(o = JavaScriptObject.createArray());
+		list.add(null);
 
 		assertEquals(1, JsRpcListUtils.linearSearch(list, o));
 		assertEquals(-1, JsRpcListUtils.linearSearch(list, JavaScriptObject.createArray()));
+		assertEquals(2, JsRpcListUtils.linearSearch(list, null));
 	}
 
 	public void testListStringSearch() {
 		JsRpcListString list = JsRpcListString.create();
 		list.add("a");
 		list.add("b");
+		list.add(null);
 
 		assertEquals(1, JsRpcListUtils.linearSearch(list, "a"));
-		assertEquals(1, JsRpcListUtils.linearSearch(list, "b"));
+		assertEquals(2, JsRpcListUtils.linearSearch(list, "b"));
+		assertEquals(3, JsRpcListUtils.linearSearch(list, null));
 		assertEquals(-1, JsRpcListUtils.linearSearch(list, "c"));
 	}
 
