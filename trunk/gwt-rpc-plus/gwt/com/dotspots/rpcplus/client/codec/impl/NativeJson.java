@@ -27,12 +27,15 @@ public class NativeJson implements JsonDecoder, JsonEncoder {
 		}
 	}
 
+	/**
+	 * Restore the busted toJSON calls (but only if they had values!)
+	 */
 	private native void restoreToJSONMethods(JavaScriptObject window, JavaScriptObject savedToJSON) /*-{
-		window.Object.prototype.toJSON = savedToJSON[0];
-		window.Array.prototype.toJSON = savedToJSON[1];
-		window.Number.prototype.toJSON = savedToJSON[2];
-		window.Boolean.prototype.toJSON = savedToJSON[3];
-		window.String.prototype.toJSON = savedToJSON[4];
+		if (savedToJSON[0]) { window.Object.prototype.toJSON = savedToJSON[0]; }
+		if (savedToJSON[1]) { window.Array.prototype.toJSON = savedToJSON[1]; }
+		if (savedToJSON[2]) { window.Number.prototype.toJSON = savedToJSON[2]; }
+		if (savedToJSON[3]) { window.Boolean.prototype.toJSON = savedToJSON[3]; }
+		if (savedToJSON[4]) { window.String.prototype.toJSON = savedToJSON[4]; }
 	}-*/;
 
 	/**
