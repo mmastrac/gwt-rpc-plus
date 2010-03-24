@@ -62,7 +62,7 @@ service TortureTestApi {
 	string testThrowsAnException() throws (1:SimpleException ex);
 	string testThrowsAnUnpositionedException() throws (SimpleException ex);
 	string testDeclaresAnException() throws (1:SimpleException ex);
-	string testThrowsTwoExceptions() throws (1:SimpleException ex, 2:MoreComplexException ex2);
+	string testThrowsTwoExceptions(i32 which) throws (1:SimpleException ex, 2:MoreComplexException ex2);
 	SimpleException testExceptionPassthru(1:SimpleException ex);
 
 	string testPositionalArguments(1:i32 int32, 2:string str);

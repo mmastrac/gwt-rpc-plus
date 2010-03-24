@@ -221,7 +221,7 @@ public final class TortureTestApiJson implements JSONServlet {
         TortureTestApi.testThrowsTwoExceptions_args args = readTortureTestApi_testThrowsTwoExceptions_args(in);
         TortureTestApi.testThrowsTwoExceptions_result result = new TortureTestApi.testThrowsTwoExceptions_result();
         try {
-            String methodResult = service.testThrowsTwoExceptions();
+            String methodResult = service.testThrowsTwoExceptions(args.getWhich());
             result.setSuccess(methodResult);
             out.writeListBegin(null);
             out.writeI32(0); // Version
@@ -616,6 +616,11 @@ public final class TortureTestApiJson implements JSONServlet {
              int fieldId;
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
+                 case -1: {
+                     com.dotspots.rpcplus.example.torturetest.SimpleException value0 = readSimpleException(protocol);
+                     obj.setEx(value0);
+                     break;
+                 }
                  case 0: {
                      String value0 = protocol.readString();
                      obj.setSuccess(value0);
@@ -635,6 +640,11 @@ public final class TortureTestApiJson implements JSONServlet {
             return;
         }
         protocol.writeStructBegin(null);
+        if (obj.isSetEx()) {
+            protocol.writeI32(-1);
+            com.dotspots.rpcplus.example.torturetest.SimpleException value0 = obj.getEx();
+            writeSimpleException(protocol, value0);
+        }
         if (obj.isSetSuccess()) {
             protocol.writeI32(0);
             String value0 = obj.getSuccess();
@@ -848,6 +858,11 @@ public final class TortureTestApiJson implements JSONServlet {
              int fieldId;
              while(protocol.hasNext()) {
                  switch (protocol.readI32()) {
+                 case -1: {
+                     int value0 = protocol.readI32();
+                     obj.setWhich(value0);
+                     break;
+                 }
                  default:
                      protocol.skip();
                  }
@@ -862,6 +877,11 @@ public final class TortureTestApiJson implements JSONServlet {
             return;
         }
         protocol.writeStructBegin(null);
+        if (obj.isSetWhich()) {
+            protocol.writeI32(-1);
+            int value0 = obj.getWhich();
+            protocol.writeI32(value0);
+        }
         protocol.writeStructEnd();
     }
 
@@ -1178,6 +1198,11 @@ public final class TortureTestApiJson implements JSONServlet {
                      obj.setSuccess(value0);
                      break;
                  }
+                 case 1: {
+                     com.dotspots.rpcplus.example.torturetest.SimpleException value0 = readSimpleException(protocol);
+                     obj.setEx(value0);
+                     break;
+                 }
                  default:
                      protocol.skip();
                  }
@@ -1196,6 +1221,11 @@ public final class TortureTestApiJson implements JSONServlet {
             protocol.writeI32(0);
             String value0 = obj.getSuccess();
             protocol.writeString(value0);
+        }
+        if (obj.isSetEx()) {
+            protocol.writeI32(1);
+            com.dotspots.rpcplus.example.torturetest.SimpleException value0 = obj.getEx();
+            writeSimpleException(protocol, value0);
         }
         protocol.writeStructEnd();
     }
@@ -1914,6 +1944,16 @@ public final class TortureTestApiJson implements JSONServlet {
                      obj.setSuccess(value0);
                      break;
                  }
+                 case 1: {
+                     com.dotspots.rpcplus.example.torturetest.SimpleException value0 = readSimpleException(protocol);
+                     obj.setEx(value0);
+                     break;
+                 }
+                 case 2: {
+                     com.dotspots.rpcplus.example.torturetest.MoreComplexException value0 = readMoreComplexException(protocol);
+                     obj.setEx2(value0);
+                     break;
+                 }
                  default:
                      protocol.skip();
                  }
@@ -1932,6 +1972,16 @@ public final class TortureTestApiJson implements JSONServlet {
             protocol.writeI32(0);
             String value0 = obj.getSuccess();
             protocol.writeString(value0);
+        }
+        if (obj.isSetEx()) {
+            protocol.writeI32(1);
+            com.dotspots.rpcplus.example.torturetest.SimpleException value0 = obj.getEx();
+            writeSimpleException(protocol, value0);
+        }
+        if (obj.isSetEx2()) {
+            protocol.writeI32(2);
+            com.dotspots.rpcplus.example.torturetest.MoreComplexException value0 = obj.getEx2();
+            writeMoreComplexException(protocol, value0);
         }
         protocol.writeStructEnd();
     }
@@ -1970,6 +2020,11 @@ public final class TortureTestApiJson implements JSONServlet {
                      obj.setSuccess(value0);
                      break;
                  }
+                 case 1: {
+                     com.dotspots.rpcplus.example.torturetest.SimpleException value0 = readSimpleException(protocol);
+                     obj.setEx(value0);
+                     break;
+                 }
                  default:
                      protocol.skip();
                  }
@@ -1988,6 +2043,11 @@ public final class TortureTestApiJson implements JSONServlet {
             protocol.writeI32(0);
             String value0 = obj.getSuccess();
             protocol.writeString(value0);
+        }
+        if (obj.isSetEx()) {
+            protocol.writeI32(1);
+            com.dotspots.rpcplus.example.torturetest.SimpleException value0 = obj.getEx();
+            writeSimpleException(protocol, value0);
         }
         protocol.writeStructEnd();
     }

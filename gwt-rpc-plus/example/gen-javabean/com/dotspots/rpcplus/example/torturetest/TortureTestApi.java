@@ -30,7 +30,7 @@ public class TortureTestApi {
 
     public String testDeclaresAnException() throws SimpleException, TException;
 
-    public String testThrowsTwoExceptions() throws SimpleException, MoreComplexException, TException;
+    public String testThrowsTwoExceptions(int which) throws SimpleException, MoreComplexException, TException;
 
     public SimpleException testExceptionPassthru(SimpleException ex) throws TException;
 
@@ -225,16 +225,17 @@ public class TortureTestApi {
       throw new TApplicationException(TApplicationException.MISSING_RESULT, "testDeclaresAnException failed: unknown result");
     }
 
-    public String testThrowsTwoExceptions() throws SimpleException, MoreComplexException, TException
+    public String testThrowsTwoExceptions(int which) throws SimpleException, MoreComplexException, TException
     {
-      send_testThrowsTwoExceptions();
+      send_testThrowsTwoExceptions(which);
       return recv_testThrowsTwoExceptions();
     }
 
-    public void send_testThrowsTwoExceptions() throws TException
+    public void send_testThrowsTwoExceptions(int which) throws TException
     {
       oprot_.writeMessageBegin(new TMessage("testThrowsTwoExceptions", TMessageType.CALL, seqid_));
       testThrowsTwoExceptions_args args = new testThrowsTwoExceptions_args();
+      args.which = which;
       args.write(oprot_);
       oprot_.writeMessageEnd();
       oprot_.getTransport().flush();
@@ -816,7 +817,7 @@ public class TortureTestApi {
         iprot.readMessageEnd();
         testThrowsTwoExceptions_result result = new testThrowsTwoExceptions_result();
         try {
-          result.success = iface_.testThrowsTwoExceptions();
+          result.success = iface_.testThrowsTwoExceptions(args.which);
         } catch (SimpleException ex) {
           result.ex = ex;
         } catch (MoreComplexException ex2) {
@@ -2539,8 +2540,19 @@ public class TortureTestApi {
 
   public static class testThrowsTwoExceptions_args implements TBase, java.io.Serializable, Cloneable   {
     private static final TStruct STRUCT_DESC = new TStruct("testThrowsTwoExceptions_args");
+    private static final TField WHICH_FIELD_DESC = new TField("which", TType.I32, (short)-1);
+
+    private int which;
+    public static final int WHICH = -1;
+
+    private final Isset __isset = new Isset();
+    private static final class Isset implements java.io.Serializable {
+      public boolean which = false;
+    }
 
     public static final Map<Integer, FieldMetaData> metaDataMap = Collections.unmodifiableMap(new HashMap<Integer, FieldMetaData>() {{
+      put(WHICH, new FieldMetaData("which", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.I32)));
     }});
 
     static {
@@ -2550,10 +2562,20 @@ public class TortureTestApi {
     public testThrowsTwoExceptions_args() {
     }
 
+    public testThrowsTwoExceptions_args(
+      int which)
+    {
+      this();
+      this.which = which;
+      this.__isset.which = true;
+    }
+
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public testThrowsTwoExceptions_args(testThrowsTwoExceptions_args other) {
+      __isset.which = other.__isset.which;
+      this.which = other.which;
     }
 
     @Override
@@ -2561,8 +2583,34 @@ public class TortureTestApi {
       return new testThrowsTwoExceptions_args(this);
     }
 
+    public int getWhich() {
+      return this.which;
+    }
+
+    public void setWhich(int which) {
+      this.which = which;
+      this.__isset.which = true;
+    }
+
+    public void unsetWhich() {
+      this.__isset.which = false;
+    }
+
+    // Returns true if field which is set (has been asigned a value) and false otherwise
+    public boolean isSetWhich() {
+      return this.__isset.which;
+    }
+
     public void setFieldValue(int fieldID, Object value) {
       switch (fieldID) {
+      case WHICH:
+        if (value == null) {
+          unsetWhich();
+        } else {
+          setWhich((Integer)value);
+        }
+        break;
+
       default:
         throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
       }
@@ -2570,6 +2618,9 @@ public class TortureTestApi {
 
     public Object getFieldValue(int fieldID) {
       switch (fieldID) {
+      case WHICH:
+        return new Integer(getWhich());
+
       default:
         throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
       }
@@ -2578,6 +2629,8 @@ public class TortureTestApi {
     // Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise
     public boolean isSet(int fieldID) {
       switch (fieldID) {
+      case WHICH:
+        return isSetWhich();
       default:
         throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
       }
@@ -2595,6 +2648,15 @@ public class TortureTestApi {
     public boolean equals(testThrowsTwoExceptions_args that) {
       if (that == null)
         return false;
+
+      boolean this_present_which = true;
+      boolean that_present_which = true;
+      if (this_present_which || that_present_which) {
+        if (!(this_present_which && that_present_which))
+          return false;
+        if (this.which != that.which)
+          return false;
+      }
 
       return true;
     }
@@ -2615,6 +2677,14 @@ public class TortureTestApi {
         }
         switch (field.id)
         {
+          case WHICH:
+            if (field.type == TType.I32) {
+              this.which = iprot.readI32();
+              this.__isset.which = true;
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
           default:
             TProtocolUtil.skip(iprot, field.type);
             break;
@@ -2630,6 +2700,9 @@ public class TortureTestApi {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
+      oprot.writeFieldBegin(WHICH_FIELD_DESC);
+      oprot.writeI32(this.which);
+      oprot.writeFieldEnd();
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
@@ -2639,6 +2712,9 @@ public class TortureTestApi {
       StringBuilder sb = new StringBuilder("testThrowsTwoExceptions_args(");
       boolean first = true;
 
+      sb.append("which:");
+      sb.append(this.which);
+      first = false;
       sb.append(")");
       return sb.toString();
     }

@@ -98,15 +98,17 @@ public abstract class ThriftClientStub<T extends ThriftClientStub<T>> implements
 				responseContext = response.getResponseContext();
 				int responseCode = response.getResponseCode();
 				if (responseCode == 0) {
+					final BaseJsRpcObject responseObject = response.getResponseObject();
+
 					@SuppressWarnings("unchecked")
-					final R castResult = (R) response.getResponseObject().getFieldValue(0);
+					final R castResult = (R) responseObject.getFieldValue(0);
 					callback.onSuccess(castResult);
 
 					return;
 				}
 
 				fireOnAfterCall();
-				onException(methodId, callback, responseCode, response.getResponseContext());
+				onException(methodId, callback, responseCode, response.getResponseObject());
 			}
 		});
 	}
