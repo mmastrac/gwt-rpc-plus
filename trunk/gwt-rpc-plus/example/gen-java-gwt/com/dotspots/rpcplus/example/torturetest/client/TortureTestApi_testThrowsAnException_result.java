@@ -16,8 +16,8 @@ public final class TortureTestApi_testThrowsAnException_result extends com.dotsp
     }
 
     /* Factory method, strongly dependent on order of fields */
-    public static native TortureTestApi_testThrowsAnException_result create(String success) /*-{
-        return [success];
+    public static native TortureTestApi_testThrowsAnException_result create(String success, com.dotspots.rpcplus.example.torturetest.client.SimpleException ex) /*-{
+        return [success,ex];
     }-*/;
 
     public native String getSuccess() /*-{
@@ -34,6 +34,22 @@ public final class TortureTestApi_testThrowsAnException_result extends com.dotsp
 
     public native void unsetSuccess() /*-{
          delete this[0];
+    }-*/;
+
+    public native com.dotspots.rpcplus.example.torturetest.client.SimpleException getEx() /*-{
+         return this[1];
+    }-*/;
+
+    public native void setEx(com.dotspots.rpcplus.example.torturetest.client.SimpleException ex) /*-{
+         this[1] = ex;
+    }-*/;
+
+    public native boolean isSetEx() /*-{
+         return this[1] != null;
+    }-*/;
+
+    public native void unsetEx() /*-{
+         delete this[1];
     }-*/;
 
 }

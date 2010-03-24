@@ -82,6 +82,9 @@ public class CodeGen {
 		System.out.println("gwt-rpc-plus Thrift Compiler: http://code.google.com/p/gwt-rpc-plus/");
 		System.out.println();
 
+		// args = new String[] { "--server", "--output", "example/gen-json-server", "--idl",
+		// "example/torturetest.thrift" };
+
 		Options options = new Options();
 		options.addOption("server", false, "Generate server code");
 		options.addOption("client", false, "Generate client code");
@@ -106,11 +109,6 @@ public class CodeGen {
 			doHelp(options);
 			return;
 		}
-
-		//
-		// final RpcThriftParser thriftParser = new RpcThriftParser(new FileInputStream(
-		// "/Users/matthew/Documents/dotspots/trunk/com.dotspots.thrift/thrift/dot.thrift"),
-		// Arrays.asList("/Users/matthew/Documents/dotspots/trunk/com.dotspots.thrift/thrift"));
 
 		if (line.hasOption("idldir")) {
 			File dir = new File(line.getOptionValue("idldir"));

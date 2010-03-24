@@ -57,8 +57,8 @@ public final class TortureTestApi extends com.dotspots.rpcplus.client.jsonrpc.th
         call(3, "testDeclaresAnException", TortureTestApi_testDeclaresAnException_args.create(), callback);
     };
 
-    public void testThrowsTwoExceptions(AsyncCallback<String> callback) {
-        call(4, "testThrowsTwoExceptions", TortureTestApi_testThrowsTwoExceptions_args.create(), callback);
+    public void testThrowsTwoExceptions(int which, AsyncCallback<String> callback) {
+        call(4, "testThrowsTwoExceptions", TortureTestApi_testThrowsTwoExceptions_args.create(which), callback);
     };
 
     public void testExceptionPassthru(com.dotspots.rpcplus.example.torturetest.client.SimpleException ex, AsyncCallback<com.dotspots.rpcplus.example.torturetest.client.SimpleException> callback) {

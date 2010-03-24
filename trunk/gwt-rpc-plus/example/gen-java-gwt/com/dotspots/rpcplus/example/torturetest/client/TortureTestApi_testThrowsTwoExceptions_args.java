@@ -12,7 +12,28 @@ public final class TortureTestApi_testThrowsTwoExceptions_args extends com.dotsp
 
     /* Factory method */
     public static TortureTestApi_testThrowsTwoExceptions_args create() {
-        return com.google.gwt.core.client.JavaScriptObject.createArray().cast();
+        return com.google.gwt.core.client.JavaScriptObject.createObject().cast();
     }
+
+    /* Factory method, strongly dependent on order of fields */
+    public static native TortureTestApi_testThrowsTwoExceptions_args create(int which) /*-{
+        return {"-1": which, };
+    }-*/;
+
+    public native int getWhich() /*-{
+         return this[-1];
+    }-*/;
+
+    public native void setWhich(int which) /*-{
+         this[-1] = which;
+    }-*/;
+
+    public native boolean isSetWhich() /*-{
+         return this[-1] != null;
+    }-*/;
+
+    public native void unsetWhich() /*-{
+         delete this[-1];
+    }-*/;
 
 }

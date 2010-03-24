@@ -29,27 +29,30 @@ public class RpcMethod {
 			result = typeFactory.get(func.getReturnType().getType().getMyType());
 		}
 
+		final boolean isVoid = result.getTypeKey() == RpcTypeKey.VOID;
+
 		argType = new RpcStruct(typeFactory, iface.getClassName() + "$" + func.getName() + "_args", func.getNamespace(), false,
 				func.getFieldList().getChildren());
 
 		exceptionTypes = new ArrayList<RpcStruct>();
+
+		ArrayList<RpcField> resultFields = new ArrayList<RpcField>();
+		if (!isVoid) {
+			resultFields.add(new RpcField(0, 0, "success", result));
+		}
+
 		if (func.getExceptions() != null) {
 			for (DynamicSerDeField field : func.getExceptions().getChildren()) {
 				// Assume exception types have to be structures
 				RpcTypeStruct struct = (RpcTypeStruct) typeFactory.get(field.getFieldType().getMyType());
 				exceptionTypes.add(struct.getStruct());
+
+				resultFields.add(new RpcField(field.getFieldValue(), resultFields.size(), field.getName(), struct));
 			}
 		}
 
-		final boolean isVoid = result.getTypeKey() == RpcTypeKey.VOID;
-
-		RpcField[] resultFields = new RpcField[isVoid ? 0 : 1];
-		if (!isVoid) {
-			resultFields[0] = new RpcField(0, 0, "success", result);
-		}
-
 		resultStruct = new RpcStruct(typeFactory, iface.getClassName() + "$" + func.getName() + "_result", func.getNamespace(), false,
-				resultFields);
+				resultFields.toArray(new RpcField[resultFields.size()]));
 
 	}
 

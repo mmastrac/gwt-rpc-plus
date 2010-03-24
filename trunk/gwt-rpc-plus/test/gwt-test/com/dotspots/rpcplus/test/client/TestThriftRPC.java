@@ -4,6 +4,7 @@ import com.dotspots.rpcplus.client.jscollections.JsRpcSetString;
 import com.dotspots.rpcplus.client.jsonrpc.thrift.CallInterceptor;
 import com.dotspots.rpcplus.example.torturetest.client.ContextIn;
 import com.dotspots.rpcplus.example.torturetest.client.ContextOut;
+import com.dotspots.rpcplus.example.torturetest.client.MoreComplexException;
 import com.dotspots.rpcplus.example.torturetest.client.ObjectWithEnum;
 import com.dotspots.rpcplus.example.torturetest.client.SimpleEnum;
 import com.dotspots.rpcplus.example.torturetest.client.SimpleException;
@@ -80,6 +81,48 @@ public class TestThriftRPC extends GWTTestCase {
 		api.testThrowsAnException(new AsyncCallback<String>() {
 			public void onFailure(Throwable caught) {
 				assertTrue("Wrong exception type: " + caught.getClass(), caught instanceof SimpleException);
+				assertEquals("Hey!", caught.getMessage());
+				finishTest();
+			}
+
+			public void onSuccess(String result) {
+				fail("Shouldn't have succeeded");
+			}
+		});
+	}
+
+	public void testThrowsTwoExceptions() {
+		delayTestFinish(15000);
+
+		api.testThrowsTwoExceptions(1, new AsyncCallback<String>() {
+			public void onFailure(Throwable caught) {
+				assertTrue("Wrong exception type: " + caught.getClass(), caught instanceof MoreComplexException);
+				assertEquals("Message!", caught.getMessage());
+
+				JsRpcSetString result = ((MoreComplexException) caught).getData().getSetOfStrings();
+				assertEquals(4, result.countSize());
+				assertTrue(result.contains("hi0"));
+				assertTrue(result.contains("hi1"));
+				assertTrue(result.contains("hi2"));
+				assertTrue(result.contains("hi3"));
+				assertFalse(result.contains("hi4"));
+
+				finishTest();
+			}
+
+			public void onSuccess(String result) {
+				fail("Shouldn't have succeeded");
+			}
+		});
+	}
+
+	public void testThrowsTwoExceptions2() {
+		delayTestFinish(15000);
+
+		api.testThrowsTwoExceptions(0, new AsyncCallback<String>() {
+			public void onFailure(Throwable caught) {
+				assertTrue("Wrong exception type: " + caught.getClass(), caught instanceof SimpleException);
+				assertEquals("Hey!", caught.getMessage());
 				finishTest();
 			}
 

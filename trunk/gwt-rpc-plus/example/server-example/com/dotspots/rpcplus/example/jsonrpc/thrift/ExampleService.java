@@ -111,8 +111,17 @@ public class ExampleService extends BaseServlet<TortureTestApi.Iface> implements
 		throw new SimpleException("Hey!");
 	}
 
-	public String testThrowsTwoExceptions() throws SimpleException, MoreComplexException, TException {
-		throw new SimpleException("Hey!");
+	public String testThrowsTwoExceptions(int which) throws SimpleException, MoreComplexException, TException {
+		if (which == 0) {
+			throw new SimpleException("Hey!");
+		}
+
+		Set<String> set = new HashSet<String>();
+		for (int i = 0; i < 4; i++) {
+			set.add("hi" + i);
+		}
+
+		throw new MoreComplexException("Message!", new ObjectWithComplexTypes(null, set, null, null));
 	}
 
 	public ContextOut __getContext() throws TException {

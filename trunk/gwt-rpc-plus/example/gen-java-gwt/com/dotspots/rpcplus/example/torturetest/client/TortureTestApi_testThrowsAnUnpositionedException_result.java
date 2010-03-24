@@ -12,12 +12,12 @@ public final class TortureTestApi_testThrowsAnUnpositionedException_result exten
 
     /* Factory method */
     public static TortureTestApi_testThrowsAnUnpositionedException_result create() {
-        return com.google.gwt.core.client.JavaScriptObject.createArray().cast();
+        return com.google.gwt.core.client.JavaScriptObject.createObject().cast();
     }
 
     /* Factory method, strongly dependent on order of fields */
-    public static native TortureTestApi_testThrowsAnUnpositionedException_result create(String success) /*-{
-        return [success];
+    public static native TortureTestApi_testThrowsAnUnpositionedException_result create(com.dotspots.rpcplus.example.torturetest.client.SimpleException ex, String success) /*-{
+        return {"-1": ex, "0": success, };
     }-*/;
 
     public native String getSuccess() /*-{
@@ -34,6 +34,22 @@ public final class TortureTestApi_testThrowsAnUnpositionedException_result exten
 
     public native void unsetSuccess() /*-{
          delete this[0];
+    }-*/;
+
+    public native com.dotspots.rpcplus.example.torturetest.client.SimpleException getEx() /*-{
+         return this[-1];
+    }-*/;
+
+    public native void setEx(com.dotspots.rpcplus.example.torturetest.client.SimpleException ex) /*-{
+         this[-1] = ex;
+    }-*/;
+
+    public native boolean isSetEx() /*-{
+         return this[-1] != null;
+    }-*/;
+
+    public native void unsetEx() /*-{
+         delete this[-1];
     }-*/;
 
 }
