@@ -30,19 +30,19 @@ public final class JsRpcListDouble extends JavaScriptObject {
         this.splice(idx, 1);
     }-*/;
 
-    public native boolean forEach(JsRpcDoubleProcedure procedure) /*-{
-        for (var i = 0; i < this.length; i++) { 
-            if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcDoubleProcedure::execute(D)(this[i])) return false;
+    public boolean forEach(JsRpcDoubleProcedure procedure) {
+        for (int i = 0; i < size(); i++) { 
+            if (!procedure.execute(get(i))) return false;
         }
         return true;
-    }-*/;
+    };
 
-    public native boolean forEach(JsRpcIntDoubleProcedure procedure) /*-{
-        for (var i = 0; i < this.length; i++) { 
-            if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcIntDoubleProcedure::execute(ID)(i, this[i])) return false;
+    public boolean forEach(JsRpcIntDoubleProcedure procedure) {
+        for (int i = 0; i < size(); i++) { 
+            if (!procedure.execute(i, get(i))) return false;
         }
         return true;
-    }-*/;
+    };
 
     public native double get(int idx) /*-{
         return this[idx] || 0;

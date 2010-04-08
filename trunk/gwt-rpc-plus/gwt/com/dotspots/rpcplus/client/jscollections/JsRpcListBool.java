@@ -30,19 +30,19 @@ public final class JsRpcListBool extends JavaScriptObject {
         this.splice(idx, 1);
     }-*/;
 
-    public native boolean forEach(JsRpcBoolProcedure procedure) /*-{
-        for (var i = 0; i < this.length; i++) { 
-            if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcBoolProcedure::execute(Z)(this[i])) return false;
+    public boolean forEach(JsRpcBoolProcedure procedure) {
+        for (int i = 0; i < size(); i++) { 
+            if (!procedure.execute(get(i))) return false;
         }
         return true;
-    }-*/;
+    };
 
-    public native boolean forEach(JsRpcIntBoolProcedure procedure) /*-{
-        for (var i = 0; i < this.length; i++) { 
-            if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcIntBoolProcedure::execute(IZ)(i, this[i])) return false;
+    public boolean forEach(JsRpcIntBoolProcedure procedure) {
+        for (int i = 0; i < size(); i++) { 
+            if (!procedure.execute(i, get(i))) return false;
         }
         return true;
-    }-*/;
+    };
 
     public native boolean get(int idx) /*-{
         // Coerce to boolean in case underlying value is integer
