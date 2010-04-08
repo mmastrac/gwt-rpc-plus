@@ -12,16 +12,8 @@
 	<!-- Use jarjar to hide some dependencies -->
 	<taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="lib/jarjar-1.0.jar"/>
 
-	<!-- Determine platform for GWT (gwt-dev-*.jar) -->
-	<condition property="gwt.platform" value="-windows">
-		<os family="windows" />
-	</condition>
-	<condition property="gwt.platform" value="-mac">
-		<os family="mac" />
-	</condition>
-	<condition property="gwt.platform" value="-linux">
-		<os family="unix" />
-	</condition>
+	<!-- No more platform-specific jars -->
+	<property name="gwt.platform" value="" />
 
 
 	<!-- .exe suffix for tools -->
