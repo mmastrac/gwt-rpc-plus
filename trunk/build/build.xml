@@ -1,12 +1,9 @@
 <project basedir="." name="gwt-rpc-plus-build" default="build">
 	<target name="build">
-		<unzip src="../../tools/gwt/gwt-all-1.7.0.zip" dest=".">
-		</unzip>
+		<delete dir="gwt" failonerror="false" />
 
-		<!-- Patch the security prefs so it doesn't warn and mess up the build -->
-		<echo file="gwt/mozilla-1.7.12/greprefs/security-prefs.js" append="true">
-pref("security.warn_submit_insecure", false);
-        </echo>
+		<unzip src="../../tools/gwt/gwt-all-2.0.0.zip" dest=".">
+		</unzip>
 
 		<condition property="gwt.test.args" value="-selenium vm-dotspots-selenium:4444/*${selenium}">
 			<equals arg1="${label}" arg2="selenium" />
