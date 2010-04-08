@@ -30,19 +30,19 @@ public final class JsRpcList<E> extends JavaScriptObject {
         this.splice(idx, 1);
     }-*/;
 
-    public native boolean forEach(JsRpcObjectProcedure<E> procedure) /*-{
-        for (var i = 0; i < this.length; i++) { 
-            if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcObjectProcedure::execute(Ljava/lang/Object;)(this[i])) return false;
+    public boolean forEach(JsRpcObjectProcedure<E> procedure) {
+        for (int i = 0; i < size(); i++) { 
+            if (!procedure.execute(get(i))) return false;
         }
         return true;
-    }-*/;
+    };
 
-    public native boolean forEach(JsRpcIntObjectProcedure<E> procedure) /*-{
-        for (var i = 0; i < this.length; i++) { 
-            if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcIntObjectProcedure::execute(ILjava/lang/Object;)(i, this[i])) return false;
+    public boolean forEach(JsRpcIntObjectProcedure<E> procedure) {
+        for (int i = 0; i < size(); i++) { 
+            if (!procedure.execute(i, get(i))) return false;
         }
         return true;
-    }-*/;
+    };
 
     public native E get(int idx) /*-{
         return this[idx] || null;

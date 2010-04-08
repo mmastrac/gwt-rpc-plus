@@ -238,22 +238,19 @@ public class CollectionGen {
 				printWriter.println();
 				// TODO: long
 				if (value != long.class) {
-					printWriter.println("    public native boolean forEach(" + getProcedureName(value, true) + " procedure) /*-{");
-					printWriter.println("        for (var i = 0; i < this.length; i++) { ");
-					printWriter.println("            if (!procedure.@" + packageName + "." + getProcedureName(value, false) + "::execute("
-							+ valueBinaryName + ")(this[i])) return false;");
+					printWriter.println("    public boolean forEach(" + getProcedureName(value, true) + " procedure) {");
+					printWriter.println("        for (int i = 0; i < size(); i++) { ");
+					printWriter.println("            if (!procedure.execute(get(i))) return false;");
 					printWriter.println("        }");
 					printWriter.println("        return true;");
-					printWriter.println("    }-*/;");
+					printWriter.println("    };");
 					printWriter.println();
-					printWriter.println("    public native boolean forEach(" + getProcedureName(int.class, value, true)
-							+ " procedure) /*-{");
-					printWriter.println("        for (var i = 0; i < this.length; i++) { ");
-					printWriter.println("            if (!procedure.@" + packageName + "." + getProcedureName(int.class, value, false)
-							+ "::execute(I" + valueBinaryName + ")(i, this[i])) return false;");
+					printWriter.println("    public boolean forEach(" + getProcedureName(int.class, value, true) + " procedure) {");
+					printWriter.println("        for (int i = 0; i < size(); i++) { ");
+					printWriter.println("            if (!procedure.execute(i, get(i))) return false;");
 					printWriter.println("        }");
 					printWriter.println("        return true;");
-					printWriter.println("    }-*/;");
+					printWriter.println("    };");
 					printWriter.println();
 				}
 			} else {

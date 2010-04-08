@@ -30,19 +30,19 @@ public final class JsRpcListInt extends JavaScriptObject {
         this.splice(idx, 1);
     }-*/;
 
-    public native boolean forEach(JsRpcIntProcedure procedure) /*-{
-        for (var i = 0; i < this.length; i++) { 
-            if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcIntProcedure::execute(I)(this[i])) return false;
+    public boolean forEach(JsRpcIntProcedure procedure) {
+        for (int i = 0; i < size(); i++) { 
+            if (!procedure.execute(get(i))) return false;
         }
         return true;
-    }-*/;
+    };
 
-    public native boolean forEach(JsRpcIntIntProcedure procedure) /*-{
-        for (var i = 0; i < this.length; i++) { 
-            if (!procedure.@com.dotspots.rpcplus.client.jscollections.JsRpcIntIntProcedure::execute(II)(i, this[i])) return false;
+    public boolean forEach(JsRpcIntIntProcedure procedure) {
+        for (int i = 0; i < size(); i++) { 
+            if (!procedure.execute(i, get(i))) return false;
         }
         return true;
-    }-*/;
+    };
 
     public native int get(int idx) /*-{
         return this[idx] || 0;
