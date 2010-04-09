@@ -5,7 +5,7 @@
 		<unzip src="../../tools/gwt/gwt-all-2.0.0.zip" dest=".">
 		</unzip>
 
-		<condition property="gwt.test.args" value="-selenium vm-dotspots-selenium:4444/*${selenium}">
+		<condition property="gwt.test.args" value="-prod -runStyle Selenium:vm-dotspots-selenium:4444/*${selenium}">
 			<equals arg1="${label}" arg2="selenium" />
 		</condition>
 		
