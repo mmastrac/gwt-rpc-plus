@@ -5,9 +5,28 @@
 		<unzip src="../../tools/gwt/gwt-all-2.0.0.zip" dest=".">
 		</unzip>
 
-		<condition property="gwt.test.args" value="-prod -runStyle Selenium:vm-dotspots-selenium:4444/*${selenium}">
-			<equals arg1="${label}" arg2="selenium" />
+		<!-- Depending on the browser, we may or may not support dev mode -->
+		<condition property="gwt.test.extraargs" value="-prod -draftCompile -userAgents opera">
+			<equals arg1="${selenium}" arg2="opera" />
 		</condition>
+
+		<condition property="gwt.test.extraargs" value="-prod -draftCompile -userAgents safari">
+			<equals arg1="${selenium}" arg2="safari" />
+		</condition>
+
+		<condition property="gwt.test.extraargs" value="-prod -draftCompile -userAgents gecko">
+			<equals arg1="${selenium}" arg2="chrome" />
+		</condition>
+
+		<condition property="gwt.test.extraargs" value="-userAgents ie6,ie8">
+			<equals arg1="${selenium}" arg2="iehta" />
+		</condition>
+
+		<condition property="gwt.test.extraargs" value="-userAgents safari">
+			<equals arg1="${selenium}" arg2="googlechrome" />
+		</condition>
+
+		<property name="gwt.test.args" value="-draftCompile -prod -runStyle Selenium:vm-dotspots-${machine}:4444/*${selenium} ${gwt.test.extraargs}" />
 		
 		<ant antfile="build.xml" dir="../gwt-rpc-plus" target="clean">
 			<property name="gwt.sdk.dir" value="../build/gwt" />
