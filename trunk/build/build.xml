@@ -2,7 +2,7 @@
 	<target name="build">
 		<delete dir="gwt" failonerror="false" />
 
-		<unzip src="../../tools/gwt/gwt-all-2.0.0.zip" dest=".">
+		<unzip src="../../tools/gwt/gwt-all-2.0.3.zip" dest=".">
 		</unzip>
 
 		<!-- Depending on the browser, we may or may not support dev mode -->
