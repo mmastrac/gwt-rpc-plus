@@ -2,6 +2,7 @@
 package com.dotspots.rpcplus.client.jscollections;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.UnsafeNativeLong;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.lang.LongLib;
 
@@ -60,11 +61,12 @@ public final class JsRpcMapIntBool extends JavaScriptObject {
         delete this[idx];
     }-*/;
 
+    @UnsafeNativeLong
     public native boolean get(int idx) /*-{
-        // Coerce to boolean in case underlying value is integer
         return !!this[idx];
     }-*/;
 
+    @UnsafeNativeLong
     public native void set(int idx, boolean value) /*-{
         this[idx] = value;
     }-*/;

@@ -2,6 +2,7 @@
 package com.dotspots.rpcplus.client.jscollections;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.UnsafeNativeLong;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.lang.LongLib;
 
@@ -30,37 +31,62 @@ public final class JsRpcListLong extends JavaScriptObject {
         this.splice(idx, 1);
     }-*/;
 
-    public long get(int idx) {
-        return RpcUtils.fromDoubles(get0(idx));
-    };
-
-    private native JavaScriptObject get0(int idx) /*-{
-        return this[idx] || [0,0];
+    @UnsafeNativeLong
+    public native long get(int idx) /*-{
+        return @com.dotspots.rpcplus.client.jscollections.RpcUtils::fromDoubles(Lcom/google/gwt/core/client/JavaScriptObject;)(this[idx] || [0,0]);
     }-*/;
 
-    public void set(int idx, long value) {
-        set0(idx, RpcUtils.toDoubles(value));
-    }
-
-    private native void set0(int idx, JavaScriptObject value) /*-{
-        this[idx] = value;
+    @UnsafeNativeLong
+    public native void set(int idx, long value) /*-{
+        this[idx] = @com.dotspots.rpcplus.client.jscollections.RpcUtils::toDoubles(J)(value);
     }-*/;
 
-    public void add(long value) {
-        add0(RpcUtils.toDoubles(value));
-    }
-
-    private native void add0(JavaScriptObject value) /*-{
-        this.push(value);
+    /**
+     * Adds an item to the end of the list, returning the list's new size.
+     */
+    @UnsafeNativeLong
+    public native int add(long value) /*-{
+        return this.push(@com.dotspots.rpcplus.client.jscollections.RpcUtils::toDoubles(J)(value));
     }-*/;
 
-    public native void pop() /*-{
-        this.pop();
+    /**
+     * Adds an item to the end of the list, returning the list's new size.
+     */
+    @UnsafeNativeLong
+    public native int push(long value) /*-{
+        return this.push(@com.dotspots.rpcplus.client.jscollections.RpcUtils::toDoubles(J)(value));
     }-*/;
 
+    /**
+     * Pops an item off the end of the list, returning it.
+     */
+    @UnsafeNativeLong
+    public native long pop() /*-{
+        return @com.dotspots.rpcplus.client.jscollections.RpcUtils::fromDoubles(Lcom/google/gwt/core/client/JavaScriptObject;)(this.pop() || [0,0]);
+    }-*/;
+
+    /**
+     * Peeks at the item at the end of the list.
+     */
     public long peek() {
         return this.get(this.size() - 1);
     };
+
+    /**
+     * Unshifts an item into position 0, returning the new size of the list.
+     */
+    @UnsafeNativeLong
+    public native int unshift(long value) /*-{
+        return this.unshift(@com.dotspots.rpcplus.client.jscollections.RpcUtils::toDoubles(J)(value));
+    }-*/;
+
+    /**
+     * Shifts an item out of position 0 and returns it.
+     */
+    @UnsafeNativeLong
+    public native long shift() /*-{
+        return @com.dotspots.rpcplus.client.jscollections.RpcUtils::fromDoubles(Lcom/google/gwt/core/client/JavaScriptObject;)(this.shift() || [0,0]);
+    }-*/;
 
     public native String join(String separator) /*-{
         return this.join(separator);

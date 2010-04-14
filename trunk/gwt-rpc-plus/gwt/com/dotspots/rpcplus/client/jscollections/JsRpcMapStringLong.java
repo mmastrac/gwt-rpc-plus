@@ -2,6 +2,7 @@
 package com.dotspots.rpcplus.client.jscollections;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.UnsafeNativeLong;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.lang.LongLib;
 
@@ -33,20 +34,14 @@ public final class JsRpcMapStringLong extends JavaScriptObject {
         delete this['_' + idx];
     }-*/;
 
-    public long get(String idx) {
-        return RpcUtils.fromDoubles(get0(idx));
-    };
-
-    private native JavaScriptObject get0(String idx) /*-{
-        return this['_' + idx] || [0,0];
+    @UnsafeNativeLong
+    public native long get(String idx) /*-{
+        return @com.dotspots.rpcplus.client.jscollections.RpcUtils::fromDoubles(Lcom/google/gwt/core/client/JavaScriptObject;)(this['_' + idx] || [0,0]);
     }-*/;
 
-    public void set(String idx, long value) {
-        set0(idx, RpcUtils.toDoubles(value));
-    }
-
-    private native void set0(String idx, JavaScriptObject value) /*-{
-        this['_' + idx] = value;
+    @UnsafeNativeLong
+    public native void set(String idx, long value) /*-{
+        this['_' + idx] = @com.dotspots.rpcplus.client.jscollections.RpcUtils::toDoubles(J)(value);
     }-*/;
 
 }

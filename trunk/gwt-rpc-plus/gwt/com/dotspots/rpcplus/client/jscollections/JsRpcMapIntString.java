@@ -2,6 +2,7 @@
 package com.dotspots.rpcplus.client.jscollections;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.UnsafeNativeLong;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.lang.LongLib;
 
@@ -64,10 +65,12 @@ public final class JsRpcMapIntString extends JavaScriptObject {
         delete this[idx];
     }-*/;
 
+    @UnsafeNativeLong
     public native String get(int idx) /*-{
         return this[idx] || null;
     }-*/;
 
+    @UnsafeNativeLong
     public native void set(int idx, String value) /*-{
         this[idx] = value;
     }-*/;

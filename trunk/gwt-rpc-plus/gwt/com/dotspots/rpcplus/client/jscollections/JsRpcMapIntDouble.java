@@ -2,6 +2,7 @@
 package com.dotspots.rpcplus.client.jscollections;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.UnsafeNativeLong;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.lang.LongLib;
 
@@ -60,10 +61,12 @@ public final class JsRpcMapIntDouble extends JavaScriptObject {
         delete this[idx];
     }-*/;
 
+    @UnsafeNativeLong
     public native double get(int idx) /*-{
         return this[idx] || 0;
     }-*/;
 
+    @UnsafeNativeLong
     public native void set(int idx, double value) /*-{
         this[idx] = value;
     }-*/;
