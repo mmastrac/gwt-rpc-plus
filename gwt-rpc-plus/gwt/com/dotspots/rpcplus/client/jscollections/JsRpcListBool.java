@@ -2,6 +2,7 @@
 package com.dotspots.rpcplus.client.jscollections;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.UnsafeNativeLong;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.lang.LongLib;
 
@@ -44,26 +45,62 @@ public final class JsRpcListBool extends JavaScriptObject {
         return true;
     };
 
+    @UnsafeNativeLong
     public native boolean get(int idx) /*-{
-        // Coerce to boolean in case underlying value is integer
         return !!this[idx];
     }-*/;
 
+    @UnsafeNativeLong
     public native void set(int idx, boolean value) /*-{
         this[idx] = value;
     }-*/;
 
-    public native void add(boolean value) /*-{
-        this.push(value);
+    /**
+     * Adds an item to the end of the list, returning the list's new size.
+     */
+    @UnsafeNativeLong
+    public native int add(boolean value) /*-{
+        return this.push(value);
     }-*/;
 
-    public native void pop() /*-{
-        this.pop();
+    /**
+     * Adds an item to the end of the list, returning the list's new size.
+     */
+    @UnsafeNativeLong
+    public native int push(boolean value) /*-{
+        return this.push(value);
     }-*/;
 
+    /**
+     * Pops an item off the end of the list, returning it.
+     */
+    @UnsafeNativeLong
+    public native boolean pop() /*-{
+        return !!this.pop();
+    }-*/;
+
+    /**
+     * Peeks at the item at the end of the list.
+     */
     public boolean peek() {
         return this.get(this.size() - 1);
     };
+
+    /**
+     * Unshifts an item into position 0, returning the new size of the list.
+     */
+    @UnsafeNativeLong
+    public native int unshift(boolean value) /*-{
+        return this.unshift(value);
+    }-*/;
+
+    /**
+     * Shifts an item out of position 0 and returns it.
+     */
+    @UnsafeNativeLong
+    public native boolean shift() /*-{
+        return !!this.shift();
+    }-*/;
 
     public native String join(String separator) /*-{
         return this.join(separator);

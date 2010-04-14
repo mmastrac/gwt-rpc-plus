@@ -2,6 +2,7 @@
 package com.dotspots.rpcplus.client.jscollections;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.UnsafeNativeLong;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.lang.LongLib;
 
@@ -44,25 +45,62 @@ public final class JsRpcList<E> extends JavaScriptObject {
         return true;
     };
 
+    @UnsafeNativeLong
     public native E get(int idx) /*-{
         return this[idx] || null;
     }-*/;
 
+    @UnsafeNativeLong
     public native void set(int idx, E value) /*-{
         this[idx] = value;
     }-*/;
 
-    public native void add(E value) /*-{
-        this.push(value);
+    /**
+     * Adds an item to the end of the list, returning the list's new size.
+     */
+    @UnsafeNativeLong
+    public native int add(E value) /*-{
+        return this.push(value);
     }-*/;
 
-    public native void pop() /*-{
-        this.pop();
+    /**
+     * Adds an item to the end of the list, returning the list's new size.
+     */
+    @UnsafeNativeLong
+    public native int push(E value) /*-{
+        return this.push(value);
     }-*/;
 
+    /**
+     * Pops an item off the end of the list, returning it.
+     */
+    @UnsafeNativeLong
+    public native E pop() /*-{
+        return this.pop() || null;
+    }-*/;
+
+    /**
+     * Peeks at the item at the end of the list.
+     */
     public E peek() {
         return this.get(this.size() - 1);
     };
+
+    /**
+     * Unshifts an item into position 0, returning the new size of the list.
+     */
+    @UnsafeNativeLong
+    public native int unshift(E value) /*-{
+        return this.unshift(value);
+    }-*/;
+
+    /**
+     * Shifts an item out of position 0 and returns it.
+     */
+    @UnsafeNativeLong
+    public native E shift() /*-{
+        return this.shift() || null;
+    }-*/;
 
     public native String join(String separator) /*-{
         return this.join(separator);
