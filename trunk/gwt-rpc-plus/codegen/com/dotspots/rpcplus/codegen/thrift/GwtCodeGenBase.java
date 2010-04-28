@@ -15,6 +15,7 @@ public class GwtCodeGenBase {
 		typeMap.put(RpcTypeKey.DOUBLE, "Double");
 		typeMap.put(RpcTypeKey.I64, "Long");
 		typeMap.put(RpcTypeKey.ENUM, "Int");
+		typeMap.put(RpcTypeKey.STRING, "String");
 
 		final Map<RpcTypeKey, String> keyTypeMap = new HashMap<RpcTypeKey, String>();
 		keyTypeMap.put(RpcTypeKey.I32, "Int");

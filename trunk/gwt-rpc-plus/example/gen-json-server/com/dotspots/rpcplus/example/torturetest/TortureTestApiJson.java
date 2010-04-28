@@ -1352,6 +1352,108 @@ public final class TortureTestApiJson implements JSONServlet {
                      obj.setMapOfIntToInt(value0);
                      break;
                  }
+                 case 4: {
+                     List<Map<String, String>> value0 = null;
+                     if (protocol.readListBegin()) {
+                         value0 = new ArrayList<Map<String, String>>();
+                         while (protocol.hasNext()) {
+                         Map<String, String> value1 = null;
+                         if (protocol.readMapBegin()) {
+                             value1 = new HashMap<String, String>();
+                             while (protocol.hasNext()) {
+                             String key2 = protocol.readString();
+                             String value2 = protocol.readString();
+                                 value1.put(key2, value2);
+                             }
+                         }
+                             value0.add(value1);
+                         }
+                     }
+                     obj.setListOfMapStringToString(value0);
+                     break;
+                 }
+                 case 5: {
+                     List<Map<Integer, String>> value0 = null;
+                     if (protocol.readListBegin()) {
+                         value0 = new ArrayList<Map<Integer, String>>();
+                         while (protocol.hasNext()) {
+                         Map<Integer, String> value1 = null;
+                         if (protocol.readMapBegin()) {
+                             value1 = new HashMap<Integer, String>();
+                             while (protocol.hasNext()) {
+                             int key2 = protocol.readI32();
+                             String value2 = protocol.readString();
+                                 value1.put(key2, value2);
+                             }
+                         }
+                             value0.add(value1);
+                         }
+                     }
+                     obj.setListOfMapI32ToString(value0);
+                     break;
+                 }
+                 case 6: {
+                     List<Map<String, Integer>> value0 = null;
+                     if (protocol.readListBegin()) {
+                         value0 = new ArrayList<Map<String, Integer>>();
+                         while (protocol.hasNext()) {
+                         Map<String, Integer> value1 = null;
+                         if (protocol.readMapBegin()) {
+                             value1 = new HashMap<String, Integer>();
+                             while (protocol.hasNext()) {
+                             String key2 = protocol.readString();
+                             int value2 = protocol.readI32();
+                                 value1.put(key2, value2);
+                             }
+                         }
+                             value0.add(value1);
+                         }
+                     }
+                     obj.setListOfMapStringToI32(value0);
+                     break;
+                 }
+                 case 7: {
+                     Map<String, Map<Integer, Integer>> value0 = null;
+                     if (protocol.readMapBegin()) {
+                         value0 = new HashMap<String, Map<Integer, Integer>>();
+                         while (protocol.hasNext()) {
+                         String key1 = protocol.readString();
+                         Map<Integer, Integer> value1 = null;
+                         if (protocol.readMapBegin()) {
+                             value1 = new HashMap<Integer, Integer>();
+                             while (protocol.hasNext()) {
+                             int key2 = protocol.readI32();
+                             int value2 = protocol.readI32();
+                                 value1.put(key2, value2);
+                             }
+                         }
+                             value0.put(key1, value1);
+                         }
+                     }
+                     obj.setMapOfMapI32ToI32(value0);
+                     break;
+                 }
+                 case 8: {
+                     Map<String, Map<String, String>> value0 = null;
+                     if (protocol.readMapBegin()) {
+                         value0 = new HashMap<String, Map<String, String>>();
+                         while (protocol.hasNext()) {
+                         String key1 = protocol.readString();
+                         Map<String, String> value1 = null;
+                         if (protocol.readMapBegin()) {
+                             value1 = new HashMap<String, String>();
+                             while (protocol.hasNext()) {
+                             String key2 = protocol.readString();
+                             String value2 = protocol.readString();
+                                 value1.put(key2, value2);
+                             }
+                         }
+                             value0.put(key1, value1);
+                         }
+                     }
+                     obj.setMapOfMapStringToString(value0);
+                     break;
+                 }
                  default:
                      protocol.skip();
                  }
@@ -1405,6 +1507,92 @@ public final class TortureTestApiJson implements JSONServlet {
                 int value1 = entry0.getValue();
                 protocol.writeI32(key1);
                 protocol.writeI32(value1);
+            }
+            protocol.writeMapEnd();
+        }
+        if (obj.isSetListOfMapStringToString()) {
+            protocol.writeI32(4);
+            List<Map<String, String>> value0 = obj.getListOfMapStringToString();
+            protocol.writeListBegin(null);
+            for (Map<String, String> value1 : value0) {
+                protocol.writeMapBegin(null);
+                for (Map.Entry<String, String> entry1 : value1.entrySet()) {
+                    String key2 = entry1.getKey();
+                    String value2 = entry1.getValue();
+                    protocol.writeString(key2);
+                    protocol.writeString(value2);
+                }
+                protocol.writeMapEnd();
+            }
+            protocol.writeListEnd();
+        }
+        if (obj.isSetListOfMapI32ToString()) {
+            protocol.writeI32(5);
+            List<Map<Integer, String>> value0 = obj.getListOfMapI32ToString();
+            protocol.writeListBegin(null);
+            for (Map<Integer, String> value1 : value0) {
+                protocol.writeMapBegin(null);
+                for (Map.Entry<Integer, String> entry1 : value1.entrySet()) {
+                    int key2 = entry1.getKey();
+                    String value2 = entry1.getValue();
+                    protocol.writeI32(key2);
+                    protocol.writeString(value2);
+                }
+                protocol.writeMapEnd();
+            }
+            protocol.writeListEnd();
+        }
+        if (obj.isSetListOfMapStringToI32()) {
+            protocol.writeI32(6);
+            List<Map<String, Integer>> value0 = obj.getListOfMapStringToI32();
+            protocol.writeListBegin(null);
+            for (Map<String, Integer> value1 : value0) {
+                protocol.writeMapBegin(null);
+                for (Map.Entry<String, Integer> entry1 : value1.entrySet()) {
+                    String key2 = entry1.getKey();
+                    int value2 = entry1.getValue();
+                    protocol.writeString(key2);
+                    protocol.writeI32(value2);
+                }
+                protocol.writeMapEnd();
+            }
+            protocol.writeListEnd();
+        }
+        if (obj.isSetMapOfMapI32ToI32()) {
+            protocol.writeI32(7);
+            Map<String, Map<Integer, Integer>> value0 = obj.getMapOfMapI32ToI32();
+            protocol.writeMapBegin(null);
+            for (Map.Entry<String, Map<Integer, Integer>> entry0 : value0.entrySet()) {
+                String key1 = entry0.getKey();
+                Map<Integer, Integer> value1 = entry0.getValue();
+                protocol.writeString(key1);
+                protocol.writeMapBegin(null);
+                for (Map.Entry<Integer, Integer> entry1 : value1.entrySet()) {
+                    int key2 = entry1.getKey();
+                    int value2 = entry1.getValue();
+                    protocol.writeI32(key2);
+                    protocol.writeI32(value2);
+                }
+                protocol.writeMapEnd();
+            }
+            protocol.writeMapEnd();
+        }
+        if (obj.isSetMapOfMapStringToString()) {
+            protocol.writeI32(8);
+            Map<String, Map<String, String>> value0 = obj.getMapOfMapStringToString();
+            protocol.writeMapBegin(null);
+            for (Map.Entry<String, Map<String, String>> entry0 : value0.entrySet()) {
+                String key1 = entry0.getKey();
+                Map<String, String> value1 = entry0.getValue();
+                protocol.writeString(key1);
+                protocol.writeMapBegin(null);
+                for (Map.Entry<String, String> entry1 : value1.entrySet()) {
+                    String key2 = entry1.getKey();
+                    String value2 = entry1.getValue();
+                    protocol.writeString(key2);
+                    protocol.writeString(value2);
+                }
+                protocol.writeMapEnd();
             }
             protocol.writeMapEnd();
         }

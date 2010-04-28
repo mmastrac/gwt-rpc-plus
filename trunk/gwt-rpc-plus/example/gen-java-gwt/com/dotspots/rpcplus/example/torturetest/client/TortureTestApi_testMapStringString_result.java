@@ -16,15 +16,15 @@ public final class TortureTestApi_testMapStringString_result extends com.dotspot
     }
 
     /* Factory method, strongly dependent on order of fields */
-    public static native TortureTestApi_testMapStringString_result create(JsRpcMapString<String> success) /*-{
+    public static native TortureTestApi_testMapStringString_result create(JsRpcMapStringString success) /*-{
         return [success];
     }-*/;
 
-    public native JsRpcMapString<String> getSuccess() /*-{
+    public native JsRpcMapStringString getSuccess() /*-{
          return this[0];
     }-*/;
 
-    public native void setSuccess(JsRpcMapString<String> success) /*-{
+    public native void setSuccess(JsRpcMapStringString success) /*-{
          this[0] = success;
     }-*/;
 

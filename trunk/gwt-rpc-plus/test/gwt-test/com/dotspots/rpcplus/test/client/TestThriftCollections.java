@@ -5,12 +5,17 @@ import java.util.Iterator;
 import com.dotspots.rpcplus.client.jscollections.JsRpcIntObjectProcedure;
 import com.dotspots.rpcplus.client.jscollections.JsRpcList;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListBool;
+import com.dotspots.rpcplus.client.jscollections.JsRpcListDouble;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListInt;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListLong;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListString;
 import com.dotspots.rpcplus.client.jscollections.JsRpcListUtils;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapInt;
+import com.dotspots.rpcplus.client.jscollections.JsRpcMapIntBool;
+import com.dotspots.rpcplus.client.jscollections.JsRpcMapIntDouble;
+import com.dotspots.rpcplus.client.jscollections.JsRpcMapIntInt;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapIntLong;
+import com.dotspots.rpcplus.client.jscollections.JsRpcMapIntString;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapStringLong;
 import com.dotspots.rpcplus.client.jscollections.JsRpcMapStringString;
 import com.dotspots.rpcplus.client.jscollections.JsRpcSetString;
@@ -49,6 +54,24 @@ public class TestThriftCollections extends GWTTestCase {
 		list.add(JavaScriptObject.createArray());
 
 		assertEquals(2, list.size());
+	}
+
+	public void testListDefaults() {
+		assertEquals(false, JsRpcListBool.create().get(0));
+		assertEquals(0, JsRpcListInt.create().get(0));
+		assertEquals(0L, JsRpcListLong.create().get(0));
+		assertEquals(0.0, JsRpcListDouble.create().get(0));
+		assertEquals(null, JsRpcListString.create().get(0));
+		assertEquals(null, JsRpcList.<JavaScriptObject> create().get(0));
+	}
+
+	public void testListPopDefaults() {
+		assertEquals(false, JsRpcListBool.create().pop());
+		assertEquals(0, JsRpcListInt.create().pop());
+		assertEquals(0L, JsRpcListLong.create().pop());
+		assertEquals(0.0, JsRpcListDouble.create().pop());
+		assertEquals(null, JsRpcListString.create().pop());
+		assertEquals(null, JsRpcList.<JavaScriptObject> create().pop());
 	}
 
 	public void testListSearch() {
@@ -183,6 +206,15 @@ public class TestThriftCollections extends GWTTestCase {
 		map.set(10000, JavaScriptObject.createArray());
 
 		assertEquals(2, map.countSize());
+	}
+
+	public void testMapDefaults() {
+		assertEquals(false, JsRpcMapIntBool.create().get(0));
+		assertEquals(0, JsRpcMapIntInt.create().get(0));
+		assertEquals(0L, JsRpcMapIntLong.create().get(0));
+		assertEquals(0.0, JsRpcMapIntDouble.create().get(0));
+		assertEquals(null, JsRpcMapIntString.create().get(0));
+		assertEquals(null, JsRpcMapInt.<JavaScriptObject> create().get(0));
 	}
 
 	public void testMapIntLong() {
