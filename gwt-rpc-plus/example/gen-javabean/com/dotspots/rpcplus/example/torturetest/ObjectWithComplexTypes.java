@@ -24,6 +24,11 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
   private static final TField SET_OF_STRINGS_FIELD_DESC = new TField("setOfStrings", TType.SET, (short)2);
   private static final TField LIST_OF_STRINGS_FIELD_DESC = new TField("listOfStrings", TType.LIST, (short)3);
   private static final TField MAP_OF_INT_TO_INT_FIELD_DESC = new TField("mapOfIntToInt", TType.MAP, (short)4);
+  private static final TField LIST_OF_MAP_STRING_TO_STRING_FIELD_DESC = new TField("listOfMapStringToString", TType.LIST, (short)5);
+  private static final TField LIST_OF_MAP_I32_TO_STRING_FIELD_DESC = new TField("listOfMapI32ToString", TType.LIST, (short)6);
+  private static final TField LIST_OF_MAP_STRING_TO_I32_FIELD_DESC = new TField("listOfMapStringToI32", TType.LIST, (short)7);
+  private static final TField MAP_OF_MAP_I32_TO_I32_FIELD_DESC = new TField("mapOfMapI32ToI32", TType.MAP, (short)8);
+  private static final TField MAP_OF_MAP_STRING_TO_STRING_FIELD_DESC = new TField("mapOfMapStringToString", TType.MAP, (short)9);
 
   private Map<String,String> mapStringToString;
   public static final int MAPSTRINGTOSTRING = 1;
@@ -33,6 +38,16 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
   public static final int LISTOFSTRINGS = 3;
   private Map<Integer,Integer> mapOfIntToInt;
   public static final int MAPOFINTTOINT = 4;
+  private List<Map<String,String>> listOfMapStringToString;
+  public static final int LISTOFMAPSTRINGTOSTRING = 5;
+  private List<Map<Integer,String>> listOfMapI32ToString;
+  public static final int LISTOFMAPI32TOSTRING = 6;
+  private List<Map<String,Integer>> listOfMapStringToI32;
+  public static final int LISTOFMAPSTRINGTOI32 = 7;
+  private Map<String,Map<Integer,Integer>> mapOfMapI32ToI32;
+  public static final int MAPOFMAPI32TOI32 = 8;
+  private Map<String,Map<String,String>> mapOfMapStringToString;
+  public static final int MAPOFMAPSTRINGTOSTRING = 9;
 
   private final Isset __isset = new Isset();
   private static final class Isset implements java.io.Serializable {
@@ -53,6 +68,33 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
         new MapMetaData(TType.MAP, 
             new FieldValueMetaData(TType.I32), 
             new FieldValueMetaData(TType.I32))));
+    put(LISTOFMAPSTRINGTOSTRING, new FieldMetaData("listOfMapStringToString", TFieldRequirementType.DEFAULT, 
+        new ListMetaData(TType.LIST, 
+            new MapMetaData(TType.MAP, 
+                new FieldValueMetaData(TType.STRING), 
+                new FieldValueMetaData(TType.STRING)))));
+    put(LISTOFMAPI32TOSTRING, new FieldMetaData("listOfMapI32ToString", TFieldRequirementType.DEFAULT, 
+        new ListMetaData(TType.LIST, 
+            new MapMetaData(TType.MAP, 
+                new FieldValueMetaData(TType.I32), 
+                new FieldValueMetaData(TType.STRING)))));
+    put(LISTOFMAPSTRINGTOI32, new FieldMetaData("listOfMapStringToI32", TFieldRequirementType.DEFAULT, 
+        new ListMetaData(TType.LIST, 
+            new MapMetaData(TType.MAP, 
+                new FieldValueMetaData(TType.STRING), 
+                new FieldValueMetaData(TType.I32)))));
+    put(MAPOFMAPI32TOI32, new FieldMetaData("mapOfMapI32ToI32", TFieldRequirementType.DEFAULT, 
+        new MapMetaData(TType.MAP, 
+            new FieldValueMetaData(TType.STRING), 
+            new MapMetaData(TType.MAP, 
+                new FieldValueMetaData(TType.I32), 
+                new FieldValueMetaData(TType.I32)))));
+    put(MAPOFMAPSTRINGTOSTRING, new FieldMetaData("mapOfMapStringToString", TFieldRequirementType.DEFAULT, 
+        new MapMetaData(TType.MAP, 
+            new FieldValueMetaData(TType.STRING), 
+            new MapMetaData(TType.MAP, 
+                new FieldValueMetaData(TType.STRING), 
+                new FieldValueMetaData(TType.STRING)))));
   }});
 
   static {
@@ -66,13 +108,23 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
     Map<String,String> mapStringToString,
     Set<String> setOfStrings,
     List<String> listOfStrings,
-    Map<Integer,Integer> mapOfIntToInt)
+    Map<Integer,Integer> mapOfIntToInt,
+    List<Map<String,String>> listOfMapStringToString,
+    List<Map<Integer,String>> listOfMapI32ToString,
+    List<Map<String,Integer>> listOfMapStringToI32,
+    Map<String,Map<Integer,Integer>> mapOfMapI32ToI32,
+    Map<String,Map<String,String>> mapOfMapStringToString)
   {
     this();
     this.mapStringToString = mapStringToString;
     this.setOfStrings = setOfStrings;
     this.listOfStrings = listOfStrings;
     this.mapOfIntToInt = mapOfIntToInt;
+    this.listOfMapStringToString = listOfMapStringToString;
+    this.listOfMapI32ToString = listOfMapI32ToString;
+    this.listOfMapStringToI32 = listOfMapStringToI32;
+    this.mapOfMapI32ToI32 = mapOfMapI32ToI32;
+    this.mapOfMapStringToString = mapOfMapStringToString;
   }
 
   /**
@@ -122,6 +174,115 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
         __this__mapOfIntToInt.put(__this__mapOfIntToInt_copy_key, __this__mapOfIntToInt_copy_value);
       }
       this.mapOfIntToInt = __this__mapOfIntToInt;
+    }
+    if (other.isSetListOfMapStringToString()) {
+      List<Map<String,String>> __this__listOfMapStringToString = new ArrayList<Map<String,String>>();
+      for (Map<String,String> other_element : other.listOfMapStringToString) {
+        Map<String,String> __this__listOfMapStringToString_copy = new HashMap<String,String>();
+        for (Map.Entry<String, String> other_element_element : other_element.entrySet()) {
+
+          String other_element_element_key = other_element_element.getKey();
+          String other_element_element_value = other_element_element.getValue();
+
+          String __this__listOfMapStringToString_copy_copy_key = other_element_element_key;
+
+          String __this__listOfMapStringToString_copy_copy_value = other_element_element_value;
+
+          __this__listOfMapStringToString_copy.put(__this__listOfMapStringToString_copy_copy_key, __this__listOfMapStringToString_copy_copy_value);
+        }
+        __this__listOfMapStringToString.add(__this__listOfMapStringToString_copy);
+      }
+      this.listOfMapStringToString = __this__listOfMapStringToString;
+    }
+    if (other.isSetListOfMapI32ToString()) {
+      List<Map<Integer,String>> __this__listOfMapI32ToString = new ArrayList<Map<Integer,String>>();
+      for (Map<Integer,String> other_element : other.listOfMapI32ToString) {
+        Map<Integer,String> __this__listOfMapI32ToString_copy = new HashMap<Integer,String>();
+        for (Map.Entry<Integer, String> other_element_element : other_element.entrySet()) {
+
+          Integer other_element_element_key = other_element_element.getKey();
+          String other_element_element_value = other_element_element.getValue();
+
+          Integer __this__listOfMapI32ToString_copy_copy_key = other_element_element_key;
+
+          String __this__listOfMapI32ToString_copy_copy_value = other_element_element_value;
+
+          __this__listOfMapI32ToString_copy.put(__this__listOfMapI32ToString_copy_copy_key, __this__listOfMapI32ToString_copy_copy_value);
+        }
+        __this__listOfMapI32ToString.add(__this__listOfMapI32ToString_copy);
+      }
+      this.listOfMapI32ToString = __this__listOfMapI32ToString;
+    }
+    if (other.isSetListOfMapStringToI32()) {
+      List<Map<String,Integer>> __this__listOfMapStringToI32 = new ArrayList<Map<String,Integer>>();
+      for (Map<String,Integer> other_element : other.listOfMapStringToI32) {
+        Map<String,Integer> __this__listOfMapStringToI32_copy = new HashMap<String,Integer>();
+        for (Map.Entry<String, Integer> other_element_element : other_element.entrySet()) {
+
+          String other_element_element_key = other_element_element.getKey();
+          Integer other_element_element_value = other_element_element.getValue();
+
+          String __this__listOfMapStringToI32_copy_copy_key = other_element_element_key;
+
+          Integer __this__listOfMapStringToI32_copy_copy_value = other_element_element_value;
+
+          __this__listOfMapStringToI32_copy.put(__this__listOfMapStringToI32_copy_copy_key, __this__listOfMapStringToI32_copy_copy_value);
+        }
+        __this__listOfMapStringToI32.add(__this__listOfMapStringToI32_copy);
+      }
+      this.listOfMapStringToI32 = __this__listOfMapStringToI32;
+    }
+    if (other.isSetMapOfMapI32ToI32()) {
+      Map<String,Map<Integer,Integer>> __this__mapOfMapI32ToI32 = new HashMap<String,Map<Integer,Integer>>();
+      for (Map.Entry<String, Map<Integer,Integer>> other_element : other.mapOfMapI32ToI32.entrySet()) {
+
+        String other_element_key = other_element.getKey();
+        Map<Integer,Integer> other_element_value = other_element.getValue();
+
+        String __this__mapOfMapI32ToI32_copy_key = other_element_key;
+
+        Map<Integer,Integer> __this__mapOfMapI32ToI32_copy_value = new HashMap<Integer,Integer>();
+        for (Map.Entry<Integer, Integer> other_element_value_element : other_element_value.entrySet()) {
+
+          Integer other_element_value_element_key = other_element_value_element.getKey();
+          Integer other_element_value_element_value = other_element_value_element.getValue();
+
+          Integer __this__mapOfMapI32ToI32_copy_value_copy_key = other_element_value_element_key;
+
+          Integer __this__mapOfMapI32ToI32_copy_value_copy_value = other_element_value_element_value;
+
+          __this__mapOfMapI32ToI32_copy_value.put(__this__mapOfMapI32ToI32_copy_value_copy_key, __this__mapOfMapI32ToI32_copy_value_copy_value);
+        }
+
+        __this__mapOfMapI32ToI32.put(__this__mapOfMapI32ToI32_copy_key, __this__mapOfMapI32ToI32_copy_value);
+      }
+      this.mapOfMapI32ToI32 = __this__mapOfMapI32ToI32;
+    }
+    if (other.isSetMapOfMapStringToString()) {
+      Map<String,Map<String,String>> __this__mapOfMapStringToString = new HashMap<String,Map<String,String>>();
+      for (Map.Entry<String, Map<String,String>> other_element : other.mapOfMapStringToString.entrySet()) {
+
+        String other_element_key = other_element.getKey();
+        Map<String,String> other_element_value = other_element.getValue();
+
+        String __this__mapOfMapStringToString_copy_key = other_element_key;
+
+        Map<String,String> __this__mapOfMapStringToString_copy_value = new HashMap<String,String>();
+        for (Map.Entry<String, String> other_element_value_element : other_element_value.entrySet()) {
+
+          String other_element_value_element_key = other_element_value_element.getKey();
+          String other_element_value_element_value = other_element_value_element.getValue();
+
+          String __this__mapOfMapStringToString_copy_value_copy_key = other_element_value_element_key;
+
+          String __this__mapOfMapStringToString_copy_value_copy_value = other_element_value_element_value;
+
+          __this__mapOfMapStringToString_copy_value.put(__this__mapOfMapStringToString_copy_value_copy_key, __this__mapOfMapStringToString_copy_value_copy_value);
+        }
+
+        __this__mapOfMapStringToString.put(__this__mapOfMapStringToString_copy_key, __this__mapOfMapStringToString_copy_value);
+      }
+      this.mapOfMapStringToString = __this__mapOfMapStringToString;
     }
   }
 
@@ -250,6 +411,158 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
     return this.mapOfIntToInt != null;
   }
 
+  public int getListOfMapStringToStringSize() {
+    return (this.listOfMapStringToString == null) ? 0 : this.listOfMapStringToString.size();
+  }
+
+  public java.util.Iterator<Map<String,String>> getListOfMapStringToStringIterator() {
+    return (this.listOfMapStringToString == null) ? null : this.listOfMapStringToString.iterator();
+  }
+
+  public void addToListOfMapStringToString(Map<String,String> elem) {
+    if (this.listOfMapStringToString == null) {
+      this.listOfMapStringToString = new ArrayList<Map<String,String>>();
+    }
+    this.listOfMapStringToString.add(elem);
+  }
+
+  public List<Map<String,String>> getListOfMapStringToString() {
+    return this.listOfMapStringToString;
+  }
+
+  public void setListOfMapStringToString(List<Map<String,String>> listOfMapStringToString) {
+    this.listOfMapStringToString = listOfMapStringToString;
+  }
+
+  public void unsetListOfMapStringToString() {
+    this.listOfMapStringToString = null;
+  }
+
+  // Returns true if field listOfMapStringToString is set (has been asigned a value) and false otherwise
+  public boolean isSetListOfMapStringToString() {
+    return this.listOfMapStringToString != null;
+  }
+
+  public int getListOfMapI32ToStringSize() {
+    return (this.listOfMapI32ToString == null) ? 0 : this.listOfMapI32ToString.size();
+  }
+
+  public java.util.Iterator<Map<Integer,String>> getListOfMapI32ToStringIterator() {
+    return (this.listOfMapI32ToString == null) ? null : this.listOfMapI32ToString.iterator();
+  }
+
+  public void addToListOfMapI32ToString(Map<Integer,String> elem) {
+    if (this.listOfMapI32ToString == null) {
+      this.listOfMapI32ToString = new ArrayList<Map<Integer,String>>();
+    }
+    this.listOfMapI32ToString.add(elem);
+  }
+
+  public List<Map<Integer,String>> getListOfMapI32ToString() {
+    return this.listOfMapI32ToString;
+  }
+
+  public void setListOfMapI32ToString(List<Map<Integer,String>> listOfMapI32ToString) {
+    this.listOfMapI32ToString = listOfMapI32ToString;
+  }
+
+  public void unsetListOfMapI32ToString() {
+    this.listOfMapI32ToString = null;
+  }
+
+  // Returns true if field listOfMapI32ToString is set (has been asigned a value) and false otherwise
+  public boolean isSetListOfMapI32ToString() {
+    return this.listOfMapI32ToString != null;
+  }
+
+  public int getListOfMapStringToI32Size() {
+    return (this.listOfMapStringToI32 == null) ? 0 : this.listOfMapStringToI32.size();
+  }
+
+  public java.util.Iterator<Map<String,Integer>> getListOfMapStringToI32Iterator() {
+    return (this.listOfMapStringToI32 == null) ? null : this.listOfMapStringToI32.iterator();
+  }
+
+  public void addToListOfMapStringToI32(Map<String,Integer> elem) {
+    if (this.listOfMapStringToI32 == null) {
+      this.listOfMapStringToI32 = new ArrayList<Map<String,Integer>>();
+    }
+    this.listOfMapStringToI32.add(elem);
+  }
+
+  public List<Map<String,Integer>> getListOfMapStringToI32() {
+    return this.listOfMapStringToI32;
+  }
+
+  public void setListOfMapStringToI32(List<Map<String,Integer>> listOfMapStringToI32) {
+    this.listOfMapStringToI32 = listOfMapStringToI32;
+  }
+
+  public void unsetListOfMapStringToI32() {
+    this.listOfMapStringToI32 = null;
+  }
+
+  // Returns true if field listOfMapStringToI32 is set (has been asigned a value) and false otherwise
+  public boolean isSetListOfMapStringToI32() {
+    return this.listOfMapStringToI32 != null;
+  }
+
+  public int getMapOfMapI32ToI32Size() {
+    return (this.mapOfMapI32ToI32 == null) ? 0 : this.mapOfMapI32ToI32.size();
+  }
+
+  public void putToMapOfMapI32ToI32(String key, Map<Integer,Integer> val) {
+    if (this.mapOfMapI32ToI32 == null) {
+      this.mapOfMapI32ToI32 = new HashMap<String,Map<Integer,Integer>>();
+    }
+    this.mapOfMapI32ToI32.put(key, val);
+  }
+
+  public Map<String,Map<Integer,Integer>> getMapOfMapI32ToI32() {
+    return this.mapOfMapI32ToI32;
+  }
+
+  public void setMapOfMapI32ToI32(Map<String,Map<Integer,Integer>> mapOfMapI32ToI32) {
+    this.mapOfMapI32ToI32 = mapOfMapI32ToI32;
+  }
+
+  public void unsetMapOfMapI32ToI32() {
+    this.mapOfMapI32ToI32 = null;
+  }
+
+  // Returns true if field mapOfMapI32ToI32 is set (has been asigned a value) and false otherwise
+  public boolean isSetMapOfMapI32ToI32() {
+    return this.mapOfMapI32ToI32 != null;
+  }
+
+  public int getMapOfMapStringToStringSize() {
+    return (this.mapOfMapStringToString == null) ? 0 : this.mapOfMapStringToString.size();
+  }
+
+  public void putToMapOfMapStringToString(String key, Map<String,String> val) {
+    if (this.mapOfMapStringToString == null) {
+      this.mapOfMapStringToString = new HashMap<String,Map<String,String>>();
+    }
+    this.mapOfMapStringToString.put(key, val);
+  }
+
+  public Map<String,Map<String,String>> getMapOfMapStringToString() {
+    return this.mapOfMapStringToString;
+  }
+
+  public void setMapOfMapStringToString(Map<String,Map<String,String>> mapOfMapStringToString) {
+    this.mapOfMapStringToString = mapOfMapStringToString;
+  }
+
+  public void unsetMapOfMapStringToString() {
+    this.mapOfMapStringToString = null;
+  }
+
+  // Returns true if field mapOfMapStringToString is set (has been asigned a value) and false otherwise
+  public boolean isSetMapOfMapStringToString() {
+    return this.mapOfMapStringToString != null;
+  }
+
   public void setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
     case MAPSTRINGTOSTRING:
@@ -284,6 +597,46 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       }
       break;
 
+    case LISTOFMAPSTRINGTOSTRING:
+      if (value == null) {
+        unsetListOfMapStringToString();
+      } else {
+        setListOfMapStringToString((List<Map<String,String>>)value);
+      }
+      break;
+
+    case LISTOFMAPI32TOSTRING:
+      if (value == null) {
+        unsetListOfMapI32ToString();
+      } else {
+        setListOfMapI32ToString((List<Map<Integer,String>>)value);
+      }
+      break;
+
+    case LISTOFMAPSTRINGTOI32:
+      if (value == null) {
+        unsetListOfMapStringToI32();
+      } else {
+        setListOfMapStringToI32((List<Map<String,Integer>>)value);
+      }
+      break;
+
+    case MAPOFMAPI32TOI32:
+      if (value == null) {
+        unsetMapOfMapI32ToI32();
+      } else {
+        setMapOfMapI32ToI32((Map<String,Map<Integer,Integer>>)value);
+      }
+      break;
+
+    case MAPOFMAPSTRINGTOSTRING:
+      if (value == null) {
+        unsetMapOfMapStringToString();
+      } else {
+        setMapOfMapStringToString((Map<String,Map<String,String>>)value);
+      }
+      break;
+
     default:
       throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
     }
@@ -303,6 +656,21 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
     case MAPOFINTTOINT:
       return getMapOfIntToInt();
 
+    case LISTOFMAPSTRINGTOSTRING:
+      return getListOfMapStringToString();
+
+    case LISTOFMAPI32TOSTRING:
+      return getListOfMapI32ToString();
+
+    case LISTOFMAPSTRINGTOI32:
+      return getListOfMapStringToI32();
+
+    case MAPOFMAPI32TOI32:
+      return getMapOfMapI32ToI32();
+
+    case MAPOFMAPSTRINGTOSTRING:
+      return getMapOfMapStringToString();
+
     default:
       throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
     }
@@ -319,6 +687,16 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       return isSetListOfStrings();
     case MAPOFINTTOINT:
       return isSetMapOfIntToInt();
+    case LISTOFMAPSTRINGTOSTRING:
+      return isSetListOfMapStringToString();
+    case LISTOFMAPI32TOSTRING:
+      return isSetListOfMapI32ToString();
+    case LISTOFMAPSTRINGTOI32:
+      return isSetListOfMapStringToI32();
+    case MAPOFMAPI32TOI32:
+      return isSetMapOfMapI32ToI32();
+    case MAPOFMAPSTRINGTOSTRING:
+      return isSetMapOfMapStringToString();
     default:
       throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
     }
@@ -370,6 +748,51 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       if (!(this_present_mapOfIntToInt && that_present_mapOfIntToInt))
         return false;
       if (!this.mapOfIntToInt.equals(that.mapOfIntToInt))
+        return false;
+    }
+
+    boolean this_present_listOfMapStringToString = true && this.isSetListOfMapStringToString();
+    boolean that_present_listOfMapStringToString = true && that.isSetListOfMapStringToString();
+    if (this_present_listOfMapStringToString || that_present_listOfMapStringToString) {
+      if (!(this_present_listOfMapStringToString && that_present_listOfMapStringToString))
+        return false;
+      if (!this.listOfMapStringToString.equals(that.listOfMapStringToString))
+        return false;
+    }
+
+    boolean this_present_listOfMapI32ToString = true && this.isSetListOfMapI32ToString();
+    boolean that_present_listOfMapI32ToString = true && that.isSetListOfMapI32ToString();
+    if (this_present_listOfMapI32ToString || that_present_listOfMapI32ToString) {
+      if (!(this_present_listOfMapI32ToString && that_present_listOfMapI32ToString))
+        return false;
+      if (!this.listOfMapI32ToString.equals(that.listOfMapI32ToString))
+        return false;
+    }
+
+    boolean this_present_listOfMapStringToI32 = true && this.isSetListOfMapStringToI32();
+    boolean that_present_listOfMapStringToI32 = true && that.isSetListOfMapStringToI32();
+    if (this_present_listOfMapStringToI32 || that_present_listOfMapStringToI32) {
+      if (!(this_present_listOfMapStringToI32 && that_present_listOfMapStringToI32))
+        return false;
+      if (!this.listOfMapStringToI32.equals(that.listOfMapStringToI32))
+        return false;
+    }
+
+    boolean this_present_mapOfMapI32ToI32 = true && this.isSetMapOfMapI32ToI32();
+    boolean that_present_mapOfMapI32ToI32 = true && that.isSetMapOfMapI32ToI32();
+    if (this_present_mapOfMapI32ToI32 || that_present_mapOfMapI32ToI32) {
+      if (!(this_present_mapOfMapI32ToI32 && that_present_mapOfMapI32ToI32))
+        return false;
+      if (!this.mapOfMapI32ToI32.equals(that.mapOfMapI32ToI32))
+        return false;
+    }
+
+    boolean this_present_mapOfMapStringToString = true && this.isSetMapOfMapStringToString();
+    boolean that_present_mapOfMapStringToString = true && that.isSetMapOfMapStringToString();
+    if (this_present_mapOfMapStringToString || that_present_mapOfMapStringToString) {
+      if (!(this_present_mapOfMapStringToString && that_present_mapOfMapStringToString))
+        return false;
+      if (!this.mapOfMapStringToString.equals(that.mapOfMapStringToString))
         return false;
     }
 
@@ -464,6 +887,155 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
             TProtocolUtil.skip(iprot, field.type);
           }
           break;
+        case LISTOFMAPSTRINGTOSTRING:
+          if (field.type == TType.LIST) {
+            {
+              TList _list14 = iprot.readListBegin();
+              this.listOfMapStringToString = new ArrayList<Map<String,String>>(_list14.size);
+              for (int _i15 = 0; _i15 < _list14.size; ++_i15)
+              {
+                Map<String,String> _elem16;
+                {
+                  TMap _map17 = iprot.readMapBegin();
+                  _elem16 = new HashMap<String,String>(2*_map17.size);
+                  for (int _i18 = 0; _i18 < _map17.size; ++_i18)
+                  {
+                    String _key19;
+                    String _val20;
+                    _key19 = iprot.readString();
+                    _val20 = iprot.readString();
+                    _elem16.put(_key19, _val20);
+                  }
+                  iprot.readMapEnd();
+                }
+                this.listOfMapStringToString.add(_elem16);
+              }
+              iprot.readListEnd();
+            }
+          } else { 
+            TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case LISTOFMAPI32TOSTRING:
+          if (field.type == TType.LIST) {
+            {
+              TList _list21 = iprot.readListBegin();
+              this.listOfMapI32ToString = new ArrayList<Map<Integer,String>>(_list21.size);
+              for (int _i22 = 0; _i22 < _list21.size; ++_i22)
+              {
+                Map<Integer,String> _elem23;
+                {
+                  TMap _map24 = iprot.readMapBegin();
+                  _elem23 = new HashMap<Integer,String>(2*_map24.size);
+                  for (int _i25 = 0; _i25 < _map24.size; ++_i25)
+                  {
+                    int _key26;
+                    String _val27;
+                    _key26 = iprot.readI32();
+                    _val27 = iprot.readString();
+                    _elem23.put(_key26, _val27);
+                  }
+                  iprot.readMapEnd();
+                }
+                this.listOfMapI32ToString.add(_elem23);
+              }
+              iprot.readListEnd();
+            }
+          } else { 
+            TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case LISTOFMAPSTRINGTOI32:
+          if (field.type == TType.LIST) {
+            {
+              TList _list28 = iprot.readListBegin();
+              this.listOfMapStringToI32 = new ArrayList<Map<String,Integer>>(_list28.size);
+              for (int _i29 = 0; _i29 < _list28.size; ++_i29)
+              {
+                Map<String,Integer> _elem30;
+                {
+                  TMap _map31 = iprot.readMapBegin();
+                  _elem30 = new HashMap<String,Integer>(2*_map31.size);
+                  for (int _i32 = 0; _i32 < _map31.size; ++_i32)
+                  {
+                    String _key33;
+                    int _val34;
+                    _key33 = iprot.readString();
+                    _val34 = iprot.readI32();
+                    _elem30.put(_key33, _val34);
+                  }
+                  iprot.readMapEnd();
+                }
+                this.listOfMapStringToI32.add(_elem30);
+              }
+              iprot.readListEnd();
+            }
+          } else { 
+            TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case MAPOFMAPI32TOI32:
+          if (field.type == TType.MAP) {
+            {
+              TMap _map35 = iprot.readMapBegin();
+              this.mapOfMapI32ToI32 = new HashMap<String,Map<Integer,Integer>>(2*_map35.size);
+              for (int _i36 = 0; _i36 < _map35.size; ++_i36)
+              {
+                String _key37;
+                Map<Integer,Integer> _val38;
+                _key37 = iprot.readString();
+                {
+                  TMap _map39 = iprot.readMapBegin();
+                  _val38 = new HashMap<Integer,Integer>(2*_map39.size);
+                  for (int _i40 = 0; _i40 < _map39.size; ++_i40)
+                  {
+                    int _key41;
+                    int _val42;
+                    _key41 = iprot.readI32();
+                    _val42 = iprot.readI32();
+                    _val38.put(_key41, _val42);
+                  }
+                  iprot.readMapEnd();
+                }
+                this.mapOfMapI32ToI32.put(_key37, _val38);
+              }
+              iprot.readMapEnd();
+            }
+          } else { 
+            TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case MAPOFMAPSTRINGTOSTRING:
+          if (field.type == TType.MAP) {
+            {
+              TMap _map43 = iprot.readMapBegin();
+              this.mapOfMapStringToString = new HashMap<String,Map<String,String>>(2*_map43.size);
+              for (int _i44 = 0; _i44 < _map43.size; ++_i44)
+              {
+                String _key45;
+                Map<String,String> _val46;
+                _key45 = iprot.readString();
+                {
+                  TMap _map47 = iprot.readMapBegin();
+                  _val46 = new HashMap<String,String>(2*_map47.size);
+                  for (int _i48 = 0; _i48 < _map47.size; ++_i48)
+                  {
+                    String _key49;
+                    String _val50;
+                    _key49 = iprot.readString();
+                    _val50 = iprot.readString();
+                    _val46.put(_key49, _val50);
+                  }
+                  iprot.readMapEnd();
+                }
+                this.mapOfMapStringToString.put(_key45, _val46);
+              }
+              iprot.readMapEnd();
+            }
+          } else { 
+            TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
         default:
           TProtocolUtil.skip(iprot, field.type);
           break;
@@ -483,9 +1055,9 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(MAP_STRING_TO_STRING_FIELD_DESC);
       {
         oprot.writeMapBegin(new TMap(TType.STRING, TType.STRING, this.mapStringToString.size()));
-        for (Map.Entry<String, String> _iter14 : this.mapStringToString.entrySet())        {
-          oprot.writeString(_iter14.getKey());
-          oprot.writeString(_iter14.getValue());
+        for (Map.Entry<String, String> _iter51 : this.mapStringToString.entrySet())        {
+          oprot.writeString(_iter51.getKey());
+          oprot.writeString(_iter51.getValue());
         }
         oprot.writeMapEnd();
       }
@@ -495,8 +1067,8 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(SET_OF_STRINGS_FIELD_DESC);
       {
         oprot.writeSetBegin(new TSet(TType.STRING, this.setOfStrings.size()));
-        for (String _iter15 : this.setOfStrings)        {
-          oprot.writeString(_iter15);
+        for (String _iter52 : this.setOfStrings)        {
+          oprot.writeString(_iter52);
         }
         oprot.writeSetEnd();
       }
@@ -506,8 +1078,8 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(LIST_OF_STRINGS_FIELD_DESC);
       {
         oprot.writeListBegin(new TList(TType.STRING, this.listOfStrings.size()));
-        for (String _iter16 : this.listOfStrings)        {
-          oprot.writeString(_iter16);
+        for (String _iter53 : this.listOfStrings)        {
+          oprot.writeString(_iter53);
         }
         oprot.writeListEnd();
       }
@@ -517,9 +1089,101 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(MAP_OF_INT_TO_INT_FIELD_DESC);
       {
         oprot.writeMapBegin(new TMap(TType.I32, TType.I32, this.mapOfIntToInt.size()));
-        for (Map.Entry<Integer, Integer> _iter17 : this.mapOfIntToInt.entrySet())        {
-          oprot.writeI32(_iter17.getKey());
-          oprot.writeI32(_iter17.getValue());
+        for (Map.Entry<Integer, Integer> _iter54 : this.mapOfIntToInt.entrySet())        {
+          oprot.writeI32(_iter54.getKey());
+          oprot.writeI32(_iter54.getValue());
+        }
+        oprot.writeMapEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+    if (this.listOfMapStringToString != null) {
+      oprot.writeFieldBegin(LIST_OF_MAP_STRING_TO_STRING_FIELD_DESC);
+      {
+        oprot.writeListBegin(new TList(TType.MAP, this.listOfMapStringToString.size()));
+        for (Map<String,String> _iter55 : this.listOfMapStringToString)        {
+          {
+            oprot.writeMapBegin(new TMap(TType.STRING, TType.STRING, _iter55.size()));
+            for (Map.Entry<String, String> _iter56 : _iter55.entrySet())            {
+              oprot.writeString(_iter56.getKey());
+              oprot.writeString(_iter56.getValue());
+            }
+            oprot.writeMapEnd();
+          }
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+    if (this.listOfMapI32ToString != null) {
+      oprot.writeFieldBegin(LIST_OF_MAP_I32_TO_STRING_FIELD_DESC);
+      {
+        oprot.writeListBegin(new TList(TType.MAP, this.listOfMapI32ToString.size()));
+        for (Map<Integer,String> _iter57 : this.listOfMapI32ToString)        {
+          {
+            oprot.writeMapBegin(new TMap(TType.I32, TType.STRING, _iter57.size()));
+            for (Map.Entry<Integer, String> _iter58 : _iter57.entrySet())            {
+              oprot.writeI32(_iter58.getKey());
+              oprot.writeString(_iter58.getValue());
+            }
+            oprot.writeMapEnd();
+          }
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+    if (this.listOfMapStringToI32 != null) {
+      oprot.writeFieldBegin(LIST_OF_MAP_STRING_TO_I32_FIELD_DESC);
+      {
+        oprot.writeListBegin(new TList(TType.MAP, this.listOfMapStringToI32.size()));
+        for (Map<String,Integer> _iter59 : this.listOfMapStringToI32)        {
+          {
+            oprot.writeMapBegin(new TMap(TType.STRING, TType.I32, _iter59.size()));
+            for (Map.Entry<String, Integer> _iter60 : _iter59.entrySet())            {
+              oprot.writeString(_iter60.getKey());
+              oprot.writeI32(_iter60.getValue());
+            }
+            oprot.writeMapEnd();
+          }
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+    if (this.mapOfMapI32ToI32 != null) {
+      oprot.writeFieldBegin(MAP_OF_MAP_I32_TO_I32_FIELD_DESC);
+      {
+        oprot.writeMapBegin(new TMap(TType.STRING, TType.MAP, this.mapOfMapI32ToI32.size()));
+        for (Map.Entry<String, Map<Integer,Integer>> _iter61 : this.mapOfMapI32ToI32.entrySet())        {
+          oprot.writeString(_iter61.getKey());
+          {
+            oprot.writeMapBegin(new TMap(TType.I32, TType.I32, _iter61.getValue().size()));
+            for (Map.Entry<Integer, Integer> _iter62 : _iter61.getValue().entrySet())            {
+              oprot.writeI32(_iter62.getKey());
+              oprot.writeI32(_iter62.getValue());
+            }
+            oprot.writeMapEnd();
+          }
+        }
+        oprot.writeMapEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+    if (this.mapOfMapStringToString != null) {
+      oprot.writeFieldBegin(MAP_OF_MAP_STRING_TO_STRING_FIELD_DESC);
+      {
+        oprot.writeMapBegin(new TMap(TType.STRING, TType.MAP, this.mapOfMapStringToString.size()));
+        for (Map.Entry<String, Map<String,String>> _iter63 : this.mapOfMapStringToString.entrySet())        {
+          oprot.writeString(_iter63.getKey());
+          {
+            oprot.writeMapBegin(new TMap(TType.STRING, TType.STRING, _iter63.getValue().size()));
+            for (Map.Entry<String, String> _iter64 : _iter63.getValue().entrySet())            {
+              oprot.writeString(_iter64.getKey());
+              oprot.writeString(_iter64.getValue());
+            }
+            oprot.writeMapEnd();
+          }
         }
         oprot.writeMapEnd();
       }
@@ -563,6 +1227,46 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       sb.append("null");
     } else {
       sb.append(this.mapOfIntToInt);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("listOfMapStringToString:");
+    if (this.listOfMapStringToString == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.listOfMapStringToString);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("listOfMapI32ToString:");
+    if (this.listOfMapI32ToString == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.listOfMapI32ToString);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("listOfMapStringToI32:");
+    if (this.listOfMapStringToI32 == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.listOfMapStringToI32);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("mapOfMapI32ToI32:");
+    if (this.mapOfMapI32ToI32 == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.mapOfMapI32ToI32);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("mapOfMapStringToString:");
+    if (this.mapOfMapStringToString == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.mapOfMapStringToString);
     }
     first = false;
     sb.append(")");

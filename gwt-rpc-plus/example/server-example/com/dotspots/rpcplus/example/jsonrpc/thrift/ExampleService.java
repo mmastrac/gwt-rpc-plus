@@ -121,7 +121,7 @@ public class ExampleService extends BaseServlet<TortureTestApi.Iface> implements
 			set.add("hi" + i);
 		}
 
-		throw new MoreComplexException("Message!", new ObjectWithComplexTypes(null, set, null, null));
+		throw new MoreComplexException("Message!", new ObjectWithComplexTypes(null, set, null, null, null, null, null, null, null));
 	}
 
 	public ContextOut __getContext() throws TException {

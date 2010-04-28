@@ -77,7 +77,7 @@ public final class TortureTestApi extends com.dotspots.rpcplus.client.jsonrpc.th
         call(8, "testSetInt", TortureTestApi_testSetInt_args.create(), callback);
     };
 
-    public void testMapStringString(AsyncCallback<JsRpcMapString<String>> callback) {
+    public void testMapStringString(AsyncCallback<JsRpcMapStringString> callback) {
         call(9, "testMapStringString", TortureTestApi_testMapStringString_args.create(), callback);
     };
 
