@@ -380,13 +380,13 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
         case ENUMSET:
           if (field.type == TType.SET) {
             {
-              TSet _set65 = iprot.readSetBegin();
-              this.enumSet = new HashSet<Integer>(2*_set65.size);
-              for (int _i66 = 0; _i66 < _set65.size; ++_i66)
+              TSet _set69 = iprot.readSetBegin();
+              this.enumSet = new HashSet<Integer>(2*_set69.size);
+              for (int _i70 = 0; _i70 < _set69.size; ++_i70)
               {
-                int _elem67;
-                _elem67 = iprot.readI32();
-                this.enumSet.add(_elem67);
+                int _elem71;
+                _elem71 = iprot.readI32();
+                this.enumSet.add(_elem71);
               }
               iprot.readSetEnd();
             }
@@ -397,15 +397,15 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
         case ENUMMAP:
           if (field.type == TType.MAP) {
             {
-              TMap _map68 = iprot.readMapBegin();
-              this.enumMap = new HashMap<Integer,Integer>(2*_map68.size);
-              for (int _i69 = 0; _i69 < _map68.size; ++_i69)
+              TMap _map72 = iprot.readMapBegin();
+              this.enumMap = new HashMap<Integer,Integer>(2*_map72.size);
+              for (int _i73 = 0; _i73 < _map72.size; ++_i73)
               {
-                int _key70;
-                int _val71;
-                _key70 = iprot.readI32();
-                _val71 = iprot.readI32();
-                this.enumMap.put(_key70, _val71);
+                int _key74;
+                int _val75;
+                _key74 = iprot.readI32();
+                _val75 = iprot.readI32();
+                this.enumMap.put(_key74, _val75);
               }
               iprot.readMapEnd();
             }
@@ -416,13 +416,13 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
         case ENUMLIST:
           if (field.type == TType.LIST) {
             {
-              TList _list72 = iprot.readListBegin();
-              this.enumList = new ArrayList<Integer>(_list72.size);
-              for (int _i73 = 0; _i73 < _list72.size; ++_i73)
+              TList _list76 = iprot.readListBegin();
+              this.enumList = new ArrayList<Integer>(_list76.size);
+              for (int _i77 = 0; _i77 < _list76.size; ++_i77)
               {
-                int _elem74;
-                _elem74 = iprot.readI32();
-                this.enumList.add(_elem74);
+                int _elem78;
+                _elem78 = iprot.readI32();
+                this.enumList.add(_elem78);
               }
               iprot.readListEnd();
             }
@@ -452,8 +452,8 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
       oprot.writeFieldBegin(ENUM_SET_FIELD_DESC);
       {
         oprot.writeSetBegin(new TSet(TType.I32, this.enumSet.size()));
-        for (int _iter75 : this.enumSet)        {
-          oprot.writeI32(_iter75);
+        for (int _iter79 : this.enumSet)        {
+          oprot.writeI32(_iter79);
         }
         oprot.writeSetEnd();
       }
@@ -463,9 +463,9 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
       oprot.writeFieldBegin(ENUM_MAP_FIELD_DESC);
       {
         oprot.writeMapBegin(new TMap(TType.I32, TType.I32, this.enumMap.size()));
-        for (Map.Entry<Integer, Integer> _iter76 : this.enumMap.entrySet())        {
-          oprot.writeI32(_iter76.getKey());
-          oprot.writeI32(_iter76.getValue());
+        for (Map.Entry<Integer, Integer> _iter80 : this.enumMap.entrySet())        {
+          oprot.writeI32(_iter80.getKey());
+          oprot.writeI32(_iter80.getValue());
         }
         oprot.writeMapEnd();
       }
@@ -475,8 +475,8 @@ public class ObjectWithEnum implements TBase, java.io.Serializable, Cloneable {
       oprot.writeFieldBegin(ENUM_LIST_FIELD_DESC);
       {
         oprot.writeListBegin(new TList(TType.I32, this.enumList.size()));
-        for (int _iter77 : this.enumList)        {
-          oprot.writeI32(_iter77);
+        for (int _iter81 : this.enumList)        {
+          oprot.writeI32(_iter81);
         }
         oprot.writeListEnd();
       }

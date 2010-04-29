@@ -3,6 +3,7 @@ package com.dotspots.rpcplus.test.server;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +72,28 @@ public class TestJSONNativeProtocol extends Assert {
 		obj.setMapStringToString(map);
 
 		roundTrip("{\"0\":{\"_c\":null,\"_a\":null},\"2\":[null,null]}", obj);
+	}
+
+	@Test
+	public void testObjectWithComplexTypesNull2() throws Exception {
+		ObjectWithComplexTypes obj = new ObjectWithComplexTypes();
+
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		list.add(null);
+		obj.setListOfMapStringToString(list);
+
+		roundTrip("{\"4\":[null]}", obj);
+	}
+
+	@Test
+	public void testObjectWithComplexTypesNull3() throws Exception {
+		ObjectWithComplexTypes obj = new ObjectWithComplexTypes();
+
+		List<SimpleObjectWithFieldIds> list = new ArrayList<SimpleObjectWithFieldIds>();
+		list.add(null);
+		obj.setListOfObjects(list);
+
+		roundTrip("{\"9\":[null]}", obj);
 	}
 
 	@Test

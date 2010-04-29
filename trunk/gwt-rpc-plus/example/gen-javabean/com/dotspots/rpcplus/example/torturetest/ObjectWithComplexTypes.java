@@ -29,6 +29,7 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
   private static final TField LIST_OF_MAP_STRING_TO_I32_FIELD_DESC = new TField("listOfMapStringToI32", TType.LIST, (short)7);
   private static final TField MAP_OF_MAP_I32_TO_I32_FIELD_DESC = new TField("mapOfMapI32ToI32", TType.MAP, (short)8);
   private static final TField MAP_OF_MAP_STRING_TO_STRING_FIELD_DESC = new TField("mapOfMapStringToString", TType.MAP, (short)9);
+  private static final TField LIST_OF_OBJECTS_FIELD_DESC = new TField("listOfObjects", TType.LIST, (short)10);
 
   private Map<String,String> mapStringToString;
   public static final int MAPSTRINGTOSTRING = 1;
@@ -48,6 +49,8 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
   public static final int MAPOFMAPI32TOI32 = 8;
   private Map<String,Map<String,String>> mapOfMapStringToString;
   public static final int MAPOFMAPSTRINGTOSTRING = 9;
+  private List<SimpleObjectWithFieldIds> listOfObjects;
+  public static final int LISTOFOBJECTS = 10;
 
   private final Isset __isset = new Isset();
   private static final class Isset implements java.io.Serializable {
@@ -95,6 +98,9 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
             new MapMetaData(TType.MAP, 
                 new FieldValueMetaData(TType.STRING), 
                 new FieldValueMetaData(TType.STRING)))));
+    put(LISTOFOBJECTS, new FieldMetaData("listOfObjects", TFieldRequirementType.DEFAULT, 
+        new ListMetaData(TType.LIST, 
+            new StructMetaData(TType.STRUCT, SimpleObjectWithFieldIds.class))));
   }});
 
   static {
@@ -113,7 +119,8 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
     List<Map<Integer,String>> listOfMapI32ToString,
     List<Map<String,Integer>> listOfMapStringToI32,
     Map<String,Map<Integer,Integer>> mapOfMapI32ToI32,
-    Map<String,Map<String,String>> mapOfMapStringToString)
+    Map<String,Map<String,String>> mapOfMapStringToString,
+    List<SimpleObjectWithFieldIds> listOfObjects)
   {
     this();
     this.mapStringToString = mapStringToString;
@@ -125,6 +132,7 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
     this.listOfMapStringToI32 = listOfMapStringToI32;
     this.mapOfMapI32ToI32 = mapOfMapI32ToI32;
     this.mapOfMapStringToString = mapOfMapStringToString;
+    this.listOfObjects = listOfObjects;
   }
 
   /**
@@ -283,6 +291,13 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
         __this__mapOfMapStringToString.put(__this__mapOfMapStringToString_copy_key, __this__mapOfMapStringToString_copy_value);
       }
       this.mapOfMapStringToString = __this__mapOfMapStringToString;
+    }
+    if (other.isSetListOfObjects()) {
+      List<SimpleObjectWithFieldIds> __this__listOfObjects = new ArrayList<SimpleObjectWithFieldIds>();
+      for (SimpleObjectWithFieldIds other_element : other.listOfObjects) {
+        __this__listOfObjects.add(new SimpleObjectWithFieldIds(other_element));
+      }
+      this.listOfObjects = __this__listOfObjects;
     }
   }
 
@@ -563,6 +578,38 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
     return this.mapOfMapStringToString != null;
   }
 
+  public int getListOfObjectsSize() {
+    return (this.listOfObjects == null) ? 0 : this.listOfObjects.size();
+  }
+
+  public java.util.Iterator<SimpleObjectWithFieldIds> getListOfObjectsIterator() {
+    return (this.listOfObjects == null) ? null : this.listOfObjects.iterator();
+  }
+
+  public void addToListOfObjects(SimpleObjectWithFieldIds elem) {
+    if (this.listOfObjects == null) {
+      this.listOfObjects = new ArrayList<SimpleObjectWithFieldIds>();
+    }
+    this.listOfObjects.add(elem);
+  }
+
+  public List<SimpleObjectWithFieldIds> getListOfObjects() {
+    return this.listOfObjects;
+  }
+
+  public void setListOfObjects(List<SimpleObjectWithFieldIds> listOfObjects) {
+    this.listOfObjects = listOfObjects;
+  }
+
+  public void unsetListOfObjects() {
+    this.listOfObjects = null;
+  }
+
+  // Returns true if field listOfObjects is set (has been asigned a value) and false otherwise
+  public boolean isSetListOfObjects() {
+    return this.listOfObjects != null;
+  }
+
   public void setFieldValue(int fieldID, Object value) {
     switch (fieldID) {
     case MAPSTRINGTOSTRING:
@@ -637,6 +684,14 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       }
       break;
 
+    case LISTOFOBJECTS:
+      if (value == null) {
+        unsetListOfObjects();
+      } else {
+        setListOfObjects((List<SimpleObjectWithFieldIds>)value);
+      }
+      break;
+
     default:
       throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
     }
@@ -671,6 +726,9 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
     case MAPOFMAPSTRINGTOSTRING:
       return getMapOfMapStringToString();
 
+    case LISTOFOBJECTS:
+      return getListOfObjects();
+
     default:
       throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
     }
@@ -697,6 +755,8 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       return isSetMapOfMapI32ToI32();
     case MAPOFMAPSTRINGTOSTRING:
       return isSetMapOfMapStringToString();
+    case LISTOFOBJECTS:
+      return isSetListOfObjects();
     default:
       throw new IllegalArgumentException("Field " + fieldID + " doesn't exist!");
     }
@@ -793,6 +853,15 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       if (!(this_present_mapOfMapStringToString && that_present_mapOfMapStringToString))
         return false;
       if (!this.mapOfMapStringToString.equals(that.mapOfMapStringToString))
+        return false;
+    }
+
+    boolean this_present_listOfObjects = true && this.isSetListOfObjects();
+    boolean that_present_listOfObjects = true && that.isSetListOfObjects();
+    if (this_present_listOfObjects || that_present_listOfObjects) {
+      if (!(this_present_listOfObjects && that_present_listOfObjects))
+        return false;
+      if (!this.listOfObjects.equals(that.listOfObjects))
         return false;
     }
 
@@ -1036,6 +1105,24 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
             TProtocolUtil.skip(iprot, field.type);
           }
           break;
+        case LISTOFOBJECTS:
+          if (field.type == TType.LIST) {
+            {
+              TList _list51 = iprot.readListBegin();
+              this.listOfObjects = new ArrayList<SimpleObjectWithFieldIds>(_list51.size);
+              for (int _i52 = 0; _i52 < _list51.size; ++_i52)
+              {
+                SimpleObjectWithFieldIds _elem53;
+                _elem53 = new SimpleObjectWithFieldIds();
+                _elem53.read(iprot);
+                this.listOfObjects.add(_elem53);
+              }
+              iprot.readListEnd();
+            }
+          } else { 
+            TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
         default:
           TProtocolUtil.skip(iprot, field.type);
           break;
@@ -1055,9 +1142,9 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(MAP_STRING_TO_STRING_FIELD_DESC);
       {
         oprot.writeMapBegin(new TMap(TType.STRING, TType.STRING, this.mapStringToString.size()));
-        for (Map.Entry<String, String> _iter51 : this.mapStringToString.entrySet())        {
-          oprot.writeString(_iter51.getKey());
-          oprot.writeString(_iter51.getValue());
+        for (Map.Entry<String, String> _iter54 : this.mapStringToString.entrySet())        {
+          oprot.writeString(_iter54.getKey());
+          oprot.writeString(_iter54.getValue());
         }
         oprot.writeMapEnd();
       }
@@ -1067,8 +1154,8 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(SET_OF_STRINGS_FIELD_DESC);
       {
         oprot.writeSetBegin(new TSet(TType.STRING, this.setOfStrings.size()));
-        for (String _iter52 : this.setOfStrings)        {
-          oprot.writeString(_iter52);
+        for (String _iter55 : this.setOfStrings)        {
+          oprot.writeString(_iter55);
         }
         oprot.writeSetEnd();
       }
@@ -1078,8 +1165,8 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(LIST_OF_STRINGS_FIELD_DESC);
       {
         oprot.writeListBegin(new TList(TType.STRING, this.listOfStrings.size()));
-        for (String _iter53 : this.listOfStrings)        {
-          oprot.writeString(_iter53);
+        for (String _iter56 : this.listOfStrings)        {
+          oprot.writeString(_iter56);
         }
         oprot.writeListEnd();
       }
@@ -1089,9 +1176,9 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(MAP_OF_INT_TO_INT_FIELD_DESC);
       {
         oprot.writeMapBegin(new TMap(TType.I32, TType.I32, this.mapOfIntToInt.size()));
-        for (Map.Entry<Integer, Integer> _iter54 : this.mapOfIntToInt.entrySet())        {
-          oprot.writeI32(_iter54.getKey());
-          oprot.writeI32(_iter54.getValue());
+        for (Map.Entry<Integer, Integer> _iter57 : this.mapOfIntToInt.entrySet())        {
+          oprot.writeI32(_iter57.getKey());
+          oprot.writeI32(_iter57.getValue());
         }
         oprot.writeMapEnd();
       }
@@ -1101,12 +1188,12 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(LIST_OF_MAP_STRING_TO_STRING_FIELD_DESC);
       {
         oprot.writeListBegin(new TList(TType.MAP, this.listOfMapStringToString.size()));
-        for (Map<String,String> _iter55 : this.listOfMapStringToString)        {
+        for (Map<String,String> _iter58 : this.listOfMapStringToString)        {
           {
-            oprot.writeMapBegin(new TMap(TType.STRING, TType.STRING, _iter55.size()));
-            for (Map.Entry<String, String> _iter56 : _iter55.entrySet())            {
-              oprot.writeString(_iter56.getKey());
-              oprot.writeString(_iter56.getValue());
+            oprot.writeMapBegin(new TMap(TType.STRING, TType.STRING, _iter58.size()));
+            for (Map.Entry<String, String> _iter59 : _iter58.entrySet())            {
+              oprot.writeString(_iter59.getKey());
+              oprot.writeString(_iter59.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -1119,12 +1206,12 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(LIST_OF_MAP_I32_TO_STRING_FIELD_DESC);
       {
         oprot.writeListBegin(new TList(TType.MAP, this.listOfMapI32ToString.size()));
-        for (Map<Integer,String> _iter57 : this.listOfMapI32ToString)        {
+        for (Map<Integer,String> _iter60 : this.listOfMapI32ToString)        {
           {
-            oprot.writeMapBegin(new TMap(TType.I32, TType.STRING, _iter57.size()));
-            for (Map.Entry<Integer, String> _iter58 : _iter57.entrySet())            {
-              oprot.writeI32(_iter58.getKey());
-              oprot.writeString(_iter58.getValue());
+            oprot.writeMapBegin(new TMap(TType.I32, TType.STRING, _iter60.size()));
+            for (Map.Entry<Integer, String> _iter61 : _iter60.entrySet())            {
+              oprot.writeI32(_iter61.getKey());
+              oprot.writeString(_iter61.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -1137,12 +1224,12 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(LIST_OF_MAP_STRING_TO_I32_FIELD_DESC);
       {
         oprot.writeListBegin(new TList(TType.MAP, this.listOfMapStringToI32.size()));
-        for (Map<String,Integer> _iter59 : this.listOfMapStringToI32)        {
+        for (Map<String,Integer> _iter62 : this.listOfMapStringToI32)        {
           {
-            oprot.writeMapBegin(new TMap(TType.STRING, TType.I32, _iter59.size()));
-            for (Map.Entry<String, Integer> _iter60 : _iter59.entrySet())            {
-              oprot.writeString(_iter60.getKey());
-              oprot.writeI32(_iter60.getValue());
+            oprot.writeMapBegin(new TMap(TType.STRING, TType.I32, _iter62.size()));
+            for (Map.Entry<String, Integer> _iter63 : _iter62.entrySet())            {
+              oprot.writeString(_iter63.getKey());
+              oprot.writeI32(_iter63.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -1155,13 +1242,13 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(MAP_OF_MAP_I32_TO_I32_FIELD_DESC);
       {
         oprot.writeMapBegin(new TMap(TType.STRING, TType.MAP, this.mapOfMapI32ToI32.size()));
-        for (Map.Entry<String, Map<Integer,Integer>> _iter61 : this.mapOfMapI32ToI32.entrySet())        {
-          oprot.writeString(_iter61.getKey());
+        for (Map.Entry<String, Map<Integer,Integer>> _iter64 : this.mapOfMapI32ToI32.entrySet())        {
+          oprot.writeString(_iter64.getKey());
           {
-            oprot.writeMapBegin(new TMap(TType.I32, TType.I32, _iter61.getValue().size()));
-            for (Map.Entry<Integer, Integer> _iter62 : _iter61.getValue().entrySet())            {
-              oprot.writeI32(_iter62.getKey());
-              oprot.writeI32(_iter62.getValue());
+            oprot.writeMapBegin(new TMap(TType.I32, TType.I32, _iter64.getValue().size()));
+            for (Map.Entry<Integer, Integer> _iter65 : _iter64.getValue().entrySet())            {
+              oprot.writeI32(_iter65.getKey());
+              oprot.writeI32(_iter65.getValue());
             }
             oprot.writeMapEnd();
           }
@@ -1174,18 +1261,29 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       oprot.writeFieldBegin(MAP_OF_MAP_STRING_TO_STRING_FIELD_DESC);
       {
         oprot.writeMapBegin(new TMap(TType.STRING, TType.MAP, this.mapOfMapStringToString.size()));
-        for (Map.Entry<String, Map<String,String>> _iter63 : this.mapOfMapStringToString.entrySet())        {
-          oprot.writeString(_iter63.getKey());
+        for (Map.Entry<String, Map<String,String>> _iter66 : this.mapOfMapStringToString.entrySet())        {
+          oprot.writeString(_iter66.getKey());
           {
-            oprot.writeMapBegin(new TMap(TType.STRING, TType.STRING, _iter63.getValue().size()));
-            for (Map.Entry<String, String> _iter64 : _iter63.getValue().entrySet())            {
-              oprot.writeString(_iter64.getKey());
-              oprot.writeString(_iter64.getValue());
+            oprot.writeMapBegin(new TMap(TType.STRING, TType.STRING, _iter66.getValue().size()));
+            for (Map.Entry<String, String> _iter67 : _iter66.getValue().entrySet())            {
+              oprot.writeString(_iter67.getKey());
+              oprot.writeString(_iter67.getValue());
             }
             oprot.writeMapEnd();
           }
         }
         oprot.writeMapEnd();
+      }
+      oprot.writeFieldEnd();
+    }
+    if (this.listOfObjects != null) {
+      oprot.writeFieldBegin(LIST_OF_OBJECTS_FIELD_DESC);
+      {
+        oprot.writeListBegin(new TList(TType.STRUCT, this.listOfObjects.size()));
+        for (SimpleObjectWithFieldIds _iter68 : this.listOfObjects)        {
+          _iter68.write(oprot);
+        }
+        oprot.writeListEnd();
       }
       oprot.writeFieldEnd();
     }
@@ -1267,6 +1365,14 @@ public class ObjectWithComplexTypes implements TBase, java.io.Serializable, Clon
       sb.append("null");
     } else {
       sb.append(this.mapOfMapStringToString);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("listOfObjects:");
+    if (this.listOfObjects == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.listOfObjects);
     }
     first = false;
     sb.append(")");
