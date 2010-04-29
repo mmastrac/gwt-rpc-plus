@@ -20,6 +20,7 @@ struct ObjectWithComplexTypes {
 	7: list<map<string, i32>> listOfMapStringToI32;
 	8: map<string, map<i32, i32>> mapOfMapI32ToI32;
 	9: map<string, map<string, string>> mapOfMapStringToString;
+	10: list<SimpleObjectWithFieldIds> listOfObjects;
 }
 
 struct ObjectThatIsReferenced {
