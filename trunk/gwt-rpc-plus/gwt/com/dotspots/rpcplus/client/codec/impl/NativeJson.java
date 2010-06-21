@@ -14,7 +14,9 @@ public class NativeJson implements JsonDecoder, JsonEncoder {
 	public static native boolean isSupported(JavaScriptObject window) /*-{
 		return ("JSON" in window) && ("stringify" in window.JSON) && ("parse" in window.JSON) 
 		// Make sure the page isn't using an ancient (circa-2005) version of JSON
-		&& (window.JSON.stringify([1,,1]) == "[1,null,1]");
+		&& (window.JSON.stringify([1,,1]) == "[1,null,1]")
+		// Another busted JSON implementation that doesn't turn keys into strings
+		&& (window.JSON.stringify({a:1}) == "{\"a\":1}");
 	}-*/;
 
 	public NativeJson(JavaScriptObject wnd) {
