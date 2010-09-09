@@ -1,4 +1,9 @@
 <project basedir="." name="gwt-rpc-plus-build" default="build">
+	<!-- Default properties for Selenium Grid -->
+	<property name="host" value="localhost" />
+	<property name="port" value="4444" />
+	<property name="capability" value="ie8" />
+	<property name="browser" value="chrome" />
 	<target name="build">
 		<delete dir="gwt" failonerror="false" />
 
@@ -7,26 +12,26 @@
 
 		<!-- Depending on the browser, we may or may not support dev mode -->
 		<condition property="gwt.test.extraargs" value="-prod -draftCompile -userAgents opera">
-			<equals arg1="${selenium}" arg2="opera" />
+			<equals arg1="${browser}" arg2="opera" />
 		</condition>
 
 		<condition property="gwt.test.extraargs" value="-prod -draftCompile -userAgents safari">
-			<equals arg1="${selenium}" arg2="safari" />
+			<equals arg1="${browser}" arg2="safari" />
 		</condition>
 
 		<condition property="gwt.test.extraargs" value="-prod -draftCompile -userAgents gecko">
-			<equals arg1="${selenium}" arg2="chrome" />
+			<equals arg1="${browser}" arg2="chrome" />
 		</condition>
 
 		<condition property="gwt.test.extraargs" value="-userAgents ie6,ie8">
-			<equals arg1="${selenium}" arg2="iehta" />
+			<equals arg1="${browser}" arg2="iehta" />
 		</condition>
 
 		<condition property="gwt.test.extraargs" value="-userAgents safari">
-			<equals arg1="${selenium}" arg2="googlechrome" />
+			<equals arg1="${browser}" arg2="googlechrome" />
 		</condition>
 
-		<property name="gwt.test.args" value="-draftCompile -prod -runStyle Selenium:vm-dotspots-${machine}:4444/*${selenium} ${gwt.test.extraargs}" />
+		<property name="gwt.test.args" value="-draftCompile -prod -runStyle Selenium:${host}:${port}/${capability}:*${browser} ${gwt.test.extraargs}" />
 		
 		<ant antfile="build.xml" dir="../gwt-rpc-plus" target="clean">
 			<property name="gwt.sdk.dir" value="../build/gwt" />
