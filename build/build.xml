@@ -2,7 +2,8 @@
 	<!-- Default properties for Selenium Grid -->
 	<property name="host" value="localhost" />
 	<property name="port" value="4444" />
-	<property name="capability" value="ie8" />
+	<!-- Capability is used by Hudson Selenium Grid plugin and must end in a colon -->
+	<property name="capability" value="" />
 	<property name="browser" value="chrome" />
 	<target name="build">
 		<delete dir="gwt" failonerror="false" />
@@ -31,7 +32,7 @@
 			<equals arg1="${browser}" arg2="googlechrome" />
 		</condition>
 
-		<property name="gwt.test.args" value="-draftCompile -prod -runStyle Selenium:${host}:${port}/${capability}:*${browser} ${gwt.test.extraargs}" />
+		<property name="gwt.test.args" value="-draftCompile -prod -runStyle Selenium:${host}:${port}/${capability}*${browser} ${gwt.test.extraargs}" />
 		
 		<ant antfile="build.xml" dir="../gwt-rpc-plus" target="clean">
 			<property name="gwt.sdk.dir" value="../build/gwt" />
